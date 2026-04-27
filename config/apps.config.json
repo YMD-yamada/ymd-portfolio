@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "displayName": "ymd"
+  },
+  "github": {
+    "user": "ymd",
+    "includeForks": false,
+    "includeArchived": false,
+    "includeWithoutHomepage": true,
+    "includeRepoAsFallbackUrl": true,
+    "perPage": 100,
+    "excludeNames": []
+  },
+  "netlify": {
+    "enabled": true
+  },
+  "vercel": {
+    "enabled": true,
+    "deploymentUrlFallback": true
+  },
+  "manual": []
+}

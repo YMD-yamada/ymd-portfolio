@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="ymd — 作った作品と自己紹介。レトロゲーム、運動、プログラム、DIY、好奇心のマグロ。"
+    />
+    <title>ymd — 作品と雑多な趣味</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Shippori+Mincho:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">本文へスキップ</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="logo" id="brand" href="#">ymd</a>
+        <nav class="nav" aria-label="主なナビゲーション">
+          <a href="#apps">アプリ</a>
+          <a href="#about">自己紹介</a>
+          <a href="#connect">つながる</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__glow" aria-hidden="true"></div>
+        <p class="hero__eyebrow">ようこそ</p>
+        <h1 id="hero-title" class="hero__title">針路は定まらない。でも、好奇心は一本道。</h1>
+        <p class="hero__lede">
+          レトロゲーム、運動、プログラム、DIY——好きなもののジャンルは違っても、引っ張られる力は一つ。気になったら、まっすぐ突っ込む。そんな<strong>好奇心で動くマグロ</strong>です。作ったものと、顔出し用の自己紹介をまとめています。
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#apps">作ったアプリを見る</a>
+          <a class="btn btn--ghost" href="#connect">フォロー・連絡</a>
+        </div>
+      </section>
+
+      <section id="apps" class="section" aria-labelledby="apps-title">
+        <div class="section__head">
+          <h2 id="apps-title" class="section__title">作ったアプリ</h2>
+          <p class="section__sub" id="apps-sub">
+            GitHub・Netlify・Vercel から
+            <code class="section__code">sync:apps</code>
+            で <code class="section__code">data/apps.json</code> を更新し、下に反映します。追加分は
+            <code class="section__code">config/apps.config.json</code>
+            の <code class="section__code">manual</code> でも。
+          </p>
+        </div>
+        <ul
+          class="app-grid"
+          id="app-grid"
+          role="list"
+          aria-label="作った作品の一覧"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <li class="app-grid__status" id="app-status" role="status">作品一覧を読み込んでいます…</li>
+        </ul>
+      </section>
+
+      <section id="about" class="section section--tint" aria-labelledby="about-title">
+        <div class="section__head">
+          <h2 id="about-title" class="section__title">自己紹介</h2>
+          <p class="section__sub">レトロも運動も、コードも金槌も。やることは違うけれど、出発点は同じ。</p>
+        </div>
+        <div class="about">
+          <div class="about__text">
+            <p>
+              レトロゲームは画面の向こう、運動は体の方、プログラムは手元のキーボード、DIYは工作とか工具とか——好きの置き場所はバラバラです。でも<strong>「え、それどうなってるの？」</strong>が出たら、あとは調べるか触るかして止まりません。ジャンル横断の雑多さが、逆に生き方みたいになっています。
+            </p>
+            <p>
+              作ったアプリは上のカード、近況や作業ログは「つながる」のリンク先。気軽に覗いてもらえたらうれしいです。……泳ぎ、早くはないかもしれませんが、まっすぐは進みます。マグロ、だから。
+            </p>
+          </div>
+          <ul class="about__tags" aria-label="興味のタグ">
+            <li>レトロゲーム</li>
+            <li>運動</li>
+            <li>プログラム</li>
+            <li>DIY</li>
+            <li>雑多な趣味</li>
+            <li>好奇心</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="connect" class="section" aria-labelledby="connect-title">
+        <div class="section__head">
+          <h2 id="connect-title" class="section__title">つながる</h2>
+          <p class="section__sub">乗るものだけ残してURLを本番用に。ないリンクは行ごと消してOKです。</p>
+        </div>
+        <ul class="connect-grid">
+          <li>
+            <a
+              class="connect-card"
+              href="https://github.com/ymd"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="connect-card__label">GitHub</span>
+              <span class="connect-card__hint">@ymd</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="connect-card"
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="connect-card__label">X（Twitter）</span>
+              <span class="connect-card__hint">日々の更新</span>
+            </a>
+          </li>
+          <li>
+            <a class="connect-card" href="mailto:you@example.com">
+              <span class="connect-card__label">メール</span>
+              <span class="connect-card__hint">お仕事のご相談</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        © <span id="y"></span> <span id="footer-name">ymd</span> — 好奇心のマグロ. All rights
+        reserved.
+      </p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

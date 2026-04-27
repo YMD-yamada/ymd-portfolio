@@ -1,0 +1,12 @@
+{
+  "name": "ymd-personal-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal portfolio: static site + data/apps.json sync (GitHub / optional Netlify / Vercel).",
+  "type": "module",
+  "scripts": {
+    "sync:apps": "node scripts/sync-apps.mjs",
+    "dev": "npx -y http-server -p 8080 -c-1 .",
+    "build": "node scripts/sync-apps.mjs"
+  }
+}
