@@ -80,7 +80,7 @@ function emptyState(ghUser) {
   profile.rel = "noopener noreferrer";
   profile.textContent = "GitHub プロフィール";
   p.appendChild(
-    document.createTextNode("まだ一覧に出せる作品がありません。リポに ")
+    document.createTextNode("まだ一覧に出せる作品がありません。GitHub のリポに ")
   );
   const c = document.createElement("code");
   c.className = "app-grid__code";
@@ -91,7 +91,7 @@ function emptyState(ghUser) {
   );
   p.appendChild(profile);
   p.appendChild(
-    document.createTextNode(" をのぞくか。デプロイ前に")
+    document.createTextNode(" を設定するか、Render / Cloudflare などのトークン連携を有効化して。デプロイ前に")
   );
   const cmd = document.createElement("code");
   cmd.className = "app-grid__code";

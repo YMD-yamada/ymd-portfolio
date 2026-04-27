@@ -18,5 +18,14 @@
     "enabled": true,
     "deploymentUrlFallback": true
   },
+  "render": {
+    "enabled": true,
+    "static": []
+  },
+  "cloudflare": {
+    "enabled": true,
+    "accountId": "",
+    "static": []
+  },
   "manual": []
 }
