@@ -55,9 +55,23 @@ jobs:
           echo "hypothesisId=done preflight_complete=true"
       # endregion agent log CI diagnostics
 
+      - name: Ensure Cloudflare Pages project exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # 初回はプロジェクト未作成で deploy が 8000007 になるため、存在しなければ作成する
+          set +e
+          npm exec -- wrangler pages project create ymd-portfolio-site --production-branch=master
+          CREATED=$?
+          set -e
+          if [ "$CREATED" -ne 0 ]; then
+            echo "pages project create exited $CREATED (既に存在する場合はこのまま続行)"
+          fi
+
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           WRANGLER_LOG: debug
-        run: npm exec -- wrangler pages deploy . --project-name=ymd-portfolio-site
+        run: npm exec -- wrangler pages deploy . --project-name=ymd-portfolio-site --commit-dirty=true
