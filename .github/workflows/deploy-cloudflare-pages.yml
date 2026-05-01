@@ -38,8 +38,26 @@ jobs:
       - name: Build static data
         run: npm run build
 
+      # region agent log CI diagnostics (no secrets echoed)
+      - name: CI diagnostics (hypotheses H1-H5)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "debug_session=1f0f34 step=preflight"
+          echo "hypothesisId=H3 secret presence / wrong name"
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then echo "::error::CLOUDFLARE_API_TOKEN is empty (repo secret missing or fork PR without secrets)"; exit 1; fi
+          if [ -z "${CLOUDFLARE_ACCOUNT_ID}" ]; then echo "::error::CLOUDFLARE_ACCOUNT_ID is empty"; exit 1; fi
+          echo "hypothesisId=metadata token_len=${#CLOUDFLARE_API_TOKEN} account_len=${#CLOUDFLARE_ACCOUNT_ID}"
+          echo "hypothesisId=H1/H2 wrangler auth + pages API readability"
+          npm exec -- wrangler whoami || true
+          npm exec -- wrangler pages project list || true
+          echo "hypothesisId=done preflight_complete=true"
+      # endregion agent log CI diagnostics
+
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_LOG: debug
         run: npm exec -- wrangler pages deploy . --project-name=ymd-portfolio-site
