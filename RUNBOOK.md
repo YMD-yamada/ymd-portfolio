@@ -14,15 +14,18 @@
 ## 2) あなたが実際にやること（チェックリスト）
 
 1. 上の公開サイトURLを開き、表示を確認
-2. GitHub の Pages 設定で `Deploy from a branch` / `master` / `/ (root)` を確認
-3. GitHub Secrets に以下を登録（使うサービスだけでOK）
+2. `config/site.json` の `canonicalUrl` と `contactEmail` を自分用に更新（独自ドメイン運用時は必須）
+3. `sitemap.xml` と `robots.txt` の URL を `canonicalUrl` に合わせて更新
+4. `index.html` の `<link rel="canonical">` と `og:url` を `canonicalUrl` に合わせて更新（初期は GitHub Pages URL）
+5. GitHub の Pages 設定で `Deploy from a branch` / `master` / `/ (root)` を確認
+6. GitHub Secrets に以下を登録（使うサービスだけでOK）
    - `NETLIFY_AUTH_TOKEN`
    - `VERCEL_TOKEN`
    - `RENDER_API_KEY`
    - `CLOUDFLARE_API_TOKEN`
    - `CLOUDFLARE_ACCOUNT_ID`
-4. Cloudflare account id を確認して `CLOUDFLARE_ACCOUNT_ID` にセット
-5. Cursor に「sync を実行してコミット・反映して」と依頼
+7. Cloudflare account id を確認して `CLOUDFLARE_ACCOUNT_ID` にセット
+8. Cursor に「sync を実行してコミット・反映して」と依頼
 
 ## 3) 各サービスの発行URL（作成・確認先）
 
@@ -51,3 +54,31 @@
 - 文字修正・色調整・カードレイアウト変更は Cursor に都度依頼でOK
 - 追加したい世界観（例: レトロ感を強める、DIY感を上げる）をテキストで指示
 - A/B パターン比較も Cursor で実施可能
+
+## 7) 独自ドメインで「GitHub 丸出し」を避ける（推奨）
+
+訪問者向け URL を `github.io` 以外にしたい場合の王道は次のどちらかです。
+
+### A. GitHub Pages のまま、独自ドメインだけ載せる
+
+1. ドメインを取得（例: Cloudflare Registrar）
+2. DNS で `CNAME` を作成
+   - 名前: `www`（または `@ を ALIAS/ANAME 対応 DNS の場合`）
+   - 値: `ymd-yamada.github.io`
+3. GitHub リポジトリの Pages 設定で Custom domain を入力し、HTTPS を有効化
+   - https://github.com/YMD-yamada/ymd-portfolio/settings/pages
+4. リポジトリ直下に `CNAME` ファイルを追加（GitHub が案内するホスト名）
+5. `config/site.json` / `index.html` / `sitemap.xml` / `robots.txt` の URL を新ドメインへ更新
+
+### B. Cloudflare Pages をフロントに置く（CDN・ルールが欲しい場合）
+
+1. Cloudflare Pages に同じ静的サイトを接続（Git 連携）
+2. Custom domain を Cloudflare 側で設定
+3. GitHub Pages は停止するか、301 リダイレクト方針を決める
+4. `config/site.json` などの URL を新ドメインへ更新
+
+## 8) 公開面の品質（プロ向けの最低ライン）
+
+- 訪問者向け文言は `index.html`、運用用の詳細は `<details>` と `RUNBOOK.md` に分離済み
+- `robots.txt` / `sitemap.xml` / `favicon.svg` / OGP を用意
+- 連絡先メールは `config/site.json` の `contactEmail` で差し替え可能

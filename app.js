@@ -1,5 +1,8 @@
 /* global document */
-const APPS_PATH = "data/apps.json";
+
+function qs(sel) {
+  return document.querySelector(sel);
+}
 
 function setTextContent(el, text) {
   if (el) el.textContent = text;
@@ -10,19 +13,60 @@ function setYear() {
   if (y) y.textContent = String(new Date().getFullYear());
 }
 
+function readDatasetPath(name, fallback) {
+  const v = document.body && document.body.dataset ? document.body.dataset[name] : "";
+  return (v || fallback || "").trim();
+}
+
+async function fetchJson(path) {
+  const r = await fetch(`${path}?t=${Date.now()}`, { cache: "no-store" });
+  if (!r.ok) throw new Error(String(r.status));
+  return r.json();
+}
+
+function applySiteMeta(site) {
+  if (!site || typeof site !== "object") return;
+
+  const canonical = (site.canonicalUrl || "").trim();
+  if (canonical) {
+    const link = document.querySelector('link[rel="canonical"]');
+    if (link) link.setAttribute("href", canonical);
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute("content", canonical);
+  }
+
+  const ogImage = (site.ogImage || "").trim();
+  if (ogImage) {
+    let m = document.querySelector('meta[property="og:image"]');
+    if (!m) {
+      m = document.createElement("meta");
+      m.setAttribute("property", "og:image");
+      document.head.appendChild(m);
+    }
+    m.setAttribute("content", ogImage);
+  }
+
+  const mail = (site.contactEmail || "").trim();
+  const a = document.getElementById("connect-mail");
+  if (a && mail) {
+    a.setAttribute("href", `mailto:${mail}`);
+    const hint = a.querySelector(".connect-card__hint");
+    if (hint) hint.textContent = mail;
+  }
+}
+
 function applyBranding(d) {
   if (!d) return;
   if (d.displayName) {
     setTextContent(document.getElementById("brand"), d.displayName);
     setTextContent(document.getElementById("footer-name"), d.displayName);
-    document.title = `${d.displayName} — 作品と雑多な趣味`;
+    document.title = `${d.displayName} — Portfolio`;
   }
   const dm = document.querySelector('meta[name="description"]');
   if (dm) {
-    const g = d.githubUser ? ` GitHub: @${d.githubUser}。` : "";
     dm.setAttribute(
       "content",
-      `${d.displayName || "ymd"} — 作った作品と自己紹介。${g}`.trim()
+      `${d.displayName || "ymd"} のポートフォリオ。制作物、関心領域、連絡先をまとめています。`
     );
   }
 }
@@ -60,7 +104,10 @@ function createCard(item, index) {
   sp.textContent = "↗";
   a.append("開く", " ", sp);
   if (item.kind === "repo") {
-    a.setAttribute("title", "GitHub 上のリポジトリ。homepage にデプロイ URL を入れるとサイトとして表示されます。");
+    a.setAttribute(
+      "title",
+      "リポジトリページです。公開サイトの URL が別にある場合は、そちらをご利用ください。"
+    );
   }
   article.appendChild(a);
 
@@ -68,36 +115,37 @@ function createCard(item, index) {
   return li;
 }
 
-function emptyState(ghUser) {
+function emptyState(repoUrl, profileUrl) {
   const li = document.createElement("li");
   li.className = "app-grid__empty app-grid__empty--block";
   const p = document.createElement("p");
   p.className = "app-grid__empty-text";
-  const profile = document.createElement("a");
-  profile.className = "app-grid__empty-link";
-  profile.href = `https://github.com/${ghUser || "ymd"}`;
-  profile.target = "_blank";
-  profile.rel = "noopener noreferrer";
-  profile.textContent = "GitHub プロフィール";
   p.appendChild(
-    document.createTextNode("まだ一覧に出せる作品がありません。GitHub のリポに ")
+    document.createTextNode(
+      "掲載できる制作物がまだありません。更新は順次反映されます。詳細は "
+    )
   );
-  const c = document.createElement("code");
-  c.className = "app-grid__code";
-  c.textContent = "Website";
-  p.appendChild(c);
-  p.appendChild(
-    document.createTextNode("（homepage）を書くか、")
-  );
-  p.appendChild(profile);
-  p.appendChild(
-    document.createTextNode(" を設定するか、Render / Cloudflare などのトークン連携を有効化して。デプロイ前に")
-  );
-  const cmd = document.createElement("code");
-  cmd.className = "app-grid__code";
-  cmd.textContent = "npm run sync:apps";
-  p.appendChild(cmd);
-  p.appendChild(document.createTextNode(" も合わせてください。"));
+  const repo = document.createElement("a");
+  repo.className = "app-grid__empty-link";
+  repo.href = repoUrl || "https://github.com/YMD-yamada/ymd-portfolio";
+  repo.target = "_blank";
+  repo.rel = "noopener noreferrer";
+  repo.textContent = "ソースコード";
+  p.appendChild(repo);
+  p.appendChild(document.createTextNode(" を参照してください。"));
+
+  if (profileUrl) {
+    p.appendChild(document.createTextNode(" 公開プロフィールは "));
+    const prof = document.createElement("a");
+    prof.className = "app-grid__empty-link";
+    prof.href = profileUrl;
+    prof.target = "_blank";
+    prof.rel = "noopener noreferrer";
+    prof.textContent = "GitHub";
+    p.appendChild(prof);
+    p.appendChild(document.createTextNode(" から。"));
+  }
+
   li.appendChild(p);
   return li;
 }
@@ -108,7 +156,7 @@ function errState() {
   const p = document.createElement("p");
   p.className = "app-grid__empty-text";
   p.textContent =
-    "作品データを読めませんでした。HTTPS で配信したとき、または同じ階層に data/apps.json があるか確認してください。";
+    "一覧データを読み込めませんでした。HTTPS で公開されているか、データファイルの配置をご確認ください。";
   li.appendChild(p);
   return li;
 }
@@ -126,21 +174,35 @@ function render(apps) {
   setYear();
 
   const list = d.items;
+  const site = window.__SITE__ || {};
   if (!list || !list.length) {
-    host.appendChild(emptyState(d.githubUser));
+    host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl));
     return;
   }
   list.forEach((it, i) => host.appendChild(createCard(it, i)));
 }
 
-async function load() {
+async function boot() {
+  setYear();
+
+  const sitePath = readDatasetPath("siteConfig", "config/site.json");
+  const appsPath = readDatasetPath("apps", "data/apps.json");
+
+  let site = null;
+  try {
+    site = await fetchJson(sitePath);
+    window.__SITE__ = site;
+    applySiteMeta(site);
+  } catch {
+    window.__SITE__ = {};
+  }
+
   const host = document.getElementById("app-grid");
   if (host) host.setAttribute("aria-busy", "true");
-  let data = null;
+
   try {
-    const r = await fetch(`${APPS_PATH}?t=${Date.now()}`, { cache: "no-store" });
-    if (!r.ok) throw new Error(r.status);
-    data = await r.json();
+    const data = await fetchJson(appsPath);
+    render(data);
   } catch {
     if (host) {
       const prevStatus = document.getElementById("app-status");
@@ -149,18 +211,15 @@ async function load() {
       host.appendChild(errState());
       host.setAttribute("aria-busy", "false");
     }
+    applyBranding({ displayName: (qs("#brand") && qs("#brand").textContent) || "ymd" });
     setYear();
-    return;
   }
-  render(data);
 }
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
-    setYear();
-    void load();
+    void boot();
   });
 } else {
-  setYear();
-  void load();
+  void boot();
 }
