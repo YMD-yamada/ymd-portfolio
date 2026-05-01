@@ -7,6 +7,10 @@
   "scripts": {
     "sync:apps": "node scripts/sync-apps.mjs",
     "dev": "npx -y http-server -p 8080 -c-1 .",
-    "build": "node scripts/sync-apps.mjs"
+    "build": "node scripts/sync-apps.mjs",
+    "deploy:pages": "wrangler pages deploy . --project-name=ymd-portfolio-site"
+  },
+  "devDependencies": {
+    "wrangler": "3.90.0"
   }
 }
