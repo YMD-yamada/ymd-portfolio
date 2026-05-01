@@ -5,27 +5,44 @@
 
 ## 1) まず確認するURL
 
-- 公開サイト: https://ymd-yamada.github.io/ymd-portfolio/
-- GitHub リポジトリ: https://github.com/YMD-yamada/ymd-portfolio
+- **本番（Cloudflare Pages）**: https://ymd-portfolio-site.pages.dev/
+- GitHub リポジトリ（ソース管理のみ）: https://github.com/YMD-yamada/ymd-portfolio
+- 旧 GitHub Pages（無効化推奨）: https://ymd-yamada.github.io/ymd-portfolio/
 - Actions: https://github.com/YMD-yamada/ymd-portfolio/actions
 - Secrets 設定: https://github.com/YMD-yamada/ymd-portfolio/settings/secrets/actions
 - Pages 設定: https://github.com/YMD-yamada/ymd-portfolio/settings/pages
 
 ## 2) あなたが実際にやること（チェックリスト）
 
-1. 上の公開サイトURLを開き、表示を確認
-2. `config/site.json` の `canonicalUrl` と `contactEmail` を自分用に更新（独自ドメイン運用時は必須）
-3. `sitemap.xml` と `robots.txt` の URL を `canonicalUrl` に合わせて更新
-4. `index.html` の `<link rel="canonical">` と `og:url` を `canonicalUrl` に合わせて更新（初期は GitHub Pages URL）
-5. GitHub の Pages 設定で `Deploy from a branch` / `master` / `/ (root)` を確認
-6. GitHub Secrets に以下を登録（使うサービスだけでOK）
+### A. Cloudflare Pages 本番化（必須・初回）
+
+1. Cloudflare で API Token を作成（推奨テンプレ: **Edit Cloudflare Workers** 相当、少なくとも **Account / Cloudflare Pages / Edit** を含む）
+   - https://dash.cloudflare.com/profile/api-tokens
+2. Account ID を控える（ダッシュボード右サイドバー）
+   - https://dash.cloudflare.com/
+3. GitHub の Secrets に登録
+   - https://github.com/YMD-yamada/ymd-portfolio/settings/secrets/actions
+   - `CLOUDFLARE_API_TOKEN`
+   - `CLOUDFLARE_ACCOUNT_ID`
+4. GitHub Actions の **Deploy to Cloudflare Pages** を手動実行（または `master` へ push 済みなら自動）
+   - https://github.com/YMD-yamada/ymd-portfolio/actions
+5. デプロイ完了後、実際に割り当てられた URL を確認（通常は `https://ymd-portfolio-site.pages.dev/`）
+6. **GitHub Pages を無効化**（公開 URL の二重化・混乱を避ける）
+   - https://github.com/YMD-yamada/ymd-portfolio/settings/pages
+   - Source を **None** に変更
+7. `config/site.json` / `index.html` / `sitemap.xml` / `robots.txt` の URLが実際の Pages URL と一致しているか確認（プロジェクト名を変えた場合は要修正）
+
+### B. 継続運用
+
+1. `config/site.json` の `canonicalUrl` と `contactEmail` を自分用に更新（独自ドメイン運用時は必須）
+2. `sitemap.xml` と `robots.txt` の URL を `canonicalUrl` に合わせて更新
+3. `index.html` の `<link rel="canonical">` と `og:url` を `canonicalUrl` に合わせて更新
+4. 作品一覧の自動取得を使う場合のみ、GitHub Secrets に以下を追加（不要ならスキップ）
    - `NETLIFY_AUTH_TOKEN`
    - `VERCEL_TOKEN`
    - `RENDER_API_KEY`
-   - `CLOUDFLARE_API_TOKEN`
-   - `CLOUDFLARE_ACCOUNT_ID`
-7. Cloudflare account id を確認して `CLOUDFLARE_ACCOUNT_ID` にセット
-8. Cursor に「sync を実行してコミット・反映して」と依頼
+   - （Cloudflare Pages 用の Secrets は **A. の手順で既に登録済み**）
+5. Cursor に「sync を実行してコミット・反映して」と依頼
 
 ## 3) 各サービスの発行URL（作成・確認先）
 

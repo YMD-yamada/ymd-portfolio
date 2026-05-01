@@ -1,0 +1,39 @@
+# Cloudflare Pages へ静的サイトをデプロイ（公開 URL は *.pages.dev または独自ドメイン）。
+# 必要な GitHub Secrets:
+#   CLOUDFLARE_API_TOKEN   … Account / Cloudflare Pages / Edit 以上
+#   CLOUDFLARE_ACCOUNT_ID  … Cloudflare ダッシュボード右の Account ID
+name: Deploy to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master", "main"]
+
+concurrency:
+  group: cloudflare-pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build static data
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # プロジェクト名を変えたい場合はここを編集するか、別ワークフローを複製してください。
+          command: pages deploy . --project-name=ymd-portfolio-site

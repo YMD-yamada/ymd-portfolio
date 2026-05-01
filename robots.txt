@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ymd-yamada.github.io/ymd-portfolio/sitemap.xml
+Sitemap: https://ymd-portfolio-site.pages.dev/sitemap.xml
