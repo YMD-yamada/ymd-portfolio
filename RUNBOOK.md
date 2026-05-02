@@ -54,7 +54,20 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 
 **セキュリティ上の注意**：トークン・Account ID はチャットや Issue に貼らない。漏れたら Cloudflare 側で即トークン削除→作り直し。
 
-### B. 継続運用
+### B. メール（問い合わせの振り分け）
+
+1. 連絡欄のメールリンクは `config/site.json` の `contactEmail`・`contactMailSubject`・送信本文テンプレを参照します（ビルド不要・ブラウザで `config/site.json` を読み込み後に `mailto:` が組み立てられます）。
+2. **Gmail で自動振り分け**する例：
+   - 条件：**件名**に `[ymd Portfolio 問い合わせ]` が含まれる  
+   - ラベル：`Portfolio/問い合わせ` など任意  
+   （件名はサイトからの送信だと判別しやすいよう固定プリフィックスにしています。）
+
+### C. SNS（X / Instagram / TikTok）
+
+1. **アカウント作成は本人が各サービス上で行う必要があります**（電話番号認証・利用規約など）。このリポジトリだけではアカウントを代行作成できません。
+2. アカウントができたら、`index.html` の該当ブロック（`connect-card--soon`）を `<a href="公開プロフィールURL">` に差し替え、`aria-disabled` は外してください。
+
+### D. 継続運用
 
 1. `config/site.json` の `canonicalUrl` と `contactEmail` を自分用に更新（独自ドメイン運用時は必須）
 2. `sitemap.xml` と `robots.txt` の URL を `canonicalUrl` に合わせて更新

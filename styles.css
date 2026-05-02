@@ -549,6 +549,18 @@ body {
   color: var(--ink-muted);
 }
 
+.connect-card--soon {
+  cursor: default;
+  opacity: 0.92;
+  box-shadow: none;
+}
+.connect-card--soon:hover,
+.connect-card--soon:focus-visible {
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: 0 2px 12px rgba(20, 18, 15, 0.04);
+}
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--line);

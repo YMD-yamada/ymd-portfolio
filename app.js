@@ -24,6 +24,30 @@ async function fetchJson(path) {
   return r.json();
 }
 
+function buildMailtoHref(site) {
+  const mail = (site.contactEmail || "").trim();
+  if (!mail) return "";
+
+  const canonical = (site.canonicalUrl || "").trim() || "https://ymd-portfolio-site.pages.dev/";
+  const subject =
+    (site.contactMailSubject || "").trim() || "[ymd Portfolio 問い合わせ]";
+  const footer = (site.contactMailBodyFooter || "").trim();
+  const defaultFooter =
+    "\n\n---\n（以下にご記入ください）\n\nお名前（任意）：\n\n\nご用件：\n\n\n";
+  const body = [
+    "【ポートフォリオHPから送信】",
+    "この文面と件名は、このサイトの「連絡」リンクからメールを作成したときに自動で入ります。",
+    `送信元URL: ${canonical}`,
+    `（受信箱での振り分け例: 件名が「${subject}」で始まるもの）`,
+    footer || defaultFooter,
+  ].join("\n");
+
+  const params = new URLSearchParams();
+  params.set("subject", subject);
+  params.set("body", body);
+  return `mailto:${mail}?${params.toString()}`;
+}
+
 function applySiteMeta(site) {
   if (!site || typeof site !== "object") return;
 
@@ -33,6 +57,16 @@ function applySiteMeta(site) {
     if (link) link.setAttribute("href", canonical);
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) ogUrl.setAttribute("content", canonical);
+  }
+
+  const metaDesc = (site.metaDescription || "").trim();
+  if (metaDesc) {
+    const dm = document.querySelector('meta[name="description"]');
+    if (dm) dm.setAttribute("content", metaDesc);
+    const ogd = document.querySelector('meta[property="og:description"]');
+    if (ogd) ogd.setAttribute("content", metaDesc);
+    const twd = document.querySelector('meta[name="twitter:description"]');
+    if (twd) twd.setAttribute("content", metaDesc);
   }
 
   const ogImage = (site.ogImage || "").trim();
@@ -46,24 +80,30 @@ function applySiteMeta(site) {
     m.setAttribute("content", ogImage);
   }
 
-  const mail = (site.contactEmail || "").trim();
+  const mailHref = buildMailtoHref(site);
   const a = document.getElementById("connect-mail");
-  if (a && mail) {
-    a.setAttribute("href", `mailto:${mail}`);
+  if (a && mailHref) {
+    a.setAttribute("href", mailHref);
     const hint = a.querySelector(".connect-card__hint");
-    if (hint) hint.textContent = mail;
+    if (hint) {
+      hint.textContent =
+        `${(site.contactEmail || "").trim()} · 件名・本文に送信元（このHP）が入ります`;
+    }
   }
 }
 
 function applyBranding(d) {
   if (!d) return;
+  const site = window.__SITE__ || {};
+  const keepMeta = !!(site.metaDescription && String(site.metaDescription).trim());
+
   if (d.displayName) {
     setTextContent(document.getElementById("brand"), d.displayName);
     setTextContent(document.getElementById("footer-name"), d.displayName);
     document.title = `${d.displayName} — Portfolio`;
   }
   const dm = document.querySelector('meta[name="description"]');
-  if (dm) {
+  if (dm && !keepMeta) {
     dm.setAttribute(
       "content",
       `${d.displayName || "ymd"} のポートフォリオ。制作物、関心領域、連絡先をまとめています。`
@@ -122,7 +162,7 @@ function emptyState(repoUrl, profileUrl) {
   p.className = "app-grid__empty-text";
   p.appendChild(
     document.createTextNode(
-      "掲載できる制作物がまだありません。更新は順次反映されます。詳細は "
+      "ストア公開済みのアプリはまだなく、ここに載せるリンクもこれから増やしていきます。リポジトリや試作の置き場は "
     )
   );
   const repo = document.createElement("a");

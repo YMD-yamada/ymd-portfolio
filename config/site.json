@@ -1,7 +1,10 @@
 {
   "canonicalUrl": "https://ymd-portfolio-site.pages.dev/",
+  "metaDescription": "ymd のポートフォリオ。学びと実験の記録です。公開アプリ・サービスはこれから整備予定。ご連絡はメールから。",
   "ogImage": "",
   "githubRepoUrl": "https://github.com/YMD-yamada/ymd-portfolio",
   "githubProfileUrl": "https://github.com/ymd",
-  "contactEmail": ""
+  "contactEmail": "ymd.hude@gmail.com",
+  "contactMailSubject": "[ymd Portfolio 問い合わせ]",
+  "contactMailBodyFooter": "\n\n---\n（以下にご記入ください）\n\nお名前（任意）：\n\n\nご用件：\n\n\n"
 }
