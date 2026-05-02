@@ -1,6 +1,25 @@
 {
   "displayName": "ymd",
-  "githubUser": "ymd",
-  "generatedAt": "2026-05-02T00:33:54.660Z",
-  "items": []
+  "githubUser": "user:YMD-yamada, user:ymd",
+  "generatedAt": "2026-05-02T00:47:43.382Z",
+  "items": [
+    {
+      "id": "manual-0",
+      "name": "Daily Lucky",
+      "url": "https://daily-lucky.onrender.com/",
+      "description": "占いから商品購入まで（Render）",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-05-02"
+    },
+    {
+      "id": "manual-1",
+      "name": "気分で旅行先",
+      "url": "https://bucolic-biscuit-c637b0.netlify.app/",
+      "description": "旅行先を気分で決める（Netlify）",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-05-02"
+    }
+  ]
 }

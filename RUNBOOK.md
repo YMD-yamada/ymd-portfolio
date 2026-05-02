@@ -79,6 +79,29 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
    - （Cloudflare Pages 用の Secrets は **A. の手順で既に登録済み**）
 5. Cursor に「sync を実行してコミット・反映して」と依頼
 
+### E. 制作物一覧の自動同期（`data/apps.json`）
+
+このサイトの「制作物」カードは **`npm run build`（= `scripts/sync-apps.mjs`）** で組み立てます。GitHub Actions の **デプロイ前**に毎回実行され、**日次スケジュール**でも再実行されます（ほかのリポジトリだけ更新したときも、翌日までには一覧が追随します）。
+
+1. **GitHub（必須の考え方）**  
+   - `config/apps.config.json` の `github.sources` に、作品リポジトリがある **ユーザー／組織**を列挙します（`kind`: `user` または `org`）。  
+   - 各リポジトリの **Settings → General → Website（homepage）** に**本番の公開 URL**を入れると、次回ビルドからカードに載ります。  
+   - `includeRepoAsFallbackUrl` は **false**（GitHub のリポジトリページ URL をカードにしない）にしてあります。**公開アプリの URL は Website 欄か、下記ホストの API 連携で拾います。**
+
+2. **Netlify / Vercel / Render / Cloudflare（任意・おすすめ）**  
+   GitHub の Repository secrets にトークンを追加すると、各ホスト上の公開サイトもマージされます（homepage 未設定でもデプロイ URL を拾えることがあります）。
+
+   - `NETLIFY_AUTH_TOKEN` — https://app.netlify.com/user/applications#personal-access-tokens  
+   - `VERCEL_TOKEN` — https://vercel.com/account/tokens  
+   - `RENDER_API_KEY` — https://dashboard.render.com/account  
+   - 既存の `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` は Pages デプロイと兼用（ビルド時の一覧取得にも使う）
+
+3. **除外（R-18 等）**  
+   `exclude.urlSubstrings` / `exclude.nameSubstrings` と `github.excludeNames` で、Fanza 関連などを一覧から外します。設定は `config/apps.config.json` を編集。
+
+4. **手動の既定リンク**  
+   `manual` に URL を書いておくと、API が失敗しても最低限カードを出せます（あなたの Render / Netlify の 2 件はここに登録済み）。
+
 ## 3) 各サービスの発行URL（作成・確認先）
 
 - Netlify token: https://app.netlify.com/user/applications#personal-access-tokens

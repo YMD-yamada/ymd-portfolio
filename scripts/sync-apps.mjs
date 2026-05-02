@@ -1,5 +1,5 @@
 /**
- * GitHub 公開 API / (任意) Netlify / Vercel / Render / Cloudflare から
+ * GitHub 公開 API（複数ユーザー／組織対応）/ (任意) Netlify / Vercel / Render / Cloudflare から
  * 作品一覧を集め、 data/apps.json を上書きします。
  *
  * 使い方: personal-site 直下で
@@ -126,14 +126,34 @@ function isoDate(v) {
   return "";
 }
 
-async function fetchAllGithubRepos(user) {
+function readGithubSources(cfg) {
+  const g = cfg.github;
+  if (!g) return [];
+  if (Array.isArray(g.sources) && g.sources.length) {
+    return g.sources
+      .filter((s) => s && s.login)
+      .map((s) => ({
+        kind: String(s.kind || "user").toLowerCase() === "org" ? "org" : "user",
+        login: String(s.login).trim(),
+      }))
+      .filter((s) => s.login);
+  }
+  if (g.user) return [{ kind: "user", login: String(g.user).trim() }];
+  return [];
+}
+
+async function fetchAllGithubRepos(kind, login) {
   const all = [];
+  const base =
+    kind === "org"
+      ? `https://api.github.com/orgs/${encodeURIComponent(login)}/repos`
+      : `https://api.github.com/users/${encodeURIComponent(login)}/repos`;
   for (let page = 1; page < 20; page += 1) {
-    const url = `https://api.github.com/users/${encodeURIComponent(user)}/repos?per_page=100&page=${page}&sort=updated&direction=desc`;
+    const url = `${base}?per_page=100&page=${page}&sort=updated&direction=desc`;
     const res = await fetch(url, { headers: ghHeaders() });
     if (!res.ok) {
       const text = await res.text();
-      throw new Error(`GitHub: ${res.status} ${text.slice(0, 400)}`);
+      throw new Error(`GitHub ${kind} ${login}: ${res.status} ${text.slice(0, 400)}`);
     }
     const list = await res.json();
     if (!Array.isArray(list) || list.length === 0) break;
@@ -143,6 +163,38 @@ async function fetchAllGithubRepos(user) {
   return all;
 }
 
+function isGithubRepoExcluded(repoName, cfg) {
+  const g = cfg.github || {};
+  const n = String(repoName || "").toLowerCase();
+  if (g.excludeNames && g.excludeNames.some((x) => String(x).toLowerCase() === n)) {
+    return true;
+  }
+  if (
+    g.excludeNameSubstrings &&
+    g.excludeNameSubstrings.some((s) => n.includes(String(s).toLowerCase()))
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/** Netlify / Vercel など自動取得分からも除外（R-18 など） */
+function shouldExcludeAutoEntry(entry, cfg) {
+  const ex = cfg.exclude;
+  if (!ex) return false;
+  const url = (entry.url || "").toLowerCase();
+  const name = (entry.name || "").toLowerCase();
+  const desc = (entry.description || "").toLowerCase();
+  for (const s of ex.urlSubstrings || []) {
+    if (s && url.includes(String(s).toLowerCase())) return true;
+  }
+  for (const s of ex.nameSubstrings || []) {
+    const t = String(s).toLowerCase();
+    if (t && (name.includes(t) || desc.includes(t))) return true;
+  }
+  return false;
+}
+
 function toGithubAppEntries(repos, cfg) {
   const g = cfg.github;
   if (!g) return [];
@@ -150,7 +202,7 @@ function toGithubAppEntries(repos, cfg) {
   for (const r of repos) {
     if (r.archived && g.includeArchived === false) continue;
     if (r.fork && g.includeForks === false) continue;
-    if (g.excludeNames && g.excludeNames.includes(r.name)) continue;
+    if (isGithubRepoExcluded(r.name, cfg)) continue;
 
     const homepage = (r.homepage || "").trim();
     const useH = looksLikeWebUrl(homepage);
@@ -161,6 +213,9 @@ function toGithubAppEntries(repos, cfg) {
         ? r.html_url
         : null;
     if (!url) continue;
+
+    const usingRepoFallback = !useH && !!g.includeRepoAsFallbackUrl && url === r.html_url;
+    if (usingRepoFallback && g.includeWithoutHomepage === false) continue;
 
     const fromSite = useH && normalizedH;
     const baseDesc = (r.description || "").trim();
@@ -427,20 +482,23 @@ async function run() {
   const config = readConfig();
   const log = [];
   const manual = normalizeManual(config.manual || []);
-  const ghUser = (config.github && config.github.user) || "";
+  const sources = readGithubSources(config);
   let fromGithub = [];
-  if (ghUser) {
-    try {
-      const repos = await fetchAllGithubRepos(ghUser);
-      fromGithub = toGithubAppEntries(repos, config);
-      log.push(
-        `GitHub @${ghUser}: カード用 ${fromGithub.length} 件 / 取得リポ ${repos.length} 件（公開）`
-      );
-    } catch (e) {
-      log.push(`GitHub: 失敗 — ${e.message}`);
+  if (sources.length) {
+    for (const src of sources) {
+      try {
+        const repos = await fetchAllGithubRepos(src.kind, src.login);
+        const entries = toGithubAppEntries(repos, config);
+        fromGithub.push(...entries);
+        log.push(
+          `GitHub ${src.kind} ${src.login}: カード用 ${entries.length} 件 / 取得リポ ${repos.length} 件`
+        );
+      } catch (e) {
+        log.push(`GitHub ${src.kind} ${src.login}: 失敗 — ${e.message}`);
+      }
     }
   } else {
-    log.push("GitHub: 設定なし。スキップ。");
+    log.push("GitHub: sources / user なし。スキップ。");
   }
 
   const nRes = await fetchNetlifyEntries(
@@ -461,18 +519,21 @@ async function run() {
   log.push(cRes.note);
   cRes.entries.forEach((e) => log.push(`  · ${e.name}`));
 
-  const autoParts = [
+  let autoParts = [
     ...fromGithub,
     ...nRes.entries,
     ...vRes.entries,
     ...rRes.entries,
     ...cRes.entries,
   ];
+  autoParts = autoParts.filter((e) => !shouldExcludeAutoEntry(e, config));
 
   const finalList = buildFinalList(manual, autoParts);
+  const ghMeta =
+    sources.length > 0 ? sources.map((s) => `${s.kind}:${s.login}`).join(", ") : "";
   const out = {
     displayName: (config.profile && config.profile.displayName) || "ymd",
-    githubUser: (config.github && config.github.user) || "",
+    githubUser: ghMeta || ((config.github && config.github.user) || ""),
     generatedAt: new Date().toISOString(),
     items: finalList,
   };

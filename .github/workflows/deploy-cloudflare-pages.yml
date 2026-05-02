@@ -12,6 +12,9 @@ on:
   workflow_dispatch:
   push:
     branches: ["master", "main"]
+  schedule:
+    # 他リポジトリの公開だけ更新された場合も、日次で作品一覧を再取得する（UTC 6:00 ≈ JST 15:00）
+    - cron: "0 6 * * *"
 
 concurrency:
   group: cloudflare-pages-deploy
@@ -36,6 +39,13 @@ jobs:
         run: npm ci
 
       - name: Build static data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npm run build
 
       - name: Ensure Cloudflare Pages project exists

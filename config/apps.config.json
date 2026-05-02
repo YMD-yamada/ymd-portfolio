@@ -2,14 +2,34 @@
   "profile": {
     "displayName": "ymd"
   },
+  "exclude": {
+    "urlSubstrings": ["fanza-nine.vercel.app", "fanza-nine"],
+    "nameSubstrings": ["fanza"]
+  },
+  "manual": [
+    {
+      "name": "Daily Lucky",
+      "url": "https://daily-lucky.onrender.com/",
+      "description": "占いから商品購入まで（Render）"
+    },
+    {
+      "name": "気分で旅行先",
+      "url": "https://bucolic-biscuit-c637b0.netlify.app/",
+      "description": "旅行先を気分で決める（Netlify）"
+    }
+  ],
   "github": {
-    "user": "ymd",
+    "sources": [
+      { "kind": "user", "login": "YMD-yamada" },
+      { "kind": "user", "login": "ymd" }
+    ],
     "includeForks": false,
     "includeArchived": false,
-    "includeWithoutHomepage": true,
-    "includeRepoAsFallbackUrl": true,
+    "includeWithoutHomepage": false,
+    "includeRepoAsFallbackUrl": false,
     "perPage": 100,
-    "excludeNames": []
+    "excludeNames": ["fanza-nine"],
+    "excludeNameSubstrings": ["fanza"]
   },
   "netlify": {
     "enabled": true
@@ -26,6 +46,5 @@
     "enabled": true,
     "accountId": "",
     "static": []
-  },
-  "manual": []
+  }
 }
