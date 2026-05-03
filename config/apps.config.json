@@ -3,8 +3,8 @@
     "displayName": "ymd"
   },
   "exclude": {
-    "urlSubstrings": ["fanza-nine.vercel.app", "fanza-nine"],
-    "nameSubstrings": ["fanza"]
+    "urlSubstrings": [],
+    "nameSubstrings": []
   },
   "manual": [
     {
@@ -28,8 +28,8 @@
     "includeWithoutHomepage": false,
     "includeRepoAsFallbackUrl": false,
     "perPage": 100,
-    "excludeNames": ["fanza-nine"],
-    "excludeNameSubstrings": ["fanza"]
+    "excludeNames": [],
+    "excludeNameSubstrings": []
   },
   "netlify": {
     "enabled": true

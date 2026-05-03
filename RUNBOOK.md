@@ -96,11 +96,34 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
    - `RENDER_API_KEY` — https://dashboard.render.com/account  
    - 既存の `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` は Pages デプロイと兼用（ビルド時の一覧取得にも使う）
 
-3. **除外（R-18 等）**  
-   `exclude.urlSubstrings` / `exclude.nameSubstrings` と `github.excludeNames` で、Fanza 関連などを一覧から外します。設定は `config/apps.config.json` を編集。
+3. **一覧に載せたくないリンク／リポジトリ（任意・プライバシー）**  
+   - **公開リポジトリに書きたくない**パターンは、GitHub の **Repository secrets** にだけ置けます（ソースには残りません）。カンマ区切りで複数可。  
+     - `SYNC_EXCLUDE_URLS` … 除外したい URL に含まれる断片（ホスト名など）  
+     - `SYNC_EXCLUDE_NAME_PARTS` … 名前・説明文に含まれる断片  
+     - `SYNC_EXCLUDE_REPO_NAMES` … GitHub リポジトリ名（完全一致）  
+     - `SYNC_EXCLUDE_REPO_NAME_PARTS` … リポジトリ名に含まれる断片  
+   - リポジトリに**公開してよい**除外だけがある場合は、`config/apps.config.json` の `exclude` / `github.excludeNames` にそのまま書いて構いません。  
+   - **Netlify / Vercel 等の API を CI で使う場合**、上記の Secrets 未設定だと、除外したい候補が API から返る限り一覧に乗る可能性があります。非公開扱いのプロジェクトがあるなら、Secrets を早めに設定してください。
 
 4. **手動の既定リンク**  
    `manual` に URL を書いておくと、API が失敗しても最低限カードを出せます（あなたの Render / Netlify の 2 件はここに登録済み）。
+
+### F. 自動更新の選び方（おすすめ順）
+
+| 方法 | いつ一覧が更新されるか | 手間 | 向き |
+|------|------------------------|------|------|
+| **A. このリポジトリへ push** | そのたび | 低い | ポートフォリオ自体を直したとき |
+| **B. 日次スケジュール（cron）** | 最大 1 日遅れ | なし（既に有効） | ほかのリポだけ更新しても、翌日までには追随 |
+| **C. Actions の「Run workflow」** | 手動実行したとき | ワンクリック | B を待てないとき |
+| **D. `repository_dispatch`**（下記） | ほかのリポジトリの CI が終わった直後 | 各リポに小さいワークフローを追加 | **一番タイムラグが少ない**（複数プロジェクトがあるとき最適） |
+
+**推奨**: まず **B + A** で運用し、ほかのリポジトリ更新のたびにポートフォリオもすぐ直したいなら **D を追加**する。
+
+#### D の概要（他リポジトリからこのリポジトリを起動）
+
+1. このリポジトリ（ポートフォリオ）のワークフローは、イベント型 **`rebuild-portfolio`** の `repository_dispatch` で起動できるようにしてあります。  
+2. **別リポジトリ**側では、デプロイ成功後に GitHub API で `repository_dispatch` を送るワークフローを置く（Fine-grained PAT または Classic PAT で、`repo` の対象にこのポートフォリオリポジトリを含める）。  
+3. 具体例は `docs/examples/repository-dispatch-caller.yml` を参照。
 
 ## 3) 各サービスの発行URL（作成・確認先）
 

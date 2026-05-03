@@ -15,6 +15,8 @@ on:
   schedule:
     # 他リポジトリの公開だけ更新された場合も、日次で作品一覧を再取得する（UTC 6:00 ≈ JST 15:00）
     - cron: "0 6 * * *"
+  repository_dispatch:
+    types: [rebuild-portfolio]
 
 concurrency:
   group: cloudflare-pages-deploy
@@ -46,6 +48,10 @@ jobs:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SYNC_EXCLUDE_URLS: ${{ secrets.SYNC_EXCLUDE_URLS }}
+          SYNC_EXCLUDE_NAME_PARTS: ${{ secrets.SYNC_EXCLUDE_NAME_PARTS }}
+          SYNC_EXCLUDE_REPO_NAMES: ${{ secrets.SYNC_EXCLUDE_REPO_NAMES }}
+          SYNC_EXCLUDE_REPO_NAME_PARTS: ${{ secrets.SYNC_EXCLUDE_REPO_NAME_PARTS }}
         run: npm run build
 
       - name: Ensure Cloudflare Pages project exists

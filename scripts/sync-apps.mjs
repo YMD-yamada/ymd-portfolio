@@ -13,6 +13,9 @@
  *   CLOUDFLARE_API_TOKEN          — Cloudflare API token（Pages Read）
  *   CLOUDFLARE_ACCOUNT_ID         — Cloudflare account id（config 未指定時の fallback）
  *
+ * 一覧から落としたいエントリ（Git に書きたくないパターン）は任意で環境変数でも渡せます（カンマ区切り・既存 config とマージ）:
+ *   SYNC_EXCLUDE_URLS / SYNC_EXCLUDE_NAME_PARTS / SYNC_EXCLUDE_REPO_NAMES / SYNC_EXCLUDE_REPO_NAME_PARTS
+ *
  * ローカルは file:// だと index から data/apps.json を取れないので、
  * 簡易サーバで: npx -y http-server -p 8080 .
  */
@@ -74,6 +77,36 @@ function readConfig() {
     throw new Error(`設定が見つかりません: ${CONFIG_PATH}`);
   }
   return JSON.parse(readFileSync(CONFIG_PATH, "utf8"));
+}
+
+/** リポジトリにコミットせずに除外したいパターンを足す（GitHub Actions の Secrets 等） */
+function applyEnvExcludeOverlay(config) {
+  const splitCsv = (v) =>
+    String(v || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+  const merge = (base, envVal) => [...(base || []), ...splitCsv(envVal)];
+
+  config.exclude = config.exclude || {};
+  config.exclude.urlSubstrings = merge(
+    config.exclude.urlSubstrings,
+    process.env.SYNC_EXCLUDE_URLS
+  );
+  config.exclude.nameSubstrings = merge(
+    config.exclude.nameSubstrings,
+    process.env.SYNC_EXCLUDE_NAME_PARTS
+  );
+  config.github = config.github || {};
+  config.github.excludeNames = merge(
+    config.github.excludeNames,
+    process.env.SYNC_EXCLUDE_REPO_NAMES
+  );
+  config.github.excludeNameSubstrings = merge(
+    config.github.excludeNameSubstrings,
+    process.env.SYNC_EXCLUDE_REPO_NAME_PARTS
+  );
 }
 
 function sortByUpdated(a, b) {
@@ -480,6 +513,7 @@ async function fetchCloudflareEntries(cfg) {
 
 async function run() {
   const config = readConfig();
+  applyEnvExcludeOverlay(config);
   const log = [];
   const manual = normalizeManual(config.manual || []);
   const sources = readGithubSources(config);
