@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-05-03T05:23:39.113Z",
+  "generatedAt": "2026-05-06T00:08:24.306Z",
   "items": [
     {
       "id": "manual-0",
@@ -10,7 +10,7 @@
       "description": "占いから商品購入まで（Render）",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-05-03"
+      "updated": "2026-05-06"
     },
     {
       "id": "manual-1",
@@ -19,7 +19,7 @@
       "description": "旅行先を気分で決める（Netlify）",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-05-03"
+      "updated": "2026-05-06"
     }
   ]
 }

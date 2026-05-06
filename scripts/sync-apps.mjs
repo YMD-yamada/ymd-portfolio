@@ -393,6 +393,17 @@ function normalizeStaticEntries(list, source) {
     }));
 }
 
+/** Render /v1/services の本文が配列以外のラッパーでも解釈できるようにする */
+function normalizeRenderServicesPayload(body) {
+  if (body == null) return [];
+  if (Array.isArray(body)) return body;
+  if (typeof body === "object") {
+    if (Array.isArray(body.service)) return body.service;
+    if (Array.isArray(body.services)) return body.services;
+  }
+  return [];
+}
+
 async function fetchRenderEntries(cfg) {
   const rcfg = cfg?.render || {};
   if (rcfg.enabled === false) return { entries: [], note: "Render: オフ" };
@@ -407,10 +418,10 @@ async function fetchRenderEntries(cfg) {
     };
   }
 
-  const res = await safeFetchJson("https://api.render.com/v1/services", {
+  const res = await safeFetchJson("https://api.render.com/v1/services?limit=100", {
     headers: { Authorization: `Bearer ${renderToken}` },
   });
-  if (!res.ok || !Array.isArray(res.data)) {
+  if (!res.ok) {
     const msg = res.text ? String(res.text).slice(0, 200) : "unknown";
     return {
       entries: staticOnly,
@@ -418,8 +429,10 @@ async function fetchRenderEntries(cfg) {
     };
   }
 
+  const serviceList = normalizeRenderServicesPayload(res.data);
+
   const out = [];
-  for (const s of res.data) {
+  for (const s of serviceList) {
     const name = s?.name || s?.service?.name || s?.slug;
     const slug = s?.slug || s?.service?.slug;
     const updated = s?.updatedAt || s?.updated_at || s?.createdAt || s?.created_at || "";

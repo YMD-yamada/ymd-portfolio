@@ -103,7 +103,8 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
      - `SYNC_EXCLUDE_REPO_NAMES` … GitHub リポジトリ名（完全一致）  
      - `SYNC_EXCLUDE_REPO_NAME_PARTS` … リポジトリ名に含まれる断片  
    - リポジトリに**公開してよい**除外だけがある場合は、`config/apps.config.json` の `exclude` / `github.excludeNames` にそのまま書いて構いません。  
-   - **Netlify / Vercel 等の API を CI で使う場合**、上記の Secrets 未設定だと、除外したい候補が API から返る限り一覧に乗る可能性があります。非公開扱いのプロジェクトがあるなら、Secrets を早めに設定してください。
+   - **Netlify / Vercel 等の API を CI で使う場合**、上記の Secrets 未設定だと、除外したい候補が API から返る限り一覧に乗る可能性があります。非公開扱いのプロジェクトがあるなら、Secrets を早めに設定してください。  
+   - デプロイの **「Build static data」** ログ先頭に、`NETLIFY_AUTH_TOKEN: set|empty` のように **名前だけ**が出ます（値は出ません）。`empty` のままなら **Repository secrets の名前／場所**を再確認してください。
 
 4. **手動の既定リンク**  
    `manual` に URL を書いておくと、API が失敗しても最低限カードを出せます（あなたの Render / Netlify の 2 件はここに登録済み）。

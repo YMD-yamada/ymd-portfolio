@@ -52,7 +52,9 @@ jobs:
           SYNC_EXCLUDE_NAME_PARTS: ${{ secrets.SYNC_EXCLUDE_NAME_PARTS }}
           SYNC_EXCLUDE_REPO_NAMES: ${{ secrets.SYNC_EXCLUDE_REPO_NAMES }}
           SYNC_EXCLUDE_REPO_NAME_PARTS: ${{ secrets.SYNC_EXCLUDE_REPO_NAME_PARTS }}
-        run: npm run build
+        run: |
+          node -e "const ks=['NETLIFY_AUTH_TOKEN','VERCEL_TOKEN','RENDER_API_KEY','GITHUB_TOKEN','CLOUDFLARE_API_TOKEN','CLOUDFLARE_ACCOUNT_ID','SYNC_EXCLUDE_URLS','SYNC_EXCLUDE_NAME_PARTS','SYNC_EXCLUDE_REPO_NAMES','SYNC_EXCLUDE_REPO_NAME_PARTS']; for (const k of ks) console.log(k+':', process.env[k]&&String(process.env[k]).trim()?'set':'empty');"
+          npm run build
 
       - name: Ensure Cloudflare Pages project exists
         env:
