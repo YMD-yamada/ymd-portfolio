@@ -110,7 +110,9 @@ function applyEnvExcludeOverlay(config) {
 }
 
 function sortByUpdated(a, b) {
-  return (b.updated || "").localeCompare(a.updated || "");
+  const sb = String((b && b.updated) ?? "");
+  const sa = String((a && a.updated) ?? "");
+  return sb.localeCompare(sa);
 }
 
 /**
