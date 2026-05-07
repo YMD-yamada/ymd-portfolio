@@ -61,24 +61,51 @@ function categoryPool(config) {
   Object.values(config?.overrides?.byUrl || {}).forEach((v) => {
     if (v?.category) set.add(v.category);
   });
+  if (!set.size) {
+    ["公開中", "学習中", "実験中", "その他"].forEach((c) => set.add(c));
+  }
   return Array.from(set).filter(Boolean);
 }
 
-function renderCategoryChips(config) {
-  const host = q("category-chips");
+function renderCategoryManager() {
+  const host = q("category-manager");
   host.innerHTML = "";
-  categoryPool(config).forEach((cat) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "chip";
-    b.textContent = cat;
-    b.addEventListener("click", () => {
-      const active = document.activeElement;
-      if (active && active.classList && active.classList.contains("entry__cat")) {
-        active.value = cat;
-      }
-    });
-    host.appendChild(b);
+  const list = window.__studioCategories || [];
+  list.forEach((cat, i) => {
+    const row = document.createElement("div");
+    row.className = "cat-row";
+    row.dataset.index = String(i);
+
+    const name = document.createElement("span");
+    name.className = "cat-row__name";
+    name.textContent = cat;
+
+    const actions = document.createElement("div");
+    actions.className = "cat-row__actions";
+    actions.innerHTML =
+      `<button type="button" class="cat-up">↑</button>
+       <button type="button" class="cat-down">↓</button>
+       <button type="button" class="cat-del">削除</button>`;
+    row.append(name, actions);
+    host.appendChild(row);
+  });
+}
+
+function categoryOptions(selected) {
+  const cats = window.__studioCategories || [];
+  const opts = cats
+    .map((c) => `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`)
+    .join("");
+  return `<select class="entry__cat-select">${opts}</select>`;
+}
+
+function refreshAllCategorySelects() {
+  const rows = Array.from(document.querySelectorAll(".entry"));
+  rows.forEach((row) => {
+    const current = row.querySelector(".entry__cat-select")?.value || "";
+    const wrapper = row.querySelector(".entry__cat-wrap");
+    if (!wrapper) return;
+    wrapper.innerHTML = categoryOptions(current);
   });
 }
 
@@ -110,10 +137,9 @@ function buildRows(items, config) {
     nameInput.value = byUrl[it.url]?.displayName || "";
     nameInput.className = "entry__name";
 
-    const catInput = document.createElement("input");
-    catInput.placeholder = "カテゴリ（例: 公開中）";
-    catInput.value = byUrl[it.url]?.category || it.category || "";
-    catInput.className = "entry__cat";
+    const catWrap = document.createElement("div");
+    catWrap.className = "entry__cat-wrap";
+    catWrap.innerHTML = categoryOptions(byUrl[it.url]?.category || it.category || "");
 
     const vis = document.createElement("select");
     vis.className = "entry__vis";
@@ -137,7 +163,7 @@ function buildRows(items, config) {
 
     const right = document.createElement("div");
     right.className = "entry__right";
-    right.append(catInput, vis, pw, note);
+    right.append(catWrap, vis, pw, note);
 
     vis.addEventListener("change", () => {
       pw.style.display = vis.value === "limited" ? "block" : "none";
@@ -155,7 +181,7 @@ async function collectOverrides() {
   for (const row of rows) {
     const url = row.dataset.url;
     const displayName = row.querySelector(".entry__name").value.trim();
-    const category = normalizeCategory(row.querySelector(".entry__cat").value);
+    const category = normalizeCategory(row.querySelector(".entry__cat-select").value);
     const visibility = normalizeVisibility(row.querySelector(".entry__vis").value);
     const pwInput = row.querySelector(".entry__pw");
     let accessHash = String(pwInput.dataset.hash || "");
@@ -242,9 +268,9 @@ async function boot() {
   const repo = site.adminRepoName || "ymd-portfolio";
   const branch = site.adminRepoBranch || "master";
 
-  q("category-order").value = (config.categoryOrder || []).join(", ");
+  window.__studioCategories = categoryPool(config);
   buildRows(apps.items || [], config);
-  renderCategoryChips(config);
+  renderCategoryManager();
   setStatus("読み込み完了");
 
   q("unlock-admin").addEventListener("click", async () => {
@@ -268,28 +294,53 @@ async function boot() {
 
   q("reload").addEventListener("click", () => {
     buildRows(window.__adminData.apps.items || [], window.__adminData.config);
-    renderCategoryChips(window.__adminData.config || {});
+    window.__studioCategories = categoryPool(window.__adminData.config || {});
+    renderCategoryManager();
     setStatus("一覧を再生成しました");
+  });
+
+  q("add-category").addEventListener("click", () => {
+    const input = q("new-category");
+    const value = normalizeCategory(input.value);
+    if (!value) return;
+    if (!window.__studioCategories.includes(value)) {
+      window.__studioCategories.push(value);
+      renderCategoryManager();
+      refreshAllCategorySelects();
+      setStatus(`カテゴリ「${value}」を追加しました`);
+    }
+    input.value = "";
+  });
+
+  q("category-manager").addEventListener("click", (ev) => {
+    const row = ev.target.closest(".cat-row");
+    if (!row) return;
+    const idx = Number(row.dataset.index);
+    if (!Number.isFinite(idx)) return;
+    const cats = window.__studioCategories;
+    if (ev.target.classList.contains("cat-up") && idx > 0) {
+      [cats[idx - 1], cats[idx]] = [cats[idx], cats[idx - 1]];
+    } else if (ev.target.classList.contains("cat-down") && idx < cats.length - 1) {
+      [cats[idx + 1], cats[idx]] = [cats[idx], cats[idx + 1]];
+    } else if (ev.target.classList.contains("cat-del")) {
+      if (cats.length <= 1) return setStatus("カテゴリは最低1つ必要です", true);
+      cats.splice(idx, 1);
+    } else {
+      return;
+    }
+    renderCategoryManager();
+    refreshAllCategorySelects();
   });
 
   async function composeConfig() {
     const next = structuredClone(window.__adminData.config || {});
-    next.categoryOrder = q("category-order")
-      .value.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
+    next.categoryOrder = [...(window.__studioCategories || [])];
     next.overrides = next.overrides || {};
     next.overrides.byUrl = await collectOverrides();
     return next;
   }
 
-  q("apply-local").addEventListener("click", async () => {
-    const configNext = await composeConfig();
-    savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
-    setStatus("このブラウザで適用しました。公開ページを再読み込みして確認できます。");
-  });
-
-  async function save(triggerSync) {
+  async function applyAll() {
     const token = q("gh-token").value.trim();
     if (!token) return setStatus("保存には GitHub Token が必要です", true);
 
@@ -301,22 +352,14 @@ async function boot() {
       savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
       await updateConfigOnGithub(configNext, token, owner, repo, branch, message);
       window.__adminData.config = configNext;
-      if (triggerSync) {
-        await triggerDeployWorkflow(token, owner, repo, branch);
-        setStatus("保存＋再デプロイを開始しました。Actions を確認してください。");
-      } else {
-        setStatus("保存しました。次回デプロイ時に公開へ反映されます。");
-      }
+      await triggerDeployWorkflow(token, owner, repo, branch);
+      setStatus("変更を適用しました。即時プレビュー済み／保存済み／再デプロイ開始。");
     } catch (e) {
       setStatus(String(e.message || e), true);
     }
   }
-
-  q("save-config").addEventListener("click", () => {
-    void save(false);
-  });
-  q("save-and-sync").addEventListener("click", () => {
-    void save(true);
+  q("apply-all").addEventListener("click", () => {
+    void applyAll();
   });
 }
 

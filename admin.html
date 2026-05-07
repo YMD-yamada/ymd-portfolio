@@ -29,11 +29,12 @@
           <h2>カテゴリ管理</h2>
           <button id="reload" type="button">再読み込み</button>
         </div>
-        <label class="field">
-          <span>カテゴリ順（カンマ区切り）</span>
-          <input id="category-order" type="text" placeholder="公開中, 学習中, 実験中, その他" />
-        </label>
-        <div class="chips" id="category-chips"></div>
+        <div class="row">
+          <input id="new-category" type="text" placeholder="新しいカテゴリ名（例: 公開中）" />
+          <button id="add-category" type="button">カテゴリ作成</button>
+        </div>
+        <p class="muted">↑↓で表示順を変更できます。ここで作ったカテゴリは各アプリで選択可能です。</p>
+        <div id="category-manager"></div>
       </section>
 
       <section class="card hidden" id="apps-card">
@@ -52,9 +53,7 @@
           <input id="commit-message" type="text" value="Update app visibility/category/display from studio" />
         </label>
         <div class="row">
-          <button id="apply-local" type="button">適用（このブラウザで即時プレビュー）</button>
-          <button id="save-config" class="primary" type="button">適用して保存</button>
-          <button id="save-and-sync" type="button">適用して保存＋再デプロイ</button>
+          <button id="apply-all" class="primary" type="button">変更を適用（即時プレビュー＋保存＋再デプロイ）</button>
         </div>
         <p id="status" class="status" role="status"></p>
       </section>

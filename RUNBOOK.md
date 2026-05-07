@@ -130,8 +130,8 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 
 1. `config/site.json` の `adminPagePath` を開く（現在は `/admin.html`）。  
 2. `adminAccessHash` を空にしている場合は認証なしで開始、値がある場合は管理パスワード認証（SHA-256照合）。  
-3. 各 URL ごとに表示名、カテゴリ、公開範囲（公開/非公開/限定公開）を設定。限定公開はパスワード入力時に SHA-256 が保存される。  
-4. `適用（このブラウザで即時プレビュー）` で公開ページにローカル反映、`適用して保存` で `config/apps.config.json` を更新、`適用して保存＋再デプロイ` で workflow も起動。  
+3. カテゴリを作成し、↑↓で表示順を決める。各 URL でカテゴリを選択し、表示名・公開範囲（公開/非公開/限定公開）を設定。限定公開はパスワード入力時に SHA-256 が保存される。  
+4. `変更を適用（即時プレビュー＋保存＋再デプロイ）` ボタン1つで、ローカル反映・`config/apps.config.json` 保存・workflow 起動をまとめて実行。  
 5. 反映は Actions の `Deploy to Cloudflare Pages` 成功後に公開ページで確認。
 
 > 注意: 完全なサーバー側認証ではないため、強固な秘匿が必要なら Cloudflare Access などの上位保護を併用してください。
