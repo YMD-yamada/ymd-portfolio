@@ -3,9 +3,63 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio Studio</title>
     <meta name="robots" content="noindex,nofollow" />
-    <meta http-equiv="refresh" content="0;url=/" />
-    <title>Not Found</title>
+    <link rel="stylesheet" href="admin.css" />
   </head>
-  <body></body>
+  <body data-site-config="config/site.json" data-app-config="config/apps.config.json" data-apps="data/apps.json">
+    <main class="admin">
+      <header class="admin__head">
+        <a href="index.html" class="admin__back">← 公開ページに戻る</a>
+        <h1>Portfolio Studio</h1>
+        <p>表示名・カテゴリ・公開範囲を管理します。適用すると公開ページの表示ロジックに反映されます。</p>
+      </header>
+
+      <section class="card gate" id="gate-card">
+        <h2>管理者認証</h2>
+        <p class="muted">管理パスワードを入力してください。</p>
+        <div class="row">
+          <input id="admin-pass" type="password" placeholder="管理パスワード" />
+          <button id="unlock-admin" class="primary" type="button">認証して編集開始</button>
+        </div>
+      </section>
+
+      <section class="card hidden" id="studio-card">
+        <div class="row row--between">
+          <h2>カテゴリ管理</h2>
+          <button id="reload" type="button">再読み込み</button>
+        </div>
+        <label class="field">
+          <span>カテゴリ順（カンマ区切り）</span>
+          <input id="category-order" type="text" placeholder="公開中, 学習中, 実験中, その他" />
+        </label>
+        <div class="chips" id="category-chips"></div>
+      </section>
+
+      <section class="card hidden" id="apps-card">
+        <h2>制作物一覧</h2>
+        <p class="muted">表示名・カテゴリ・公開範囲を設定できます。限定公開は閲覧パスワードの SHA-256 を保存します。</p>
+        <div id="editor"></div>
+      </section>
+
+      <section class="card hidden" id="save-card">
+        <label class="field">
+          <span>GitHub Token（保存時のみ必要 / ブラウザに一時保持）</span>
+          <input id="gh-token" type="password" autocomplete="off" placeholder="ghp_..." />
+        </label>
+        <label class="field">
+          <span>コミットメッセージ</span>
+          <input id="commit-message" type="text" value="Update app visibility/category/display from studio" />
+        </label>
+        <div class="row">
+          <button id="apply-local" type="button">適用（このブラウザで即時プレビュー）</button>
+          <button id="save-config" class="primary" type="button">適用して保存</button>
+          <button id="save-and-sync" type="button">適用して保存＋再デプロイ</button>
+        </div>
+        <p id="status" class="status" role="status"></p>
+      </section>
+    </main>
+
+    <script src="admin.js" defer></script>
+  </body>
 </html>

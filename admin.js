@@ -249,13 +249,22 @@ async function boot() {
 
   q("unlock-admin").addEventListener("click", async () => {
     const raw = q("admin-pass").value.trim();
+    const expected = String(site.adminAccessHash || "").toLowerCase();
+    if (!expected) {
+      showStudioUI();
+      return setStatus("認証なしモードで編集できます。");
+    }
     if (!raw) return setStatus("管理パスワードを入力してください", true);
     const got = await sha256Hex(raw);
-    const expected = String(site.adminAccessHash || "").toLowerCase();
     if (!expected || got !== expected) return setStatus("認証に失敗しました", true);
     showStudioUI();
     setStatus("認証しました。編集できます。");
   });
+
+  if (!String(site.adminAccessHash || "").trim()) {
+    showStudioUI();
+    setStatus("認証なしモードで編集できます。");
+  }
 
   q("reload").addEventListener("click", () => {
     buildRows(window.__adminData.apps.items || [], window.__adminData.config);
