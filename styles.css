@@ -357,9 +357,9 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
   align-content: start;
 }
 
@@ -441,6 +441,20 @@ body {
   letter-spacing: 0.02em;
 }
 
+.app-card__meta {
+  margin: 0 0 0.7rem;
+  width: fit-content;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+  border-radius: 999px;
+}
+
 .app-card__desc {
   margin: 0 0 1.25rem;
   flex: 1;
@@ -474,6 +488,38 @@ body {
 .app-card__arrow {
   font-size: 0.9em;
   line-height: 1;
+}
+
+.app-group {
+  list-style: none;
+}
+
+.app-group__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 0.85rem;
+  gap: 0.75rem;
+}
+
+.app-group__title {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.app-group__count {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.app-subgrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
 }
 
 /* About */

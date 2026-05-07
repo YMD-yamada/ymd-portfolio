@@ -1,7 +1,13 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-05-06T00:08:24.306Z",
+  "generatedAt": "2026-05-07T14:16:47.105Z",
+  "categoryOrder": [
+    "公開中",
+    "実験中",
+    "学習",
+    "その他"
+  ],
   "items": [
     {
       "id": "manual-0",
@@ -10,7 +16,8 @@
       "description": "占いから商品購入まで（Render）",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-05-06"
+      "updated": "2026-05-07",
+      "category": "公開中"
     },
     {
       "id": "manual-1",
@@ -19,7 +26,8 @@
       "description": "旅行先を気分で決める（Netlify）",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-05-06"
+      "updated": "2026-05-07",
+      "category": "公開中"
     }
   ]
 }

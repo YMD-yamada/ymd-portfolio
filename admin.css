@@ -1,0 +1,136 @@
+:root {
+  --bg: #0f1513;
+  --panel: #18201d;
+  --line: #2a3631;
+  --ink: #e7f0ec;
+  --muted: #9eb2aa;
+  --accent: #6fe6b6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", system-ui, sans-serif;
+  background: radial-gradient(circle at 0 0, #244136, var(--bg) 45%);
+  color: var(--ink);
+}
+
+.admin {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.admin__head h1 {
+  margin: 0.5rem 0 0.35rem;
+}
+
+.admin__head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.admin__back {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.card {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 92%, #fff 8%);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.row--between {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 220px;
+}
+
+.field span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #121916;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+}
+
+button {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #121916;
+  color: var(--ink);
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+
+button.primary {
+  background: #1a4234;
+  border-color: #29644f;
+}
+
+button:hover {
+  border-color: var(--accent);
+}
+
+.muted {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(280px, 2fr) minmax(180px, 1fr) minmax(180px, 1fr);
+  gap: 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.6rem;
+  background: #121916;
+}
+
+.entry__url {
+  font-size: 0.82rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.status {
+  min-height: 1.2rem;
+  color: var(--accent);
+}

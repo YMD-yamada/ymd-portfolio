@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio Admin</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body data-site-config="config/site.json" data-app-config="config/apps.config.json" data-apps="data/apps.json">
+    <main class="admin">
+      <header class="admin__head">
+        <a href="index.html" class="admin__back">← 公開ページに戻る</a>
+        <h1>制作物 管理ページ</h1>
+        <p>
+          表示名とカテゴリを編集し、<code>config/apps.config.json</code> に保存します。
+          保存には GitHub の書き込みトークンが必要です。
+        </p>
+      </header>
+
+      <section class="card">
+        <h2>接続設定</h2>
+        <label class="field">
+          <span>GitHub Token（repo contents write）</span>
+          <input id="gh-token" type="password" autocomplete="off" placeholder="ghp_..." />
+        </label>
+        <div class="row">
+          <label class="field">
+            <span>Owner</span>
+            <input id="repo-owner" type="text" placeholder="YMD-yamada" />
+          </label>
+          <label class="field">
+            <span>Repository</span>
+            <input id="repo-name" type="text" placeholder="ymd-portfolio" />
+          </label>
+          <label class="field">
+            <span>Branch</span>
+            <input id="repo-branch" type="text" value="master" />
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>カテゴリ順</h2>
+        <label class="field">
+          <span>表示順（カンマ区切り）</span>
+          <input id="category-order" type="text" placeholder="公開中, 実験中, 学習, その他" />
+        </label>
+      </section>
+
+      <section class="card">
+        <div class="row row--between">
+          <h2>制作物ごとの上書き</h2>
+          <button id="reload" type="button">再読み込み</button>
+        </div>
+        <p class="muted">URL 単位で表示名・カテゴリを設定します。空欄なら自動値を使用します。</p>
+        <div id="editor"></div>
+      </section>
+
+      <section class="card">
+        <label class="field">
+          <span>コミットメッセージ</span>
+          <input id="commit-message" type="text" value="Update app categories/display names from admin page" />
+        </label>
+        <div class="row">
+          <button id="save-config" type="button" class="primary">config のみ保存</button>
+          <button id="save-and-sync" type="button">config 保存後に apps.json も再生成</button>
+        </div>
+        <p id="status" class="status" role="status"></p>
+      </section>
+    </main>
+
+    <script src="admin.js" defer></script>
+  </body>
+</html>

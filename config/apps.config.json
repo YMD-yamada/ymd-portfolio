@@ -2,6 +2,18 @@
   "profile": {
     "displayName": "ymd"
   },
+  "categoryOrder": ["公開中", "実験中", "学習", "その他"],
+  "overrides": {
+    "defaultCategoryBySource": {
+      "manual": "公開中",
+      "github": "実験中",
+      "netlify": "公開中",
+      "vercel": "公開中",
+      "render": "公開中",
+      "cloudflare": "公開中"
+    },
+    "byUrl": {}
+  },
   "exclude": {
     "urlSubstrings": ["ymd-portfolio-site.pages.dev"],
     "nameSubstrings": []

@@ -115,6 +115,45 @@ function sortByUpdated(a, b) {
   return sb.localeCompare(sa);
 }
 
+function normalizeCategory(v) {
+  const s = String(v || "").trim();
+  return s || "その他";
+}
+
+function normalizeByUrlMap(map) {
+  if (!map || typeof map !== "object") return {};
+  const out = {};
+  for (const [url, rule] of Object.entries(map)) {
+    if (!url || !rule || typeof rule !== "object") continue;
+    const key = normalizeUrlKey(url);
+    out[key] = {
+      displayName: (rule.displayName || "").trim(),
+      category: normalizeCategory(rule.category),
+    };
+  }
+  return out;
+}
+
+function applyItemOverrides(items, config) {
+  const overrides = config.overrides || {};
+  const byUrl = normalizeByUrlMap(overrides.byUrl || {});
+  const fallbackBySource = overrides.defaultCategoryBySource || {};
+  return (items || []).map((it) => {
+    const key = normalizeUrlKey(it.url || "");
+    const rule = byUrl[key] || {};
+    const next = { ...it };
+    if (rule.displayName) next.name = rule.displayName;
+    if (rule.category) {
+      next.category = normalizeCategory(rule.category);
+    } else {
+      const src = String(it.source || "").trim();
+      const fallback = src ? fallbackBySource[src] : "";
+      next.category = normalizeCategory(fallback || it.category || "");
+    }
+    return next;
+  });
+}
+
 /**
  * 手動を先頭に。同一 URL は先に来た行を残す（手動が他ソースより先）。
  */
@@ -578,13 +617,15 @@ async function run() {
   autoParts = autoParts.filter((e) => !shouldExcludeAutoEntry(e, config));
 
   const finalList = buildFinalList(manual, autoParts);
+  const withOverrides = applyItemOverrides(finalList, config);
   const ghMeta =
     sources.length > 0 ? sources.map((s) => `${s.kind}:${s.login}`).join(", ") : "";
   const out = {
     displayName: (config.profile && config.profile.displayName) || "ymd",
     githubUser: ghMeta || ((config.github && config.github.user) || ""),
     generatedAt: new Date().toISOString(),
-    items: finalList,
+    categoryOrder: Array.isArray(config.categoryOrder) ? config.categoryOrder : [],
+    items: withOverrides,
   };
 
   mkdirSync(dirname(OUT_PATH), { recursive: true });

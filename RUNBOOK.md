@@ -126,6 +126,16 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 2. **別リポジトリ**側では、デプロイ成功後に GitHub API で `repository_dispatch` を送るワークフローを置く（Fine-grained PAT または Classic PAT で、`repo` の対象にこのポートフォリオリポジトリを含める）。  
 3. 具体例は `docs/examples/repository-dispatch-caller.yml` を参照。
 
+### G. 管理ページでカテゴリ／表示名を編集する
+
+1. `https://ymd-portfolio-site.pages.dev/admin.html` を開く。
+2. GitHub の書き込み可能トークン、Owner、Repository、Branch を入力。
+3. カテゴリ順（カンマ区切り）を入力し、各 URL の表示名・カテゴリを必要なものだけ編集。
+4. `config のみ保存` で `config/apps.config.json` だけを更新、または `config 保存後に apps.json も再生成` で workflow を起動。
+5. 反映は Actions の `Deploy to Cloudflare Pages` 成功後に公開ページで確認。
+
+> 注意: 管理ページは静的サイト上の UI なので、権限は **GitHub Token を持つ人だけが保存できる** 形で担保しています。トークンはページ内に保存されません（ブラウザ自動保存を除く）。
+
 ## 3) 各サービスの発行URL（作成・確認先）
 
 - Netlify token: https://app.netlify.com/user/applications#personal-access-tokens

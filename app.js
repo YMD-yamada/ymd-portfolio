@@ -128,6 +128,11 @@ function createCard(item, index) {
   h3.textContent = item.name;
   article.appendChild(h3);
 
+  const cat = document.createElement("p");
+  cat.className = "app-card__meta";
+  cat.textContent = item.category || "その他";
+  article.appendChild(cat);
+
   const p = document.createElement("p");
   p.className = "app-card__desc";
   p.textContent = item.description || "";
@@ -153,6 +158,19 @@ function createCard(item, index) {
 
   li.appendChild(article);
   return li;
+}
+
+function groupedByCategory(items, order) {
+  const map = new Map();
+  (items || []).forEach((it) => {
+    const cat = (it && it.category ? String(it.category) : "その他").trim() || "その他";
+    if (!map.has(cat)) map.set(cat, []);
+    map.get(cat).push(it);
+  });
+  const keys = Array.from(map.keys());
+  const pinned = Array.isArray(order) ? order.filter((x) => map.has(x)) : [];
+  const rest = keys.filter((k) => !pinned.includes(k)).sort((a, b) => a.localeCompare(b));
+  return [...pinned, ...rest].map((cat) => ({ category: cat, items: map.get(cat) || [] }));
 }
 
 function emptyState(repoUrl, profileUrl) {
@@ -219,7 +237,29 @@ function render(apps) {
     host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl));
     return;
   }
-  list.forEach((it, i) => host.appendChild(createCard(it, i)));
+  const groups = groupedByCategory(list, d.categoryOrder);
+  groups.forEach((g) => {
+    const wrap = document.createElement("li");
+    wrap.className = "app-group";
+
+    const head = document.createElement("div");
+    head.className = "app-group__head";
+    const title = document.createElement("h3");
+    title.className = "app-group__title";
+    title.textContent = g.category;
+    const count = document.createElement("span");
+    count.className = "app-group__count";
+    count.textContent = `${g.items.length}件`;
+    head.append(title, count);
+
+    const grid = document.createElement("ul");
+    grid.className = "app-subgrid";
+    grid.setAttribute("role", "list");
+    g.items.forEach((it, i) => grid.appendChild(createCard(it, i)));
+
+    wrap.append(head, grid);
+    host.appendChild(wrap);
+  });
 }
 
 async function boot() {
