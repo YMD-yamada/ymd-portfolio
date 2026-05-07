@@ -6,6 +6,7 @@
   "githubProfileUrl": "https://github.com/ymd",
   "adminPagePath": "admin.html",
   "adminAccessHash": "",
+  "adminPublishHash": "24744e05272ceb7ba79cf98ca58ca89c177949138733a8e4212d57b7f97c6727",
   "adminRepoOwner": "YMD-yamada",
   "adminRepoName": "ymd-portfolio",
   "adminRepoBranch": "master",

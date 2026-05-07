@@ -45,15 +45,29 @@
 
       <section class="card hidden" id="save-card">
         <label class="field">
-          <span>GitHub Token（保存時のみ必要 / ブラウザに一時保持）</span>
+          <span>ローカル反映</span>
+          <p class="muted">このブラウザ内だけに即時反映します（GitHubは更新しません）。</p>
+          <button id="apply-local" type="button">ローカル反映</button>
+        </label>
+        <hr />
+        <label class="field">
+          <span>GitHub公開（保存＋再デプロイ）</span>
+          <p class="muted">公開時のみ、GitHub Token と公開用パスワードが必要です。</p>
+        </label>
+        <label class="field">
+          <span>GitHub Token（repo contents write）</span>
           <input id="gh-token" type="password" autocomplete="off" placeholder="ghp_..." />
+        </label>
+        <label class="field">
+          <span>公開用パスワード</span>
+          <input id="publish-pass" type="password" autocomplete="off" placeholder="公開ボタン実行時に必須" />
         </label>
         <label class="field">
           <span>コミットメッセージ</span>
           <input id="commit-message" type="text" value="Update app visibility/category/display from studio" />
         </label>
         <div class="row">
-          <button id="apply-all" class="primary" type="button">変更を適用（即時プレビュー＋保存＋再デプロイ）</button>
+          <button id="publish-github" class="primary" type="button">GitHub公開</button>
         </div>
         <p id="status" class="status" role="status"></p>
       </section>

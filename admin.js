@@ -267,6 +267,7 @@ async function boot() {
   const owner = site.adminRepoOwner || "YMD-yamada";
   const repo = site.adminRepoName || "ymd-portfolio";
   const branch = site.adminRepoBranch || "master";
+  const publishHash = String(site.adminPublishHash || "").trim().toLowerCase();
 
   window.__studioCategories = categoryPool(config);
   buildRows(apps.items || [], config);
@@ -340,26 +341,40 @@ async function boot() {
     return next;
   }
 
-  async function applyAll() {
+  q("apply-local").addEventListener("click", async () => {
+    const configNext = await composeConfig();
+    savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
+    setStatus("ローカル反映しました（GitHub未更新）。公開ページを再読み込みして確認できます。");
+  });
+
+  async function publishGithub() {
     const token = q("gh-token").value.trim();
-    if (!token) return setStatus("保存には GitHub Token が必要です", true);
+    if (!token) return setStatus("GitHub公開には Token が必要です", true);
+    if (!publishHash) return setStatus("adminPublishHash が未設定です。site.json を確認してください。", true);
+
+    const pass = q("publish-pass").value.trim();
+    if (!pass) return setStatus("公開用パスワードを入力してください", true);
+    const got = await sha256Hex(pass);
+    if (got.toLowerCase() !== publishHash) {
+      return setStatus("公開用パスワードが一致しません", true);
+    }
 
     const message = q("commit-message").value.trim() || "Update app overrides from studio";
     const configNext = await composeConfig();
-
-    setStatus("まずブラウザ内へ適用し、続いて GitHub へ保存します…");
+    setStatus("ローカル反映 → GitHub保存 → 再デプロイを実行中…");
     try {
       savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
       await updateConfigOnGithub(configNext, token, owner, repo, branch, message);
       window.__adminData.config = configNext;
       await triggerDeployWorkflow(token, owner, repo, branch);
-      setStatus("変更を適用しました。即時プレビュー済み／保存済み／再デプロイ開始。");
+      setStatus("GitHub公開を開始しました。Actions を確認してください。");
     } catch (e) {
       setStatus(String(e.message || e), true);
     }
   }
-  q("apply-all").addEventListener("click", () => {
-    void applyAll();
+
+  q("publish-github").addEventListener("click", () => {
+    void publishGithub();
   });
 }
 
