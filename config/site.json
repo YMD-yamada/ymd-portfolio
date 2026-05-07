@@ -4,6 +4,11 @@
   "ogImage": "",
   "githubRepoUrl": "https://github.com/YMD-yamada/ymd-portfolio",
   "githubProfileUrl": "https://github.com/ymd",
+  "adminPagePath": "studio-ymd-gate-73x.html",
+  "adminAccessHash": "53ad965c88e7f64738345e6a739b352f53c110efb438dc70162287f0e0567ae4",
+  "adminRepoOwner": "YMD-yamada",
+  "adminRepoName": "ymd-portfolio",
+  "adminRepoBranch": "master",
   "contactEmail": "ymd.hude@gmail.com",
   "contactMailSubject": "[ymd Portfolio 問い合わせ]",
   "contactMailBodyFooter": "\n\n---\n（以下にご記入ください）\n\nお名前（任意）：\n\n\nご用件：\n\n\n"

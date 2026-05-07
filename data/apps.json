@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-05-07T14:16:47.105Z",
+  "generatedAt": "2026-05-07T14:35:36.582Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -17,7 +17,8 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-05-07",
-      "category": "公開中"
+      "category": "公開中",
+      "visibility": "public"
     },
     {
       "id": "manual-1",
@@ -27,7 +28,8 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-05-07",
-      "category": "公開中"
+      "category": "公開中",
+      "visibility": "public"
     }
   ]
 }

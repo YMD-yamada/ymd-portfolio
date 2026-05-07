@@ -111,6 +111,68 @@ function applyBranding(d) {
   }
 }
 
+function escapeHtml(s) {
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+async function sha256Hex(text) {
+  const enc = new TextEncoder().encode(String(text || ""));
+  const digest = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function getPreviewOverrideMap() {
+  try {
+    const raw = localStorage.getItem("portfolio_preview_overrides");
+    if (!raw) return {};
+    const data = JSON.parse(raw);
+    if (data && typeof data === "object" && data.byUrl && typeof data.byUrl === "object") {
+      return data;
+    }
+  } catch {}
+  return { byUrl: {}, categoryOrder: [] };
+}
+
+function applyPreviewOverrides(list) {
+  const data = getPreviewOverrideMap();
+  const byUrl = data.byUrl || {};
+  if (!list || !list.length) return list || [];
+  return list.map((it) => {
+    const rule = byUrl[it.url];
+    if (!rule) return it;
+    const next = { ...it };
+    if (rule.displayName) next.name = rule.displayName;
+    if (rule.category) next.category = rule.category;
+    if (rule.visibility) next.visibility = rule.visibility;
+    if (rule.accessHash) next.accessHash = rule.accessHash;
+    if (rule.note) next.note = rule.note;
+    return next;
+  });
+}
+
+async function ensureLimitedAccess(item) {
+  const key = `portfolio_limited_ok:${item.url}`;
+  try {
+    if (sessionStorage.getItem(key) === "1") return true;
+  } catch {}
+  const entered = window.prompt("この制作物は限定公開です。閲覧パスワードを入力してください。", "");
+  if (!entered) return false;
+  const got = await sha256Hex(entered.trim());
+  if (got !== String(item.accessHash || "").trim().toLowerCase()) {
+    window.alert("パスワードが正しくありません。");
+    return false;
+  }
+  try {
+    sessionStorage.setItem(key, "1");
+  } catch {}
+  return true;
+}
+
 function createCard(item, index) {
   const li = document.createElement("li");
   const article = document.createElement("article");
@@ -133,6 +195,14 @@ function createCard(item, index) {
   cat.textContent = item.category || "その他";
   article.appendChild(cat);
 
+  const vis = String(item.visibility || "public");
+  if (vis !== "public") {
+    const badge = document.createElement("p");
+    badge.className = "app-card__state";
+    badge.textContent = vis === "limited" ? "限定公開" : "非公開";
+    article.appendChild(badge);
+  }
+
   const p = document.createElement("p");
   p.className = "app-card__desc";
   p.textContent = item.description || "";
@@ -147,7 +217,15 @@ function createCard(item, index) {
   sp.className = "app-card__arrow";
   sp.setAttribute("aria-hidden", "true");
   sp.textContent = "↗";
-  a.append("開く", " ", sp);
+  a.append(vis === "limited" ? "開く（限定）" : "開く", " ", sp);
+  if (vis === "limited") {
+    a.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      const ok = await ensureLimitedAccess(item);
+      if (!ok) return;
+      window.open(item.url, "_blank", "noopener,noreferrer");
+    });
+  }
   if (item.kind === "repo") {
     a.setAttribute(
       "title",
@@ -231,13 +309,18 @@ function render(apps) {
   applyBranding(d);
   setYear();
 
-  const list = d.items;
+  const list = applyPreviewOverrides(d.items || []);
   const site = window.__SITE__ || {};
-  if (!list || !list.length) {
+  const visible = list.filter((it) => String(it.visibility || "public") !== "private");
+  if (!visible.length) {
     host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl));
     return;
   }
-  const groups = groupedByCategory(list, d.categoryOrder);
+  const preview = getPreviewOverrideMap();
+  const order = Array.isArray(preview.categoryOrder) && preview.categoryOrder.length
+    ? preview.categoryOrder
+    : d.categoryOrder;
+  const groups = groupedByCategory(visible, order);
   groups.forEach((g) => {
     const wrap = document.createElement("li");
     wrap.className = "app-group";

@@ -1,4 +1,4 @@
-/* global document, window, fetch, btoa */
+/* global document, window, fetch, btoa, localStorage, crypto */
 
 function q(id) {
   return document.getElementById(id);
@@ -31,18 +31,22 @@ function utf8ToBase64(str) {
   return btoa(unescape(encodeURIComponent(str)));
 }
 
-function parseOwnerRepo(url) {
-  try {
-    const u = new URL(url);
-    const segs = u.pathname.replace(/^\/+/, "").split("/");
-    if (segs.length >= 2) return { owner: segs[0], repo: segs[1] };
-  } catch {}
-  return { owner: "", repo: "" };
+async function sha256Hex(text) {
+  const enc = new TextEncoder().encode(String(text || ""));
+  const digest = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function normalizeCategory(v) {
-  const s = String(v || "").trim();
-  return s || "";
+  return String(v || "").trim();
+}
+
+function normalizeVisibility(v) {
+  const s = String(v || "").trim().toLowerCase();
+  if (s === "private" || s === "limited") return s;
+  return "public";
 }
 
 function setStatus(msg, isError) {
@@ -50,6 +54,32 @@ function setStatus(msg, isError) {
   if (!el) return;
   el.textContent = msg;
   el.style.color = isError ? "#ff8d8d" : "#6fe6b6";
+}
+
+function categoryPool(config) {
+  const set = new Set(config?.categoryOrder || []);
+  Object.values(config?.overrides?.byUrl || {}).forEach((v) => {
+    if (v?.category) set.add(v.category);
+  });
+  return Array.from(set).filter(Boolean);
+}
+
+function renderCategoryChips(config) {
+  const host = q("category-chips");
+  host.innerHTML = "";
+  categoryPool(config).forEach((cat) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.textContent = cat;
+    b.addEventListener("click", () => {
+      const active = document.activeElement;
+      if (active && active.classList && active.classList.contains("entry__cat")) {
+        active.value = cat;
+      }
+    });
+    host.appendChild(b);
+  });
 }
 
 function buildRows(items, config) {
@@ -63,8 +93,17 @@ function buildRows(items, config) {
     row.className = "entry";
     row.dataset.url = it.url;
 
-    const url = document.createElement("div");
-    url.innerHTML = `<strong>${it.name}</strong><div class="entry__url">${it.url}</div>`;
+    const info = document.createElement("div");
+    info.className = "entry__info";
+    info.innerHTML = `<strong>${it.name}</strong><div class="entry__url">${it.url}</div>`;
+
+    const open = document.createElement("a");
+    open.className = "entry__open";
+    open.href = it.url;
+    open.target = "_blank";
+    open.rel = "noopener noreferrer";
+    open.textContent = "新タブで確認";
+    info.appendChild(open);
 
     const nameInput = document.createElement("input");
     nameInput.placeholder = "表示名（空なら自動）";
@@ -76,20 +115,63 @@ function buildRows(items, config) {
     catInput.value = byUrl[it.url]?.category || it.category || "";
     catInput.className = "entry__cat";
 
-    row.append(url, nameInput, catInput);
+    const vis = document.createElement("select");
+    vis.className = "entry__vis";
+    ["public", "private", "limited"].forEach((v) => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v === "public" ? "公開" : v === "private" ? "非公開" : "限定公開";
+      vis.appendChild(o);
+    });
+    vis.value = normalizeVisibility(byUrl[it.url]?.visibility || it.visibility || "public");
+
+    const pw = document.createElement("input");
+    pw.className = "entry__pw";
+    pw.type = "password";
+    pw.placeholder = "限定公開パスワード（変更時のみ入力）";
+    pw.dataset.hash = byUrl[it.url]?.accessHash || it.accessHash || "";
+
+    const note = document.createElement("p");
+    note.className = "entry__note";
+    note.textContent = byUrl[it.url]?.note || it.note || "";
+
+    const right = document.createElement("div");
+    right.className = "entry__right";
+    right.append(catInput, vis, pw, note);
+
+    vis.addEventListener("change", () => {
+      pw.style.display = vis.value === "limited" ? "block" : "none";
+    });
+    pw.style.display = vis.value === "limited" ? "block" : "none";
+
+    row.append(info, nameInput, right);
     host.appendChild(row);
   });
 }
 
-function collectOverrides() {
+async function collectOverrides() {
   const rows = Array.from(document.querySelectorAll(".entry"));
   const byUrl = {};
-  rows.forEach((row) => {
+  for (const row of rows) {
     const url = row.dataset.url;
     const displayName = row.querySelector(".entry__name").value.trim();
     const category = normalizeCategory(row.querySelector(".entry__cat").value);
-    if (displayName || category) byUrl[url] = { displayName, category };
-  });
+    const visibility = normalizeVisibility(row.querySelector(".entry__vis").value);
+    const pwInput = row.querySelector(".entry__pw");
+    let accessHash = String(pwInput.dataset.hash || "");
+    const rawPw = pwInput.value.trim();
+    if (visibility === "limited" && rawPw) {
+      accessHash = await sha256Hex(rawPw);
+    }
+    if (displayName || category || visibility !== "public" || accessHash) {
+      byUrl[url] = {
+        displayName,
+        category,
+        visibility,
+        accessHash: visibility === "limited" ? accessHash : "",
+      };
+    }
+  }
   return byUrl;
 }
 
@@ -130,6 +212,20 @@ async function triggerDeployWorkflow(token, owner, repo, branch) {
   }
 }
 
+function showStudioUI() {
+  ["studio-card", "apps-card", "save-card"].forEach((id) => {
+    q(id).classList.remove("hidden");
+  });
+  q("gate-card").classList.add("hidden");
+}
+
+function savePreviewLocal(categoryOrder, byUrl) {
+  localStorage.setItem(
+    "portfolio_preview_overrides",
+    JSON.stringify({ categoryOrder, byUrl, updatedAt: Date.now() })
+  );
+}
+
 async function boot() {
   const sitePath = datasetPath("siteConfig", "config/site.json");
   const appsPath = datasetPath("apps", "data/apps.json");
@@ -142,47 +238,65 @@ async function boot() {
   ]);
   window.__adminData = { site, apps, config };
 
-  const { owner, repo } = parseOwnerRepo(site.githubRepoUrl || "");
-  q("repo-owner").value = owner || "YMD-yamada";
-  q("repo-name").value = repo || "ymd-portfolio";
-  q("category-order").value = (config.categoryOrder || []).join(", ");
+  const owner = site.adminRepoOwner || "YMD-yamada";
+  const repo = site.adminRepoName || "ymd-portfolio";
+  const branch = site.adminRepoBranch || "master";
 
+  q("category-order").value = (config.categoryOrder || []).join(", ");
   buildRows(apps.items || [], config);
+  renderCategoryChips(config);
   setStatus("読み込み完了");
+
+  q("unlock-admin").addEventListener("click", async () => {
+    const raw = q("admin-pass").value.trim();
+    if (!raw) return setStatus("管理パスワードを入力してください", true);
+    const got = await sha256Hex(raw);
+    const expected = String(site.adminAccessHash || "").toLowerCase();
+    if (!expected || got !== expected) return setStatus("認証に失敗しました", true);
+    showStudioUI();
+    setStatus("認証しました。編集できます。");
+  });
 
   q("reload").addEventListener("click", () => {
     buildRows(window.__adminData.apps.items || [], window.__adminData.config);
-    setStatus("編集中のフォームを再生成しました");
+    renderCategoryChips(window.__adminData.config || {});
+    setStatus("一覧を再生成しました");
+  });
+
+  async function composeConfig() {
+    const next = structuredClone(window.__adminData.config || {});
+    next.categoryOrder = q("category-order")
+      .value.split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    next.overrides = next.overrides || {};
+    next.overrides.byUrl = await collectOverrides();
+    return next;
+  }
+
+  q("apply-local").addEventListener("click", async () => {
+    const configNext = await composeConfig();
+    savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
+    setStatus("このブラウザで適用しました。公開ページを再読み込みして確認できます。");
   });
 
   async function save(triggerSync) {
     const token = q("gh-token").value.trim();
-    const ownerVal = q("repo-owner").value.trim();
-    const repoVal = q("repo-name").value.trim();
-    const branch = q("repo-branch").value.trim() || "master";
-    if (!token || !ownerVal || !repoVal) {
-      setStatus("Token / Owner / Repository は必須です", true);
-      return;
-    }
-    const message = q("commit-message").value.trim() || "Update app overrides";
-    const config = structuredClone(window.__adminData.config || {});
-    config.categoryOrder = q("category-order")
-      .value.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    config.overrides = config.overrides || {};
-    config.overrides.byUrl = collectOverrides();
+    if (!token) return setStatus("保存には GitHub Token が必要です", true);
 
-    setStatus("GitHubへ保存中…");
+    const message = q("commit-message").value.trim() || "Update app overrides from studio";
+    const configNext = await composeConfig();
+
+    setStatus("まずブラウザ内へ適用し、続いて GitHub へ保存します…");
     try {
-      await updateConfigOnGithub(config, token, ownerVal, repoVal, branch, message);
-      window.__adminData.config = config;
+      savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
+      await updateConfigOnGithub(configNext, token, owner, repo, branch, message);
+      window.__adminData.config = configNext;
       if (triggerSync) {
-        setStatus("保存完了。デプロイワークフローを起動しています…");
-        await triggerDeployWorkflow(token, ownerVal, repoVal, branch);
-        setStatus("保存＋同期を開始しました。Actions を確認してください。");
+        await triggerDeployWorkflow(token, owner, repo, branch);
+        setStatus("保存＋再デプロイを開始しました。Actions を確認してください。");
       } else {
-        setStatus("config/apps.config.json を保存しました。");
+        setStatus("保存しました。次回デプロイ時に公開へ反映されます。");
       }
     } catch (e) {
       setStatus(String(e.message || e), true);

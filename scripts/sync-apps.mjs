@@ -120,6 +120,12 @@ function normalizeCategory(v) {
   return s || "その他";
 }
 
+function normalizeVisibility(v) {
+  const s = String(v || "").trim().toLowerCase();
+  if (s === "private" || s === "limited") return s;
+  return "public";
+}
+
 function normalizeByUrlMap(map) {
   if (!map || typeof map !== "object") return {};
   const out = {};
@@ -129,6 +135,9 @@ function normalizeByUrlMap(map) {
     out[key] = {
       displayName: (rule.displayName || "").trim(),
       category: normalizeCategory(rule.category),
+      visibility: normalizeVisibility(rule.visibility),
+      accessHash: (rule.accessHash || "").trim(),
+      note: (rule.note || "").trim(),
     };
   }
   return out;
@@ -150,6 +159,11 @@ function applyItemOverrides(items, config) {
       const fallback = src ? fallbackBySource[src] : "";
       next.category = normalizeCategory(fallback || it.category || "");
     }
+    next.visibility = normalizeVisibility(rule.visibility || it.visibility || "public");
+    if (next.visibility === "limited" && rule.accessHash) {
+      next.accessHash = rule.accessHash;
+    }
+    if (rule.note) next.note = rule.note;
     return next;
   });
 }

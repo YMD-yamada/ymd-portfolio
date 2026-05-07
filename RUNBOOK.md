@@ -126,15 +126,15 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 2. **別リポジトリ**側では、デプロイ成功後に GitHub API で `repository_dispatch` を送るワークフローを置く（Fine-grained PAT または Classic PAT で、`repo` の対象にこのポートフォリオリポジトリを含める）。  
 3. 具体例は `docs/examples/repository-dispatch-caller.yml` を参照。
 
-### G. 管理ページでカテゴリ／表示名を編集する
+### G. 管理ページでカテゴリ／表示名／公開範囲を編集する
 
-1. `https://ymd-portfolio-site.pages.dev/admin.html` を開く。
-2. GitHub の書き込み可能トークン、Owner、Repository、Branch を入力。
-3. カテゴリ順（カンマ区切り）を入力し、各 URL の表示名・カテゴリを必要なものだけ編集。
-4. `config のみ保存` で `config/apps.config.json` だけを更新、または `config 保存後に apps.json も再生成` で workflow を起動。
+1. `config/site.json` の `adminPagePath` を知っている URL を開く（`/admin.html` は公開しない）。  
+2. 管理パスワードで認証（`adminAccessHash` と照合）。  
+3. 各 URL ごとに表示名、カテゴリ、公開範囲（公開/非公開/限定公開）を設定。限定公開はパスワード入力時に SHA-256 が保存される。  
+4. `適用（このブラウザで即時プレビュー）` で公開ページにローカル反映、`適用して保存` で `config/apps.config.json` を更新、`適用して保存＋再デプロイ` で workflow も起動。  
 5. 反映は Actions の `Deploy to Cloudflare Pages` 成功後に公開ページで確認。
 
-> 注意: 管理ページは静的サイト上の UI なので、権限は **GitHub Token を持つ人だけが保存できる** 形で担保しています。トークンはページ内に保存されません（ブラウザ自動保存を除く）。
+> 注意: 完全なサーバー側認証ではないため、強固な秘匿が必要なら Cloudflare Access などの上位保護を併用してください。
 
 ## 3) 各サービスの発行URL（作成・確認先）
 
