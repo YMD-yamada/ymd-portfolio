@@ -207,8 +207,15 @@ function isVisibleForMode(item, mode) {
 
 function applyAudienceMode(mode, opts = {}) {
   const rerender = opts.rerender !== false;
+  const body = document.body;
+  if (body?.dataset) {
+    body.dataset.audienceTheme = mode;
+  }
   const sec = document.getElementById("apps");
-  if (!sec) return;
+  if (!sec) {
+    if (rerender && window.__APPS_DATA__) render(window.__APPS_DATA__);
+    return;
+  }
   sec.classList.remove("audience--kid", "audience--normal", "audience--adult");
   sec.classList.add(`audience--${mode}`);
   document.querySelectorAll("[data-audience-mode]").forEach((btn) => {

@@ -141,12 +141,21 @@ function normalizeByUrlMap(map) {
     const key = normalizeUrlKey(url);
     out[key] = {
       displayName: (rule.displayName || "").trim(),
-      category: normalizeCategory(rule.category),
-      visibility: normalizeVisibility(rule.visibility),
+      category:
+        typeof rule.category === "string" && String(rule.category).trim() !== ""
+          ? normalizeCategory(rule.category)
+          : "",
+      visibility:
+        typeof rule.visibility === "string" && String(rule.visibility).trim() !== ""
+          ? normalizeVisibility(rule.visibility)
+          : "",
       accessHash: (rule.accessHash || "").trim(),
       note: (rule.note || "").trim(),
       description: typeof rule.description === "string" ? rule.description.trim() : "",
-      audience: normalizeAudience(rule.audience),
+      audience:
+        typeof rule.audience === "string" && String(rule.audience).trim() !== ""
+          ? normalizeAudience(rule.audience)
+          : "",
     };
   }
   return out;
@@ -168,7 +177,9 @@ function applyItemOverrides(items, config) {
       const fallback = src ? fallbackBySource[src] : "";
       next.category = normalizeCategory(fallback || it.category || "");
     }
-    next.visibility = normalizeVisibility(rule.visibility || it.visibility || "public");
+    next.visibility = normalizeVisibility(
+      (rule.visibility && String(rule.visibility).trim()) || it.visibility || "public"
+    );
     if (next.visibility === "limited" && rule.accessHash) {
       next.accessHash = rule.accessHash;
     }
@@ -223,6 +234,31 @@ function isoDate(v) {
   const s = String(v);
   if (s.length >= 10) return s;
   return "";
+}
+
+/** 自動取得項目の説明文（手動入力がないときの読み進められやすい文案） */
+function marketingDescription(kind, opts = {}) {
+  const raw = String(opts.displayName || "").trim();
+  const name = raw || "この制作";
+
+  switch (kind) {
+    case "github_site":
+      return `${name} の公開サイトをひとつのURLへ。セットアップ不要で触れるので、アイデアの温度や画面の質感まで含めて先に体感できます。「説明より先に触りたい」向けです。`;
+    case "github_repo":
+      return `${name} を育てているコードベースです。README やソースから試したい関数・構成をたどれば、コンセプトと実装の両方へすぐジャンプできます。`;
+    case "netlify_site":
+      return `${name} のホスティング上の試作サイト。環境依存が気になるときほど、このURLだけで状態を確認しやすいです。細部のアニメーションやレスポンスも実ページでチェックしてください。`;
+    case "vercel_site":
+      return `${name} の本番公開ビューをそのまま。グローバルに近い体感速度でチェックできるので、「ローカルと違うかも」を疑うときの検証にも向いています。`;
+    case "render_site":
+      return `${name} の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。`;
+    case "cloudflare_site":
+      return `${name} のエッジ配信ビュー。応答の速さと画面の質感まで含めた感触を、このURLからひと気に確かめられます。`;
+    case "manual_default":
+      return `${name} の公開ページです。セットアップ不要で試せます。`;
+    default:
+      return `${name} の試作または公開コンテンツにアクセスできる入口です。`;
+  }
 }
 
 function readGithubSources(cfg) {
@@ -318,8 +354,8 @@ function toGithubAppEntries(repos, cfg) {
 
     const fromSite = useH && normalizedH;
     const baseDesc = (r.description || "").trim();
-    const desc = baseDesc
-      || (fromSite ? "Web（GitHub の homepage フィールド）" : "リポジトリ（homepage 未設定）");
+    const desc =
+      baseDesc || (fromSite ? marketingDescription("github_site", { displayName: r.name }) : marketingDescription("github_repo", { displayName: r.name }));
 
     out.push({
       id: `github-${r.id}`,
@@ -342,7 +378,9 @@ function normalizeManual(manual) {
       id: x.id || `manual-${i}`,
       name: x.name,
       url: x.url,
-      description: (x.description || "").trim() || "手動登録",
+      description:
+        (x.description || "").trim() ||
+        marketingDescription("manual_default", { displayName: x.name }),
       source: "manual",
       kind: "site",
       updated: new Date().toISOString().slice(0, 10),
@@ -373,7 +411,9 @@ async function fetchNetlifyEntries(enabled) {
         id: `netlify-${s.id || s.name}`,
         name: s.name || s.site_id || "Netlify site",
         url: siteUrl,
-        description: s.description ? String(s.description) : "Netlify",
+        description: String(s.description || "").trim()
+          ? String(s.description)
+          : marketingDescription("netlify_site", { displayName: s.name || "公開サイト" }),
         source: "netlify",
         kind: "site",
         updated: s.updated_at || s.created_at || "",
@@ -435,7 +475,9 @@ async function fetchVercelEntries(cfg) {
       id: `vercel-${projectId}`,
       name,
       url,
-      description: p.description ? String(p.description) : "Vercel",
+      description: String(p.description || "").trim()
+        ? String(p.description)
+        : marketingDescription("vercel_site", { displayName: name }),
       source: "vercel",
       kind: "site",
       updated: p.updatedAt || p.createdAt || "",
@@ -452,7 +494,9 @@ function normalizeStaticEntries(list, source) {
       id: x.id || `${source}-static-${i}`,
       name: String(x.name),
       url: normalizeExternalUrl(String(x.url)),
-      description: (x.description || "").trim() || source,
+      description:
+        (x.description || "").trim() ||
+        marketingDescription(`${source}_site`, { displayName: String(x.name) }),
       source,
       kind: "site",
       updated: isoDate(x.updated) || new Date().toISOString(),
@@ -517,7 +561,7 @@ async function fetchRenderEntries(cfg) {
       id: `render-${s?.id || slug || name}`,
       name: String(name),
       url: normalizeExternalUrl(String(url)),
-      description: (s?.serviceDetails?.plan || s?.type || "Render").toString(),
+      description: marketingDescription("render_site", { displayName: String(name) }),
       source: "render",
       kind: "site",
       updated: isoDate(updated),
@@ -573,7 +617,7 @@ async function fetchCloudflareEntries(cfg) {
       id: `cloudflare-${name}`,
       name: String(name),
       url,
-      description: "Cloudflare Pages",
+      description: marketingDescription("cloudflare_site", { displayName: String(name) }),
       source: "cloudflare",
       kind: "site",
       updated: isoDate(

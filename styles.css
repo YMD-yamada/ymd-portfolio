@@ -11,6 +11,9 @@
   --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
   --accent-hover: #154236;
   --line: rgba(20, 24, 22, 0.12);
+  --header-bg: color-mix(in srgb, #fbfcfb 86%, transparent);
+  --footer-bg: color-mix(in srgb, #fbfcfb 92%, transparent);
+  --hero-grid-line: rgba(20, 24, 22, 0.06);
   --radius: 12px;
   --radius-lg: 18px;
   --font-sans: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -53,6 +56,64 @@ body {
     radial-gradient(1200px 520px at 12% -10%, var(--accent-soft), transparent 55%),
     linear-gradient(180deg, #fbfcfb 0%, var(--paper) 38%, var(--paper) 100%);
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.5s ease,
+    background-image 0.55s ease,
+    color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
+
+/* 鑑賞モード — サイト全体の空気感を切り替え */
+body[data-audience-theme="normal"] {
+  --header-bg: color-mix(in srgb, #fbfcfb 86%, transparent);
+  --footer-bg: color-mix(in srgb, #fbfcfb 92%, transparent);
+}
+
+body[data-audience-theme="kid"] {
+  --ink: #332d38;
+  --ink-muted: #5e5666;
+  --paper: #fff7fb;
+  --paper-deep: #ffe6f5;
+  --surface: #ffffff;
+  --accent: #c94f86;
+  --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+  --accent-hover: #a33d6c;
+  --line: rgba(120, 50, 90, 0.11);
+  --header-bg: color-mix(in srgb, #fff6fb 92%, transparent);
+  --footer-bg: color-mix(in srgb, #fff6fb 94%, transparent);
+  --hero-grid-line: rgba(200, 80, 140, 0.08);
+
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(920px 500px at 8% -5%, rgba(255, 210, 120, 0.38), transparent 58%),
+    radial-gradient(720px 420px at 94% 0%, rgba(170, 150, 255, 0.28), transparent 52%),
+    linear-gradient(180deg, #fffbfe 0%, var(--paper) 40%, #fff8fc 100%);
+}
+
+body[data-audience-theme="adult"] {
+  --ink: #edeaf5;
+  --ink-muted: #b8afc8;
+  --paper: #1a1724;
+  --paper-deep: #13111c;
+  --surface: #242030;
+  --accent: #9b7bdc;
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
+  --accent-hover: #8362c4;
+  --line: rgba(230, 220, 255, 0.12);
+  --header-bg: color-mix(in srgb, #1f1b2a 88%, transparent);
+  --footer-bg: color-mix(in srgb, #1c1828 93%, transparent);
+  --hero-grid-line: rgba(200, 190, 255, 0.07);
+
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(1100px 560px at 18% -12%, rgba(120, 80, 200, 0.35), transparent 55%),
+    radial-gradient(600px 360px at 92% 15%, rgba(60, 140, 190, 0.18), transparent 50%),
+    linear-gradient(185deg, #16131f 0%, var(--paper) 45%, #12101a 100%);
 }
 
 .skip {
@@ -61,8 +122,8 @@ body {
   top: auto;
   z-index: 100;
   padding: 0.5rem 1rem;
-  background: var(--ink);
-  color: var(--paper);
+  background: #141816;
+  color: #f6fbf7;
   text-decoration: none;
   border-radius: 4px;
 }
@@ -76,9 +137,10 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, #fbfcfb 86%, transparent);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
+  transition: background 0.45s ease, border-color 0.35s ease;
 }
 
 .site-header__inner {
@@ -138,8 +200,8 @@ body {
   inset: -1px;
   opacity: 0.35;
   background-image:
-    linear-gradient(to right, rgba(20, 24, 22, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(20, 24, 22, 0.06) 1px, transparent 1px);
+    linear-gradient(to right, var(--hero-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--hero-grid-line) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(closest-side at 30% 20%, #000 0%, transparent 70%);
   pointer-events: none;
@@ -760,7 +822,8 @@ body {
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--line);
-  background: color-mix(in srgb, #fbfcfb 92%, transparent);
+  background: var(--footer-bg);
+  transition: background 0.45s ease, border-color 0.35s ease;
 }
 
 .site-footer__inner {

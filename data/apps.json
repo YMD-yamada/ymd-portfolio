@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-05-09T06:23:51.782Z",
+  "generatedAt": "2026-05-09T16:02:09.838Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -13,7 +13,7 @@
       "id": "manual-0",
       "name": "Daily Lucky",
       "url": "https://daily-lucky.onrender.com/",
-      "description": "気分で運試しから、そのまま関連商品の購入までつなげられるミニ体験。気軽に触って結果を楽しめます。",
+      "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-05-09",
@@ -24,7 +24,7 @@
       "id": "manual-1",
       "name": "気分で旅行先",
       "url": "https://bucolic-biscuit-c637b0.netlify.app/",
-      "description": "迷ったときの旅行先を、ランダムや気分でサッと決めるツール。次の休みのきっかけ探しに。",
+      "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-05-09",
@@ -35,12 +35,13 @@
       "id": "github-1203886726",
       "name": "Fanza",
       "url": "https://fanza-nine.vercel.app",
-      "description": "Web（GitHub の homepage フィールド）",
+      "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。",
       "source": "github",
       "kind": "site",
       "updated": "2026-05-09T06:21:05Z",
       "category": "実験中",
-      "visibility": "public"
+      "visibility": "public",
+      "audience": "adult"
     }
   ]
 }
