@@ -186,6 +186,17 @@ function itemAudienceTier(item) {
   return "normal";
 }
 
+/**
+ * メタ情報の語だけで見た「おとな向けコンテンツ」っぽさ（audience が誤っていても通常モード側で隠す用）
+ */
+function looksLikeRestrictedAdultContent(it) {
+  const text = `${it?.category || ""} ${it?.name || ""} ${it?.description || ""}`.trim();
+  if (!text) return false;
+  return /(^|[^\w])r\s*-?\s*18([^\w]|$)|(^|\s)18\s*\+|成人向け|成人指定|未成年者の閲覧|nsfw|\bfanza\b|rating\s*[-_]?\s*explicit|\bdlsite\b.*成人|\bdmm\b.*成人/i.test(
+    text
+  );
+}
+
 function getSavedAudienceMode() {
   try {
     const v = localStorage.getItem(AUDIENCE_MODE_KEY);
@@ -195,7 +206,11 @@ function getSavedAudienceMode() {
 }
 
 function isVisibleForMode(item, mode) {
-  return itemAudienceTier(item) === mode;
+  const tier = itemAudienceTier(item);
+  if (mode === "adult") return tier === "adult";
+  if (mode === "kid") return tier === "kid";
+  // normal: adult フラグ済みだけでなくテキスト上も R18 っぽいものは決して出さない
+  return tier === "normal" && !looksLikeRestrictedAdultContent(item);
 }
 
 function applyAudienceMode(mode, opts = {}) {
