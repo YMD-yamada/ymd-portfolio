@@ -2,7 +2,12 @@
   "profile": {
     "displayName": "ymd"
   },
-  "categoryOrder": ["公開中", "実験中", "学習", "その他"],
+  "categoryOrder": [
+    "公開中",
+    "実験中",
+    "学習",
+    "その他"
+  ],
   "overrides": {
     "defaultCategoryBySource": {
       "manual": "公開中",
@@ -13,14 +18,75 @@
       "cloudflare": "公開中"
     },
     "byUrl": {
+      "https://daily-lucky.onrender.com/": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。"
+      },
+      "https://bucolic-biscuit-c637b0.netlify.app/": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。"
+      },
       "https://fanza-nine.vercel.app": {
         "audience": "adult",
+        "category": "公開中",
+        "visibility": "public",
         "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。"
+      },
+      "https://triptune12345.netlify.app": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "private",
+        "description": "triptune12345 のホスティング上の試作サイト。環境依存が気になるときほど、このURLだけで状態を確認しやすいです。細部のアニメーションやレスポンスも実ページでチェックしてください。"
+      },
+      "https://neon-biscuit-9a2f37.netlify.app": {
+        "audience": "normal",
+        "category": "その他",
+        "visibility": "limited",
+        "displayName": "会社紹介",
+        "description": "neon-biscuit-9a2f37 のホスティング上の試作サイト。環境依存が気になるときほど、このURLだけで状態を確認しやすいです。細部のアニメーションやレスポンスも実ページでチェックしてください。",
+        "accessHash": "3d60e62df5be3db92d430e0a7dcfc0160a2cdb18ac2d6a5f829e9d243d6d939c"
+      },
+      "https://fanza-sample-swipe-bjxf0beqb-ymdhude-4490s-projects.vercel.app": {
+        "audience": "adult",
+        "category": "実験中",
+        "visibility": "public",
+        "description": "fanza-sample-swipe の本番公開ビューをそのまま。グローバルに近い体感速度でチェックできるので、「ローカルと違うかも」を疑うときの検証にも向いています。"
+      },
+      "https://fanza-3zubpj3mk-ymdhude-4490s-projects.vercel.app": {
+        "audience": "adult",
+        "category": "公開中",
+        "visibility": "private",
+        "description": "fanza の本番公開ビューをそのまま。グローバルに近い体感速度でチェックできるので、「ローカルと違うかも」を疑うときの検証にも向いています。"
+      },
+      "https://sns-crosspost-i6esk5j12-ymdhude-4490s-projects.vercel.app": {
+        "audience": "normal",
+        "category": "実験中",
+        "visibility": "public",
+        "description": "sns-crosspost の本番公開ビューをそのまま。グローバルに近い体感速度でチェックできるので、「ローカルと違うかも」を疑うときの検証にも向いています。"
+      },
+      "https://station-match-safe.onrender.com": {
+        "audience": "adult",
+        "category": "実験中",
+        "visibility": "limited",
+        "description": "station-match-safe の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。",
+        "accessHash": "8aa1e00f5cfe0e1026b00ad68252dc4c3f718e19c9d3faa70111e69d416f7560"
+      },
+      "https://juken-navi.onrender.com": {
+        "audience": "normal",
+        "category": "実験中",
+        "visibility": "public",
+        "description": "juken-navi の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。"
       }
     }
   },
   "exclude": {
-    "urlSubstrings": ["ymd-portfolio-site.pages.dev"],
+    "urlSubstrings": [
+      "ymd-portfolio-site.pages.dev"
+    ],
     "nameSubstrings": []
   },
   "manual": [
@@ -37,8 +103,14 @@
   ],
   "github": {
     "sources": [
-      { "kind": "user", "login": "YMD-yamada" },
-      { "kind": "user", "login": "ymd" }
+      {
+        "kind": "user",
+        "login": "YMD-yamada"
+      },
+      {
+        "kind": "user",
+        "login": "ymd"
+      }
     ],
     "includeForks": false,
     "includeArchived": false,
