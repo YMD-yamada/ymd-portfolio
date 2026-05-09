@@ -151,6 +151,8 @@ function applyPreviewOverrides(list) {
     if (rule.visibility) next.visibility = rule.visibility;
     if (rule.accessHash) next.accessHash = rule.accessHash;
     if (rule.note) next.note = rule.note;
+    if (rule.description) next.description = rule.description;
+    if (rule.audience) next.audience = rule.audience;
     return next;
   });
 }
@@ -173,10 +175,106 @@ async function ensureLimitedAccess(item) {
   return true;
 }
 
+const APPS_LAYOUT_KEY = "portfolio_apps_layout";
+const AUDIENCE_MODE_KEY = "portfolio_audience_mode";
+
+function inferAudience(item) {
+  const raw = String(item?.audience || "").trim().toLowerCase();
+  if (raw === "kid" || raw === "child") return "kid";
+  if (raw === "adult" || raw === "r18") return "adult";
+  const category = String(item?.category || "").toLowerCase();
+  const name = String(item?.name || "").toLowerCase();
+  const desc = String(item?.description || "").toLowerCase();
+  const text = `${category} ${name} ${desc}`;
+  if (/r-?18|成人|18\+|nsfw/.test(text)) return "adult";
+  return "normal";
+}
+
+function getSavedAudienceMode() {
+  try {
+    const v = localStorage.getItem(AUDIENCE_MODE_KEY);
+    if (v === "kid" || v === "normal" || v === "adult") return v;
+  } catch {}
+  return "normal";
+}
+
+function isVisibleForMode(item, mode) {
+  const audience = inferAudience(item);
+  if (mode === "adult") return true;
+  if (mode === "kid") return audience === "kid" || audience === "normal";
+  return audience !== "adult";
+}
+
+function applyAudienceMode(mode, opts = {}) {
+  const rerender = opts.rerender !== false;
+  const sec = document.getElementById("apps");
+  if (!sec) return;
+  sec.classList.remove("audience--kid", "audience--normal", "audience--adult");
+  sec.classList.add(`audience--${mode}`);
+  document.querySelectorAll("[data-audience-mode]").forEach((btn) => {
+    const on = btn.getAttribute("data-audience-mode") === mode;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+  try {
+    localStorage.setItem(AUDIENCE_MODE_KEY, mode);
+  } catch {}
+  if (rerender && window.__APPS_DATA__) render(window.__APPS_DATA__);
+}
+
+function getSavedAppsLayout() {
+  try {
+    const v = localStorage.getItem(APPS_LAYOUT_KEY);
+    if (v === "compact" || v === "list" || v === "cards") return v;
+  } catch {}
+  return "cards";
+}
+
+function applyAppsLayout(layout) {
+  const sec = document.getElementById("apps");
+  if (!sec) return;
+  sec.classList.remove("apps-layout--cards", "apps-layout--compact", "apps-layout--list");
+  sec.classList.add(`apps-layout--${layout}`);
+  document.querySelectorAll("[data-apps-layout]").forEach((btn) => {
+    const on = btn.getAttribute("data-apps-layout") === layout;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+  try {
+    localStorage.setItem(APPS_LAYOUT_KEY, layout);
+  } catch {}
+}
+
+function wireAppsLayoutControls() {
+  const sec = document.getElementById("apps");
+  if (!sec || sec.dataset.layoutWired === "1") return;
+  sec.dataset.layoutWired = "1";
+  sec.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-apps-layout]");
+    if (!btn) return;
+    const layout = btn.getAttribute("data-apps-layout");
+    if (layout) applyAppsLayout(layout);
+  });
+}
+
+function wireAudienceControls() {
+  const sec = document.getElementById("apps");
+  if (!sec || sec.dataset.audienceWired === "1") return;
+  sec.dataset.audienceWired = "1";
+  sec.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-audience-mode]");
+    if (!btn) return;
+    const mode = btn.getAttribute("data-audience-mode");
+    if (mode) applyAudienceMode(mode, { rerender: true });
+  });
+}
+
 function createCard(item, index) {
   const li = document.createElement("li");
   const article = document.createElement("article");
+  const vis = String(item.visibility || "public");
   article.className = "app-card";
+  if (vis === "limited") article.classList.add("app-card--limited");
 
   const n = String(index + 1).padStart(2, "0");
   const num = document.createElement("div");
@@ -195,7 +293,6 @@ function createCard(item, index) {
   cat.textContent = item.category || "その他";
   article.appendChild(cat);
 
-  const vis = String(item.visibility || "public");
   if (vis !== "public") {
     const badge = document.createElement("p");
     badge.className = "app-card__state";
@@ -251,26 +348,36 @@ function groupedByCategory(items, order) {
   return [...pinned, ...rest].map((cat) => ({ category: cat, items: map.get(cat) || [] }));
 }
 
-function emptyState(repoUrl, profileUrl) {
+function emptyState(repoUrl, profileUrl, mode) {
   const li = document.createElement("li");
   li.className = "app-grid__empty app-grid__empty--block";
   const p = document.createElement("p");
   p.className = "app-grid__empty-text";
-  p.appendChild(
-    document.createTextNode(
-      "ストア公開済みのアプリはまだなく、ここに載せるリンクもこれから増やしていきます。リポジトリや試作の置き場は "
-    )
-  );
-  const repo = document.createElement("a");
-  repo.className = "app-grid__empty-link";
-  repo.href = repoUrl || "https://github.com/YMD-yamada/ymd-portfolio";
-  repo.target = "_blank";
-  repo.rel = "noopener noreferrer";
-  repo.textContent = "ソースコード";
-  p.appendChild(repo);
-  p.appendChild(document.createTextNode(" を参照してください。"));
+  if (mode === "kid") {
+    p.appendChild(
+      document.createTextNode(
+        "子供用モードで表示できる制作物がまだありません。通常用または大人用に切り替えると他の制作物も表示できます。"
+      )
+    );
+  } else {
+    p.appendChild(
+      document.createTextNode(
+        "ストア公開済みのアプリはまだなく、ここに載せるリンクもこれから増やしていきます。リポジトリや試作の置き場は "
+      )
+    );
+  }
+  if (mode !== "kid") {
+    const repo = document.createElement("a");
+    repo.className = "app-grid__empty-link";
+    repo.href = repoUrl || "https://github.com/YMD-yamada/ymd-portfolio";
+    repo.target = "_blank";
+    repo.rel = "noopener noreferrer";
+    repo.textContent = "ソースコード";
+    p.appendChild(repo);
+    p.appendChild(document.createTextNode(" を参照してください。"));
+  }
 
-  if (profileUrl) {
+  if (profileUrl && mode !== "kid") {
     p.appendChild(document.createTextNode(" 公開プロフィールは "));
     const prof = document.createElement("a");
     prof.className = "app-grid__empty-link";
@@ -291,8 +398,7 @@ function errState() {
   li.className = "app-grid__empty app-grid__empty--block";
   const p = document.createElement("p");
   p.className = "app-grid__empty-text";
-  p.textContent =
-    "一覧データを読み込めませんでした。HTTPS で公開されているか、データファイルの配置をご確認ください。";
+  p.textContent = "一覧を読み込めませんでした。しばらくしてから再度お試しください。";
   li.appendChild(p);
   return li;
 }
@@ -311,9 +417,16 @@ function render(apps) {
 
   const list = applyPreviewOverrides(d.items || []);
   const site = window.__SITE__ || {};
-  const visible = list.filter((it) => String(it.visibility || "public") !== "private");
+  const mode = getSavedAudienceMode();
+  const visible = list.filter((it) => {
+    if (String(it.visibility || "public") === "private") return false;
+    return isVisibleForMode(it, mode);
+  });
+  const toolbar = document.getElementById("apps-toolbar");
+  if (toolbar) toolbar.hidden = !visible.length;
+
   if (!visible.length) {
-    host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl));
+    host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl, mode));
     return;
   }
   const preview = getPreviewOverrideMap();
@@ -343,10 +456,19 @@ function render(apps) {
     wrap.append(head, grid);
     host.appendChild(wrap);
   });
+
+  wireAppsLayoutControls();
+  wireAudienceControls();
+  applyAppsLayout(getSavedAppsLayout());
+  applyAudienceMode(getSavedAudienceMode(), { rerender: false });
 }
 
 async function boot() {
   setYear();
+  wireAppsLayoutControls();
+  wireAudienceControls();
+  applyAppsLayout(getSavedAppsLayout());
+  applyAudienceMode(getSavedAudienceMode(), { rerender: false });
 
   const sitePath = readDatasetPath("siteConfig", "config/site.json");
   const appsPath = readDatasetPath("apps", "data/apps.json");
@@ -365,8 +487,11 @@ async function boot() {
 
   try {
     const data = await fetchJson(appsPath);
+    window.__APPS_DATA__ = data;
     render(data);
   } catch {
+    const tb = document.getElementById("apps-toolbar");
+    if (tb) tb.hidden = true;
     if (host) {
       const prevStatus = document.getElementById("app-status");
       if (prevStatus) prevStatus.remove();

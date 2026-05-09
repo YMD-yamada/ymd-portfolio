@@ -49,6 +49,13 @@ function normalizeVisibility(v) {
   return "public";
 }
 
+function normalizeAudience(v) {
+  const s = String(v || "").trim().toLowerCase();
+  if (s === "kid" || s === "child") return "kid";
+  if (s === "adult" || s === "r18") return "adult";
+  return "normal";
+}
+
 function setStatus(msg, isError) {
   const el = q("status");
   if (!el) return;
@@ -137,6 +144,16 @@ function buildRows(items, config) {
     nameInput.value = byUrl[it.url]?.displayName || "";
     nameInput.className = "entry__name";
 
+    const descInput = document.createElement("textarea");
+    descInput.className = "entry__desc";
+    descInput.placeholder = "説明（用途・利点。空のときは同期で入った文面）";
+    descInput.rows = 2;
+    descInput.value = (byUrl[it.url]?.description || it.description || "").trim();
+
+    const mid = document.createElement("div");
+    mid.className = "entry__mid";
+    mid.append(nameInput, descInput);
+
     const catWrap = document.createElement("div");
     catWrap.className = "entry__cat-wrap";
     catWrap.innerHTML = categoryOptions(byUrl[it.url]?.category || it.category || "");
@@ -151,6 +168,24 @@ function buildRows(items, config) {
     });
     vis.value = normalizeVisibility(byUrl[it.url]?.visibility || it.visibility || "public");
 
+    const audience = document.createElement("select");
+    audience.className = "entry__aud";
+    [
+      ["normal", "通常用"],
+      ["kid", "子供用"],
+      ["adult", "大人用（R18含む）"],
+    ].forEach(([v, label]) => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = label;
+      audience.appendChild(o);
+    });
+    const fallbackAudience =
+      /r-?18|成人|18\+|nsfw/i.test(`${it.category || ""} ${it.name || ""} ${it.description || ""}`)
+        ? "adult"
+        : "normal";
+    audience.value = normalizeAudience(byUrl[it.url]?.audience || it.audience || fallbackAudience);
+
     const pw = document.createElement("input");
     pw.className = "entry__pw";
     pw.type = "password";
@@ -163,14 +198,14 @@ function buildRows(items, config) {
 
     const right = document.createElement("div");
     right.className = "entry__right";
-    right.append(catWrap, vis, pw, note);
+    right.append(catWrap, vis, audience, pw, note);
 
     vis.addEventListener("change", () => {
       pw.style.display = vis.value === "limited" ? "block" : "none";
     });
     pw.style.display = vis.value === "limited" ? "block" : "none";
 
-    row.append(info, nameInput, right);
+    row.append(info, mid, right);
     host.appendChild(row);
   });
 }
@@ -181,21 +216,26 @@ async function collectOverrides() {
   for (const row of rows) {
     const url = row.dataset.url;
     const displayName = row.querySelector(".entry__name").value.trim();
+    const description = row.querySelector(".entry__desc")?.value.trim() || "";
     const category = normalizeCategory(row.querySelector(".entry__cat-select").value);
     const visibility = normalizeVisibility(row.querySelector(".entry__vis").value);
+    const audience = normalizeAudience(row.querySelector(".entry__aud").value);
     const pwInput = row.querySelector(".entry__pw");
     let accessHash = String(pwInput.dataset.hash || "");
     const rawPw = pwInput.value.trim();
     if (visibility === "limited" && rawPw) {
       accessHash = await sha256Hex(rawPw);
     }
-    if (displayName || category || visibility !== "public" || accessHash) {
-      byUrl[url] = {
+    if (displayName || description || category || visibility !== "public" || accessHash || audience !== "normal") {
+      const entry = {
         displayName,
         category,
         visibility,
+        audience,
         accessHash: visibility === "limited" ? accessHash : "",
       };
+      if (description) entry.description = description;
+      byUrl[url] = entry;
     }
   }
   return byUrl;

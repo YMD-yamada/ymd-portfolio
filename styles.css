@@ -296,60 +296,73 @@ body {
   line-height: 1.75;
 }
 
-.site-details {
-  margin-top: 1.25rem;
-  max-width: min(56rem, 100%);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  padding: 0.35rem 0.85rem;
+.apps-toolbar {
+  margin-top: 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
 }
 
-.site-details__summary {
-  cursor: pointer;
-  font-size: 0.9rem;
+.apps-toolbar__block {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.apps-toolbar__label {
+  font-size: 0.82rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
   color: var(--ink-muted);
-  list-style: none;
-}
-.site-details__summary::-webkit-details-marker {
-  display: none;
-}
-.site-details__summary::after {
-  content: "＋";
-  float: right;
-  font-weight: 700;
-  color: var(--accent);
-}
-.site-details[open] .site-details__summary::after {
-  content: "－";
 }
 
-.site-details__body {
-  padding: 0.35rem 0 0.65rem;
-  color: var(--ink-muted);
-  font-size: 0.92rem;
-  line-height: 1.75;
-}
-
-.site-details__body p {
-  margin: 0.5rem 0 0;
-}
-
-.site-details__note {
-  font-size: 0.88rem;
-}
-
-.section__code {
-  display: inline;
-  padding: 0.1rem 0.4rem 0.15rem;
-  font-size: 0.85em;
-  font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
-  color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 5%, var(--paper));
+.segment {
+  display: inline-flex;
+  flex-wrap: wrap;
   border: 1px solid var(--line);
-  border-radius: 4px;
-  word-break: break-all;
+  border-radius: 999px;
+  background: var(--surface);
+  padding: 3px;
+  gap: 2px;
+}
+
+.segment__btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.segment__btn:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.segment__btn.is-active {
+  color: var(--surface);
+  background: var(--accent);
+}
+
+.segment__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+#apps.audience--adult .app-group__head {
+  border-color: color-mix(in srgb, #8a4ec8 45%, var(--line));
+  background: color-mix(in srgb, #8a4ec8 10%, transparent);
+}
+
+#apps.audience--adult .app-card {
+  border-color: color-mix(in srgb, #8a4ec8 24%, var(--line));
 }
 
 /* App grid */
@@ -546,6 +559,119 @@ body {
   gap: 1.25rem;
 }
 
+/* 限定公開 — 目立ちすぎないコンパクトカード */
+.app-card--limited {
+  padding: 0.85rem 1rem 0.75rem;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 22px rgba(15, 20, 18, 0.05);
+}
+
+.app-card--limited:hover {
+  transform: translateY(-1px);
+}
+
+.app-card--limited .app-card__icon {
+  font-size: 0.68rem;
+  margin-bottom: 0.45rem;
+}
+
+.app-card--limited .app-card__name {
+  font-size: 0.98rem;
+  margin-bottom: 0.35rem;
+}
+
+.app-card--limited .app-card__meta {
+  font-size: 0.68rem;
+  padding: 0.14rem 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.app-card--limited .app-card__state {
+  font-size: 0.74rem;
+  margin-bottom: 0.45rem;
+}
+
+.app-card--limited .app-card__desc {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin-bottom: 0.65rem;
+}
+
+.app-card--limited .app-card__link {
+  font-size: 0.86rem;
+  min-height: 40px;
+}
+
+/* 表示モード: コンパクト（密度アップ） */
+.apps-layout--compact .app-subgrid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.85rem;
+}
+
+.apps-layout--compact .app-card:not(.app-card--limited) {
+  padding: 1.05rem 1.15rem 0.95rem;
+}
+
+.apps-layout--compact .app-card__desc {
+  font-size: 0.88rem;
+}
+
+/* 表示モード: リスト（右に開くリンク、左に番号） */
+.apps-layout--list .app-subgrid {
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.apps-layout--list .app-card {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  column-gap: 0.85rem;
+  row-gap: 0.25rem;
+  align-items: start;
+  padding: 1rem 1.15rem;
+}
+
+.apps-layout--list .app-card__icon {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: start;
+  margin-bottom: 0;
+}
+
+.apps-layout--list .app-card__name {
+  grid-column: 2;
+  margin: 0;
+}
+
+.apps-layout--list .app-card__meta {
+  grid-column: 2;
+  margin: 0;
+}
+
+.apps-layout--list .app-card__state {
+  grid-column: 2;
+  margin: 0;
+}
+
+.apps-layout--list .app-card__desc {
+  grid-column: 2;
+  margin: 0;
+  padding-right: 0.5rem;
+}
+
+.apps-layout--list .app-card__link {
+  grid-column: 3;
+  grid-row: 1 / -1;
+  align-self: center;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.apps-layout--list .app-card--limited {
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+  padding: 0.72rem 0.85rem;
+}
+
 /* About */
 .about__text p {
   margin: 0 0 1rem;
@@ -672,6 +798,16 @@ body {
   .site-header__inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .apps-toolbar {
+    gap: 0.6rem;
+  }
+  .apps-toolbar__block {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .segment {
+    max-width: 100%;
   }
   .hero {
     padding-top: 3rem;

@@ -92,6 +92,23 @@ button:hover { border-color: var(--accent); }
   padding: 0.65rem;
   background: #121916;
 }
+.entry__mid {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+}
+textarea.entry__desc {
+  width: 100%;
+  min-height: 3.4rem;
+  resize: vertical;
+  border: 1px solid var(--line);
+  background: #121916;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 0.55rem 0.65rem;
+  font: inherit;
+  line-height: 1.45;
+}
 .entry__url {
   font-size: 0.82rem;
   color: var(--muted);

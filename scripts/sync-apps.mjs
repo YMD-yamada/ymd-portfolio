@@ -126,6 +126,13 @@ function normalizeVisibility(v) {
   return "public";
 }
 
+function normalizeAudience(v) {
+  const s = String(v || "").trim().toLowerCase();
+  if (s === "kid" || s === "child") return "kid";
+  if (s === "adult" || s === "r18") return "adult";
+  return "normal";
+}
+
 function normalizeByUrlMap(map) {
   if (!map || typeof map !== "object") return {};
   const out = {};
@@ -138,6 +145,8 @@ function normalizeByUrlMap(map) {
       visibility: normalizeVisibility(rule.visibility),
       accessHash: (rule.accessHash || "").trim(),
       note: (rule.note || "").trim(),
+      description: typeof rule.description === "string" ? rule.description.trim() : "",
+      audience: normalizeAudience(rule.audience),
     };
   }
   return out;
@@ -164,6 +173,8 @@ function applyItemOverrides(items, config) {
       next.accessHash = rule.accessHash;
     }
     if (rule.note) next.note = rule.note;
+    if (rule.description) next.description = rule.description;
+    if (rule.audience) next.audience = rule.audience;
     return next;
   });
 }

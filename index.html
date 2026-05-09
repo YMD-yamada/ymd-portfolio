@@ -68,26 +68,72 @@
         </div>
       </section>
 
-      <section id="apps" class="section" aria-labelledby="apps-title">
+      <section id="apps" class="section apps-layout--cards" aria-labelledby="apps-title">
         <div class="section__head">
           <h2 id="apps-title" class="section__title">制作物</h2>
           <p class="section__sub" id="apps-sub">
-            <strong>GitHub のリポジトリに「Website」（homepage）として公開 URL を書いたもの</strong>と、Netlify / Vercel / Render / Cloudflare のトークン連携で拾えるサイトを、デプロイ時に自動で集約しています（手動で書いた既定リンクと URL が重なる場合は一本化します）。
+            試作や公開中のページをカテゴリ別に並べています。用途やメリットが書かれたカードから、そのまま開いて試せます。
           </p>
-          <details class="site-details">
-            <summary class="site-details__summary">サイト運用・更新について（開発者向け）</summary>
-            <div class="site-details__body">
-              <p>
-                一覧データはリポジトリ内の <code class="section__code">data/apps.json</code> から読み込みます。更新は
-                <code class="section__code">npm run sync:apps</code>（または CI）で再生成し、コミットして反映してください。設定は
-                <code class="section__code">config/apps.config.json</code>、ホスト名まわりは
-                <code class="section__code">config/site.json</code> です。
-              </p>
-              <p class="site-details__note">
-                運用手順は <code class="section__code">RUNBOOK.md</code> を参照してください。
-              </p>
+          <div class="apps-toolbar" id="apps-toolbar" hidden>
+            <div class="apps-toolbar__block">
+              <span class="apps-toolbar__label" id="apps-toolbar-label">表示</span>
+              <div class="segment" role="group" aria-labelledby="apps-toolbar-label">
+                <button
+                  type="button"
+                  class="segment__btn is-active"
+                  data-apps-layout="cards"
+                  aria-pressed="true"
+                >
+                  カード
+                </button>
+                <button
+                  type="button"
+                  class="segment__btn"
+                  data-apps-layout="compact"
+                  aria-pressed="false"
+                >
+                  コンパクト
+                </button>
+                <button
+                  type="button"
+                  class="segment__btn"
+                  data-apps-layout="list"
+                  aria-pressed="false"
+                >
+                  リスト
+                </button>
+              </div>
             </div>
-          </details>
+            <div class="apps-toolbar__block">
+              <span class="apps-toolbar__label" id="apps-audience-label">プロフィール表示</span>
+              <div class="segment" role="group" aria-labelledby="apps-audience-label">
+                <button
+                  type="button"
+                  class="segment__btn"
+                  data-audience-mode="kid"
+                  aria-pressed="false"
+                >
+                  子供用
+                </button>
+                <button
+                  type="button"
+                  class="segment__btn is-active"
+                  data-audience-mode="normal"
+                  aria-pressed="true"
+                >
+                  通常用
+                </button>
+                <button
+                  type="button"
+                  class="segment__btn"
+                  data-audience-mode="adult"
+                  aria-pressed="false"
+                >
+                  大人用
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <ul
           class="app-grid"
