@@ -458,6 +458,15 @@ body[data-audience-theme="adult"] {
   line-height: 1.75;
 }
 
+.app-grid__empty-text + .app-grid__empty-text {
+  margin-top: 0.75rem;
+}
+
+.app-grid__empty-text--muted {
+  font-size: 0.9rem;
+  opacity: 0.88;
+}
+
 .app-grid__code {
   display: inline;
   padding: 0.1rem 0.35rem;

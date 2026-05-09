@@ -178,15 +178,11 @@ async function ensureLimitedAccess(item) {
 const APPS_LAYOUT_KEY = "portfolio_apps_layout";
 const AUDIENCE_MODE_KEY = "portfolio_audience_mode";
 
-function inferAudience(item) {
+/** apps.json の audience のみみる（子供/通常/大人のいずれかに厳密一致） */
+function itemAudienceTier(item) {
   const raw = String(item?.audience || "").trim().toLowerCase();
   if (raw === "kid" || raw === "child") return "kid";
   if (raw === "adult" || raw === "r18") return "adult";
-  const category = String(item?.category || "").toLowerCase();
-  const name = String(item?.name || "").toLowerCase();
-  const desc = String(item?.description || "").toLowerCase();
-  const text = `${category} ${name} ${desc}`;
-  if (/r-?18|成人|18\+|nsfw/.test(text)) return "adult";
   return "normal";
 }
 
@@ -199,10 +195,7 @@ function getSavedAudienceMode() {
 }
 
 function isVisibleForMode(item, mode) {
-  const audience = inferAudience(item);
-  if (mode === "adult") return true;
-  if (mode === "kid") return audience === "kid" || audience === "normal";
-  return audience !== "adult";
+  return itemAudienceTier(item) === mode;
 }
 
 function applyAudienceMode(mode, opts = {}) {
@@ -234,7 +227,7 @@ function getSavedAppsLayout() {
     const v = localStorage.getItem(APPS_LAYOUT_KEY);
     if (v === "compact" || v === "list" || v === "cards") return v;
   } catch {}
-  return "cards";
+  return "compact";
 }
 
 function applyAppsLayout(layout) {
@@ -358,22 +351,24 @@ function groupedByCategory(items, order) {
 function emptyState(repoUrl, profileUrl, mode) {
   const li = document.createElement("li");
   li.className = "app-grid__empty app-grid__empty--block";
+
   const p = document.createElement("p");
   p.className = "app-grid__empty-text";
+  let main = "";
+
   if (mode === "kid") {
-    p.appendChild(
-      document.createTextNode(
-        "子供用モードで表示できる制作物がまだありません。通常用または大人用に切り替えると他の制作物も表示できます。"
-      )
-    );
+    main =
+      "このモードでは「子供用」にだけ指定されている制作物を表示しています。いま、その対象となる入口はありません。";
+  } else if (mode === "adult") {
+    main =
+      "このモードでは「大人用」にだけ指定されている制作物を表示しています。いま、その対象となる入口はありません。";
+  } else if (mode === "normal") {
+    main =
+      "このモードでは「通常用」にだけ指定されている制作物を表示しています。いま、その対象となる入口はありません。";
   } else {
-    p.appendChild(
-      document.createTextNode(
-        "ストア公開済みのアプリはまだなく、ここに載せるリンクもこれから増やしていきます。リポジトリや試作の置き場は "
-      )
-    );
-  }
-  if (mode !== "kid") {
+    main =
+      "ストア公開済みのアプリはまだなく、ここに載せるリンクもこれから増やしていきます。リポジトリや試作の置き場は ";
+    p.appendChild(document.createTextNode(main));
     const repo = document.createElement("a");
     repo.className = "app-grid__empty-link";
     repo.href = repoUrl || "https://github.com/YMD-yamada/ymd-portfolio";
@@ -382,21 +377,56 @@ function emptyState(repoUrl, profileUrl, mode) {
     repo.textContent = "ソースコード";
     p.appendChild(repo);
     p.appendChild(document.createTextNode(" を参照してください。"));
+
+    if (profileUrl) {
+      p.appendChild(document.createTextNode(" 公開プロフィールは "));
+      const prof = document.createElement("a");
+      prof.className = "app-grid__empty-link";
+      prof.href = profileUrl;
+      prof.target = "_blank";
+      prof.rel = "noopener noreferrer";
+      prof.textContent = "GitHub";
+      p.appendChild(prof);
+      p.appendChild(document.createTextNode(" から。"));
+    }
+
+    li.appendChild(p);
+    return li;
   }
 
-  if (profileUrl && mode !== "kid") {
-    p.appendChild(document.createTextNode(" 公開プロフィールは "));
+  p.appendChild(document.createTextNode(main));
+
+  const p2 = document.createElement("p");
+  p2.className = "app-grid__empty-text app-grid__empty-text--muted";
+  p2.appendChild(
+    document.createTextNode(
+      "上部のボタンで表示モード（子供用・通常・大人）を変えると、ほかに表示できる制作物がある場合があります。"
+    )
+  );
+
+  const p3 = document.createElement("p");
+  p3.className = "app-grid__empty-text";
+
+  const repo = document.createElement("a");
+  repo.className = "app-grid__empty-link";
+  repo.href = repoUrl || "https://github.com/YMD-yamada/ymd-portfolio";
+  repo.target = "_blank";
+  repo.rel = "noopener noreferrer";
+  repo.textContent = "ソースコード";
+  p3.appendChild(repo);
+  p3.appendChild(document.createTextNode(" — サイト全体や試作の置き場"));
+  if (profileUrl) {
+    p3.appendChild(document.createTextNode(" · "));
     const prof = document.createElement("a");
     prof.className = "app-grid__empty-link";
     prof.href = profileUrl;
     prof.target = "_blank";
     prof.rel = "noopener noreferrer";
-    prof.textContent = "GitHub";
-    p.appendChild(prof);
-    p.appendChild(document.createTextNode(" から。"));
+    prof.textContent = "GitHub（公開プロフィール）";
+    p3.appendChild(prof);
   }
 
-  li.appendChild(p);
+  li.append(p, p2, p3);
   return li;
 }
 
@@ -425,12 +455,11 @@ function render(apps) {
   const list = applyPreviewOverrides(d.items || []);
   const site = window.__SITE__ || {};
   const mode = getSavedAudienceMode();
-  const visible = list.filter((it) => {
-    if (String(it.visibility || "public") === "private") return false;
-    return isVisibleForMode(it, mode);
-  });
+  const publiclyListed = list.filter((it) => String(it.visibility || "public") !== "private");
+  const visible = publiclyListed.filter((it) => isVisibleForMode(it, mode));
+
   const toolbar = document.getElementById("apps-toolbar");
-  if (toolbar) toolbar.hidden = !visible.length;
+  if (toolbar) toolbar.hidden = !publiclyListed.length;
 
   if (!visible.length) {
     host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl, mode));

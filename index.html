@@ -69,11 +69,11 @@
         </div>
       </section>
 
-      <section id="apps" class="section apps-layout--cards" aria-labelledby="apps-title">
+      <section id="apps" class="section apps-layout--compact" aria-labelledby="apps-title">
         <div class="section__head">
           <h2 id="apps-title" class="section__title">制作物</h2>
           <p class="section__sub" id="apps-sub">
-            試作や公開中のページをカテゴリ別に並べています。用途やメリットが書かれたカードから、そのまま開いて試せます。
+            「子供用・通常・大人」の表示モードごとに、Studio でそのモードへ割り当てた入口だけが表示されます。並び順はコンパクト表示を標準とし、一覧の密度は切り替えられます。
           </p>
           <div class="apps-toolbar" id="apps-toolbar" hidden>
             <div class="apps-toolbar__block">
@@ -81,17 +81,17 @@
               <div class="segment" role="group" aria-labelledby="apps-toolbar-label">
                 <button
                   type="button"
-                  class="segment__btn is-active"
+                  class="segment__btn"
                   data-apps-layout="cards"
-                  aria-pressed="true"
+                  aria-pressed="false"
                 >
                   カード
                 </button>
                 <button
                   type="button"
-                  class="segment__btn"
+                  class="segment__btn is-active"
                   data-apps-layout="compact"
-                  aria-pressed="false"
+                  aria-pressed="true"
                 >
                   コンパクト
                 </button>
@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="apps-toolbar__block">
-              <span class="apps-toolbar__label" id="apps-audience-label">プロフィール表示</span>
+              <span class="apps-toolbar__label" id="apps-audience-label">表示モード</span>
               <div class="segment" role="group" aria-labelledby="apps-audience-label">
                 <button
                   type="button"

@@ -185,7 +185,8 @@ function applyItemOverrides(items, config) {
     }
     if (rule.note) next.note = rule.note;
     if (rule.description) next.description = rule.description;
-    if (rule.audience) next.audience = rule.audience;
+    if (rule.audience) next.audience = normalizeAudience(rule.audience);
+    else next.audience = normalizeAudience(next.audience || "normal");
     return next;
   });
 }
@@ -378,6 +379,7 @@ function normalizeManual(manual) {
       id: x.id || `manual-${i}`,
       name: x.name,
       url: x.url,
+      audience: normalizeAudience(x.audience || "normal"),
       description:
         (x.description || "").trim() ||
         marketingDescription("manual_default", { displayName: x.name }),

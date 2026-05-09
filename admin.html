@@ -12,7 +12,7 @@
       <header class="admin__head">
         <a href="index.html" class="admin__back">← 公開ページに戻る</a>
         <h1>Portfolio Studio</h1>
-        <p>表示名・説明・カテゴリ・公開範囲・対象モード（子供/通常/大人）を管理します。適用すると公開ページに反映されます。</p>
+        <p>表示名・説明・カテゴリ・公開範囲・表示モード（子供/通常/大人のどのプロフィールに出すか）を管理します。公開ページ側のトグルと同じルールです。</p>
       </header>
 
       <section class="card gate" id="gate-card">
@@ -39,7 +39,7 @@
 
       <section class="card hidden" id="apps-card">
         <h2>制作物一覧</h2>
-        <p class="muted">表示名・説明・カテゴリ・公開範囲・対象モードを設定できます。R18は「大人用」に設定し、限定公開は閲覧パスワードの SHA-256 を保存します。</p>
+        <p class="muted">各項目の「表示モード」は単一選択です。<strong>子供モード</strong>には子供のみ、<strong>通常</strong>には通常のみ、と厳密に振り分けられます（重複して複数モードには出ません）。R18 は「大人モードのみ」へ。限定公開は閲覧パスワード（SHA-256）を設定します。</p>
         <div id="editor"></div>
       </section>
 

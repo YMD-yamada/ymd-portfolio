@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-05-09T16:02:09.838Z",
+  "generatedAt": "2026-05-09T16:09:33.310Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -13,6 +13,7 @@
       "id": "manual-0",
       "name": "Daily Lucky",
       "url": "https://daily-lucky.onrender.com/",
+      "audience": "normal",
       "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。",
       "source": "manual",
       "kind": "site",
@@ -24,6 +25,7 @@
       "id": "manual-1",
       "name": "気分で旅行先",
       "url": "https://bucolic-biscuit-c637b0.netlify.app/",
+      "audience": "normal",
       "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。",
       "source": "manual",
       "kind": "site",
@@ -38,7 +40,7 @@
       "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。",
       "source": "github",
       "kind": "site",
-      "updated": "2026-05-09T06:21:05Z",
+      "updated": "2026-05-09T16:04:20Z",
       "category": "実験中",
       "visibility": "public",
       "audience": "adult"

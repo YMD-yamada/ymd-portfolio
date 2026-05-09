@@ -171,20 +171,21 @@ function buildRows(items, config) {
     const audience = document.createElement("select");
     audience.className = "entry__aud";
     [
-      ["normal", "通常用"],
-      ["kid", "子供用"],
-      ["adult", "大人用（R18含む）"],
+      ["normal", "表示：通常モードのみ"],
+      ["kid", "表示：子供モードのみ"],
+      ["adult", "表示：大人モードのみ（R18 等）"],
     ].forEach(([v, label]) => {
       const o = document.createElement("option");
       o.value = v;
       o.textContent = label;
       audience.appendChild(o);
     });
-    const fallbackAudience =
-      /r-?18|成人|18\+|nsfw/i.test(`${it.category || ""} ${it.name || ""} ${it.description || ""}`)
-        ? "adult"
-        : "normal";
-    audience.value = normalizeAudience(byUrl[it.url]?.audience || it.audience || fallbackAudience);
+    const override = byUrl[it.url];
+    const fromOverrideAudience =
+      override && Object.prototype.hasOwnProperty.call(override, "audience")
+        ? override.audience
+        : null;
+    audience.value = normalizeAudience(fromOverrideAudience ?? it.audience ?? "normal");
 
     const pw = document.createElement("input");
     pw.className = "entry__pw";
@@ -226,17 +227,17 @@ async function collectOverrides() {
     if (visibility === "limited" && rawPw) {
       accessHash = await sha256Hex(rawPw);
     }
-    if (displayName || description || category || visibility !== "public" || accessHash || audience !== "normal") {
-      const entry = {
-        displayName,
-        category,
-        visibility,
-        audience,
-        accessHash: visibility === "limited" ? accessHash : "",
-      };
-      if (description) entry.description = description;
-      byUrl[url] = entry;
-    }
+
+    /** 各行に必ず表示モード（audience）を残す＋並び順に必要なカテゴリ/公開状態を明示保存 */
+    const entry = {
+      audience,
+      category,
+      visibility,
+    };
+    if (displayName) entry.displayName = displayName;
+    if (description) entry.description = description;
+    if (visibility === "limited" && accessHash) entry.accessHash = accessHash;
+    byUrl[url] = entry;
   }
   return byUrl;
 }
