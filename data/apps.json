@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-05-09T16:09:33.310Z",
+  "generatedAt": "2026-06-27T07:45:13.920Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -17,7 +17,7 @@
       "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-05-09",
+      "updated": "2026-06-27",
       "category": "公開中",
       "visibility": "public"
     },
@@ -29,7 +29,19 @@
       "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-05-09",
+      "updated": "2026-06-27",
+      "category": "公開中",
+      "visibility": "public"
+    },
+    {
+      "id": "manual-2",
+      "name": "みんなのミニゲーム",
+      "url": "https://kids-mini-games.vercel.app",
+      "audience": "kid",
+      "description": "未就学〜低学年向けのミニゲーム集。えモードと読み上げで、文字が読めなくても遊べます。神経衰弱・数え・ひらがな・間違い探しなど。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-06-27",
       "category": "公開中",
       "visibility": "public"
     },
@@ -40,8 +52,8 @@
       "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。",
       "source": "github",
       "kind": "site",
-      "updated": "2026-05-09T16:04:20Z",
-      "category": "実験中",
+      "updated": "2026-06-20T08:07:06Z",
+      "category": "公開中",
       "visibility": "public",
       "audience": "adult"
     }

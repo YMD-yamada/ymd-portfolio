@@ -80,6 +80,13 @@
         "category": "実験中",
         "visibility": "public",
         "description": "juken-navi の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。"
+      },
+      "https://kids-mini-games.vercel.app": {
+        "audience": "kid",
+        "category": "公開中",
+        "visibility": "public",
+        "displayName": "みんなのミニゲーム",
+        "description": "未就学〜低学年向けのミニゲーム集。えモードと読み上げで、文字が読めなくても遊べます。神経衰弱・数え・ひらがな・間違い探しなど。"
       }
     }
   },
@@ -99,6 +106,12 @@
       "name": "気分で旅行先",
       "url": "https://bucolic-biscuit-c637b0.netlify.app/",
       "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。"
+    },
+    {
+      "name": "みんなのミニゲーム",
+      "url": "https://kids-mini-games.vercel.app",
+      "description": "未就学〜低学年向けミニゲーム。えモード・読み上げ付きで、文字が読めなくても遊べます。",
+      "audience": "kid"
     }
   ],
   "github": {
