@@ -865,6 +865,38 @@ body[data-audience-theme="adult"] {
   color: color-mix(in srgb, var(--ink-muted) 85%, var(--ink));
 }
 
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+  justify-content: center;
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+}
+
+.site-footer__links a {
+  color: var(--ink-muted);
+}
+
+.site-footer__links a:hover {
+  color: var(--ink);
+}
+
+.privacy-banner {
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.privacy-banner a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
 /* Small screens: nav */
 @media (max-width: 520px) {
   .site-header__inner {

@@ -12,5 +12,9 @@
   "adminRepoBranch": "master",
   "contactEmail": "ymd.hude@gmail.com",
   "contactMailSubject": "[ymd Portfolio 問い合わせ]",
-  "contactMailBodyFooter": "\n\n---\n（以下にご記入ください）\n\nお名前（任意）：\n\n\nご用件：\n\n\n"
+  "contactMailBodyFooter": "\n\n---\n（以下にご記入ください）\n\nお名前（任意）：\n\n\nご用件：\n\n\n",
+  "legalPrivacyUrl": "https://ymd-portfolio-site.pages.dev/legal/privacy.html",
+  "legalTermsUrl": "https://ymd-portfolio-site.pages.dev/legal/terms.html",
+  "legalSupportUrl": "https://ymd-portfolio-site.pages.dev/legal/support.html",
+  "storeLegalHubUrl": "https://personal-site-taupe-gamma.vercel.app/"
 }

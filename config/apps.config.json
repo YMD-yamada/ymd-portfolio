@@ -87,6 +87,13 @@
         "visibility": "public",
         "displayName": "みんなのミニゲーム",
         "description": "未就学〜低学年向けのミニゲーム集。えモードと読み上げで、文字が読めなくても遊べます。神経衰弱・数え・ひらがな・間違い探しなど。"
+      },
+      "https://personal-site-taupe-gamma.vercel.app/apps/crossplatform-app/": {
+        "audience": "normal",
+        "category": "実験中",
+        "visibility": "public",
+        "description": "ストア申請用ハブ上のアプリ入口（Web）",
+        "displayName": "Crossplatform App"
       }
     }
   },
@@ -97,6 +104,12 @@
     "nameSubstrings": []
   },
   "manual": [
+    {
+      "name": "Crossplatform App",
+      "url": "https://personal-site-taupe-gamma.vercel.app/apps/crossplatform-app/",
+      "description": "ストア申請用ハブ上のアプリ入口（Web）",
+      "audience": "normal"
+    },
     {
       "name": "Daily Lucky",
       "url": "https://daily-lucky.onrender.com/",

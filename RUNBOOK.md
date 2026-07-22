@@ -83,6 +83,28 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 
 このサイトの「制作物」カードは **`npm run build`（= `scripts/sync-apps.mjs`）** で組み立てます。GitHub Actions の **デプロイ前**に毎回実行され、**日次スケジュール**でも再実行されます（ほかのリポジトリだけ更新したときも、翌日までには一覧が追随します）。
 
+#### いちばん簡単な追加（推奨）
+
+Web 公開 URL が決まったら:
+
+```bash
+npm run register-app -- --name "My App" --url "https://my-app.vercel.app"
+git add -A && git commit -m "Register My App" && git push
+```
+
+ストア申請用ハブ（personal-site）からも、同じ内容を両方へ登録できます:
+
+```bash
+cd ../personal-site   # または Projects/personal-site
+npm run register-app -- --name "My App" --slug my-app --url "https://my-app.vercel.app"
+```
+
+法務ページ（このサイト内）:
+
+- https://ymd-portfolio-site.pages.dev/legal/privacy.html
+- https://ymd-portfolio-site.pages.dev/legal/terms.html
+- https://ymd-portfolio-site.pages.dev/legal/support.html
+
 1. **GitHub（必須の考え方）**  
    - `config/apps.config.json` の `github.sources` に、作品リポジトリがある **ユーザー／組織**を列挙します（`kind`: `user` または `org`）。  
    - 各リポジトリの **Settings → General → Website（homepage）** に**本番の公開 URL**を入れると、次回ビルドからカードに載ります。  

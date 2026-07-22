@@ -1,0 +1,81 @@
+.legal-main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.legal-article h1 {
+  font-family: "Shippori Mincho", serif;
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  margin: 0 0 0.75rem;
+}
+
+.legal-article h2 {
+  font-size: 1.1rem;
+  margin: 1.75rem 0 0.6rem;
+}
+
+.legal-article p,
+.legal-article li {
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.legal-article ul {
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.legal-meta {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.legal-note {
+  margin: 1rem 0 1.5rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface, #fff) 88%, var(--ink-muted));
+  font-size: 0.92rem;
+}
+
+.legal-article a {
+  color: var(--accent, #2f6f5e);
+  text-underline-offset: 0.15em;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+  justify-content: center;
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+}
+
+.site-footer__links a {
+  color: var(--ink-muted);
+}
+
+.site-footer__links a:hover {
+  color: var(--ink);
+}
+
+.privacy-banner {
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface, #fff) 92%, #2f6f5e);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.privacy-banner a {
+  color: var(--ink);
+  font-weight: 600;
+}
