@@ -7,6 +7,7 @@
   "scripts": {
     "sync:apps": "node scripts/sync-apps.mjs",
     "register-app": "node scripts/register-app.mjs",
+    "publish-app": "node scripts/publish-app-listing.mjs",
     "dev": "npx -y http-server -p 8080 -c-1 .",
     "build": "node scripts/sync-apps.mjs",
     "deploy:pages": "wrangler pages deploy . --project-name=ymd-portfolio-site --commit-dirty=true"

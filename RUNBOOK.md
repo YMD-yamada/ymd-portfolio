@@ -81,29 +81,19 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 
 ### E. 制作物一覧の自動同期（`data/apps.json`）
 
-このサイトの「制作物」カードは **`npm run build`（= `scripts/sync-apps.mjs`）** で組み立てます。GitHub Actions の **デプロイ前**に毎回実行され、**日次スケジュール**でも再実行されます（ほかのリポジトリだけ更新したときも、翌日までには一覧が追随します）。
+このサイトの「制作物」カードは **CI またはエージェント** が組み立てます。あなたが `npm` を打つ必要はありません。
 
-#### いちばん簡単な追加（推奨）
+- **push / 日次スケジュール**: GitHub Actions が `scripts/sync-apps.mjs` を実行し、GitHub / Vercel / Netlify / Render 等の公開 URL を取り込み → Cloudflare Pages へデプロイ。
+- **即時追加（エージェント）**: Web 公開 URL が決まったらエージェントが  
+  `node scripts/publish-app-listing.mjs --name "..." --url "https://..."`  
+  を実行し、commit / push / デプロイまで行う。
+- **法務**: 掲載 Web アプリは申請不要でも  
+  https://ymd-portfolio-site.pages.dev/legal/privacy.html  
+  等に従う旨をサイト上に表記。各アプリのフッター用雛形は `legal/embed-snippet.html`。
 
-Web 公開 URL が決まったら:
+ストア申請用ハブ（personal-site）と役割は分離しています。詳細は `docs/WEB_PUBLISH.md`。
 
-```bash
-npm run register-app -- --name "My App" --url "https://my-app.vercel.app"
-git add -A && git commit -m "Register My App" && git push
-```
-
-ストア申請用ハブ（personal-site）からも、同じ内容を両方へ登録できます:
-
-```bash
-cd ../personal-site   # または Projects/personal-site
-npm run register-app -- --name "My App" --slug my-app --url "https://my-app.vercel.app"
-```
-
-法務ページ（このサイト内）:
-
-- https://ymd-portfolio-site.pages.dev/legal/privacy.html
-- https://ymd-portfolio-site.pages.dev/legal/terms.html
-- https://ymd-portfolio-site.pages.dev/legal/support.html
+#### ホスト連携（任意・トークンは初回のみ）
 
 1. **GitHub（必須の考え方）**  
    - `config/apps.config.json` の `github.sources` に、作品リポジトリがある **ユーザー／組織**を列挙します（`kind`: `user` または `org`）。  

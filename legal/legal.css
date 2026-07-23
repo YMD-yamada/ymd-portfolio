@@ -79,3 +79,14 @@
   color: var(--ink);
   font-weight: 600;
 }
+
+.legal-snippet {
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--line, #ccc);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+

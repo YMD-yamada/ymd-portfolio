@@ -92,9 +92,16 @@
   },
   "exclude": {
     "urlSubstrings": [
-      "ymd-portfolio-site.pages.dev"
+      "ymd-portfolio-site.pages.dev",
+      "personal-site-taupe-gamma.vercel.app",
+      "ymdhude-4490s-projects.vercel.app",
+      "point-palette-legal"
     ],
-    "nameSubstrings": []
+    "nameSubstrings": [
+      "personal-site",
+      "ymd-portfolio",
+      "point-palette-legal"
+    ]
   },
   "manual": [
     {
@@ -130,7 +137,11 @@
     "includeWithoutHomepage": false,
     "includeRepoAsFallbackUrl": false,
     "perPage": 100,
-    "excludeNames": [],
+    "excludeNames": [
+      "personal-site",
+      "ymd-portfolio",
+      "point-palette-legal"
+    ],
     "excludeNameSubstrings": []
   },
   "netlify": {
@@ -138,7 +149,7 @@
   },
   "vercel": {
     "enabled": true,
-    "deploymentUrlFallback": true
+    "deploymentUrlFallback": false
   },
   "render": {
     "enabled": true,

@@ -1,6 +1,6 @@
 {
   "canonicalUrl": "https://ymd-portfolio-site.pages.dev/",
-  "metaDescription": "ymd のポートフォリオ。学びと実験の記録です。公開アプリ・サービスはこれから整備予定。ご連絡はメールから。",
+  "metaDescription": "ymd のポートフォリオ。学びと実験の記録。Web 公開アプリはプライバシーポリシーに従って掲載します。ご連絡はメールから。",
   "ogImage": "",
   "githubRepoUrl": "https://github.com/YMD-yamada/ymd-portfolio",
   "githubProfileUrl": "https://github.com/ymd",
@@ -16,5 +16,6 @@
   "legalPrivacyUrl": "https://ymd-portfolio-site.pages.dev/legal/privacy.html",
   "legalTermsUrl": "https://ymd-portfolio-site.pages.dev/legal/terms.html",
   "legalSupportUrl": "https://ymd-portfolio-site.pages.dev/legal/support.html",
-  "storeLegalHubUrl": "https://personal-site-taupe-gamma.vercel.app/"
+  "storeLegalHubUrl": "https://personal-site-taupe-gamma.vercel.app/",
+  "legalEmbedSnippetUrl": "https://ymd-portfolio-site.pages.dev/legal/embed-snippet.html"
 }

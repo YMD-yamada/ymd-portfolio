@@ -897,6 +897,23 @@ body[data-audience-theme="adult"] {
   font-weight: 600;
 }
 
+.app-card__legal {
+  margin: 0.45rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+.app-card__legal a {
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.app-card__legal a:hover {
+  color: var(--ink);
+}
+
 /* Small screens: nav */
 @media (max-width: 520px) {
   .site-header__inner {

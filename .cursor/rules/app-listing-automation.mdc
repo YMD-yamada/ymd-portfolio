@@ -1,20 +1,29 @@
 ---
-description: Portfolio app listings are updated by the agent or CI, not by the user
+description: Portfolio Web app listings are agent/CI owned; include privacy links
 alwaysApply: true
 ---
 
 # Portfolio listing automation
 
-https://ymd-portfolio-site.pages.dev/ is the **personal portfolio** (Web works).
+https://ymd-portfolio-site.pages.dev/ is the **personal portfolio** for **Web apps that do not need store review**.
 
 Store legal pages live on **personal-site** (separate).
 
 ## Agent must
 
-- When a Web app gets a public URL: run `npm run register-app -- --name "..." --url "https://..."` **yourself**, then commit, push, and ensure Pages deploy (push to `master` or `gh workflow run "Deploy to Cloudflare Pages"`).
-- Prefer also setting the GitHub repo **Website** field so daily `sync-apps` keeps picking it up.
-- Never ask the user to run register/sync commands for listings.
+- When a Web app gets a public URL, run **yourself**:
+  `node scripts/publish-app-listing.mjs --name "..." --url "https://..."`
+  (registers, commits, pushes, triggers Cloudflare Pages). Never ask the user to run it.
+- Embed privacy/terms/support links in the app footer (see `docs/WEB_PUBLISH.md` / `legal/embed-snippet.html`).
+- Prefer setting the GitHub repo **Website** field so daily `sync-apps` keeps picking it up.
+- Confirm live list at https://ymd-portfolio-site.pages.dev/ after deploy.
 
 ## CI already does
 
 - On push / daily cron: `npm run build` (`sync-apps.mjs`) then Cloudflare Pages deploy.
+- Preview / legal-hub noise URLs are excluded via `config/apps.config.json`.
+
+## Do not
+
+- Tell the user to run `npm run register-app` / `sync:apps`.
+- Treat portfolio listings as optional follow-ups for the user.

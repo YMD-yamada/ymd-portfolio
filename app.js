@@ -346,6 +346,14 @@ function createCard(item, index) {
   }
   article.appendChild(a);
 
+  const legal = document.createElement("p");
+  legal.className = "app-card__legal";
+  const legalLink = document.createElement("a");
+  legalLink.href = "./legal/privacy.html";
+  legalLink.textContent = "プライバシーポリシー準拠";
+  legal.appendChild(legalLink);
+  article.appendChild(legal);
+
   li.appendChild(article);
   return li;
 }

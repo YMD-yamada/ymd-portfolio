@@ -427,8 +427,19 @@ async function fetchNetlifyEntries(enabled) {
 
 function productionDeploymentUrl(dep) {
   if (!dep) return null;
-  const alias = Array.isArray(dep.alias) ? dep.alias.find((a) => /^https:\/\//.test(a)) : null;
-  if (alias) return alias;
+  const aliases = Array.isArray(dep.alias)
+    ? dep.alias.filter((a) => typeof a === "string" && /^https:\/\//.test(a))
+    : [];
+  // Prefer stable project alias (name.vercel.app) over deployment hash URLs.
+  const stable = aliases.find((a) =>
+    /^https:\/\/[a-z0-9-]+\.vercel\.app\/?$/i.test(a),
+  );
+  if (stable) return stable;
+  const nonPreview = aliases.find(
+    (a) => !/-projects\.vercel\.app/i.test(a) && !/[a-z0-9]{8,}-[a-z0-9-]+\.vercel\.app/i.test(a),
+  );
+  if (nonPreview) return nonPreview;
+  if (aliases[0]) return aliases[0];
   if (dep.url) {
     return dep.url.startsWith("http") ? dep.url : `https://${dep.url}`;
   }

@@ -128,4 +128,5 @@ writeFileSync(APPS_PATH, `${JSON.stringify(appsData, null, 2)}\n`);
 
 console.log(`Registered on portfolio: ${name}`);
 console.log(`  url: ${url}`);
-console.log("Commit & push ymd-portfolio to publish on Pages.");
+console.log("Agent: commit/push via publish-app-listing.mjs (do not ask the user).");
+console.log("Legal: https://ymd-portfolio-site.pages.dev/legal/privacy.html");
