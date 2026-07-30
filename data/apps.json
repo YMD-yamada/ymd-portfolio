@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-07-30T12:51:40.700Z",
+  "generatedAt": "2026-07-30T13:11:47.302Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -14,7 +14,7 @@
       "name": "ちいさなことばずかん",
       "url": "https://kotoba-zukan.vercel.app",
       "audience": "kids",
-      "description": "子ども向けオリジナルことば図鑑。タッチ読み上げに加え、おとあて・スープ・おきがえ・楽器など遊びページ付き。WebとWindowsローカル対応。",
+      "description": "子ども向けオリジナルことば図鑑。ひらがな・カタカナ・数字・ABCの読み書き練習や遊びページ付き。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-07-30",

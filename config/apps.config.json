@@ -92,7 +92,7 @@
         "audience": "kids",
         "category": "公開中",
         "visibility": "public",
-        "description": "子ども向けオリジナルことば図鑑。タッチ読み上げに加え、おとあて・スープ・おきがえ・楽器など遊びページ付き。WebとWindowsローカル対応。",
+        "description": "子ども向けオリジナルことば図鑑。ひらがな・カタカナ・数字・ABCの読み書き練習や遊びページ付き。",
         "displayName": "ちいさなことばずかん"
       }
     }
