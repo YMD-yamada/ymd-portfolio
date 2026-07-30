@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-07-22T09:30:34.764Z",
+  "generatedAt": "2026-07-30T12:34:00.036Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -9,6 +9,18 @@
     "その他"
   ],
   "items": [
+    {
+      "id": "manual-1785414840036",
+      "name": "ちいさなことばずかん",
+      "url": "https://kotoba-zukan.vercel.app",
+      "audience": "kids",
+      "description": "子ども向けオリジナルことば図鑑。タッチで日本語・英語の読み上げ、クイズ、オフラインPWA。アカウント不要・個人情報のサーバー送信なし。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-07-30",
+      "category": "公開中",
+      "visibility": "public"
+    },
     {
       "id": "manual-0",
       "name": "Daily Lucky",

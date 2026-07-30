@@ -87,6 +87,13 @@
         "visibility": "public",
         "displayName": "みんなのミニゲーム",
         "description": "未就学〜低学年向けのミニゲーム集。えモードと読み上げで、文字が読めなくても遊べます。神経衰弱・数え・ひらがな・間違い探しなど。"
+      },
+      "https://kotoba-zukan.vercel.app": {
+        "audience": "kids",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "子ども向けオリジナルことば図鑑。タッチで日本語・英語の読み上げ、クイズ、オフラインPWA。アカウント不要・個人情報のサーバー送信なし。",
+        "displayName": "ちいさなことばずかん"
       }
     }
   },
@@ -104,6 +111,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "ちいさなことばずかん",
+      "url": "https://kotoba-zukan.vercel.app",
+      "description": "子ども向けオリジナルことば図鑑。タッチで日本語・英語の読み上げ、クイズ、オフラインPWA。アカウント不要・個人情報のサーバー送信なし。",
+      "audience": "kids"
+    },
     {
       "name": "Daily Lucky",
       "url": "https://daily-lucky.onrender.com/",
