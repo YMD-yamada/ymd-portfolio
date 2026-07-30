@@ -101,6 +101,13 @@
         "visibility": "public",
         "description": "本庄市の子育て世帯向け。遊び・食事・イベントを地図から探し、おすすめとルートでマンネリを少し外すWebアプリ。",
         "displayName": "本庄おでかけマップ"
+      },
+      "https://sns-crosspost.vercel.app": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
+        "displayName": "ShortSync Studio"
       }
     }
   },
@@ -118,6 +125,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "ShortSync Studio",
+      "url": "https://sns-crosspost.vercel.app",
+      "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
+      "audience": "normal"
+    },
     {
       "name": "ちいさなことばずかん",
       "url": "https://kotoba-zukan.vercel.app",

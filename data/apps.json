@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-07-30T14:05:52.145Z",
+  "generatedAt": "2026-07-30T14:13:14.149Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -9,6 +9,18 @@
     "その他"
   ],
   "items": [
+    {
+      "id": "manual-1785420794149",
+      "name": "ShortSync Studio",
+      "url": "https://sns-crosspost.vercel.app",
+      "audience": "normal",
+      "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-07-30",
+      "category": "公開中",
+      "visibility": "public"
+    },
     {
       "id": "manual-0",
       "name": "ちいさなことばずかん",
