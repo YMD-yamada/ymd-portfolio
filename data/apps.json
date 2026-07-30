@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-07-30T14:02:06.928Z",
+  "generatedAt": "2026-07-30T14:05:52.145Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -61,8 +61,8 @@
       "id": "manual-4",
       "name": "ぴょんのあそびじま",
       "url": "https://kids-mini-games.vercel.app",
-      "audience": "kid",
-      "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。ことば図鑑とは別のあそび。",
+      "audience": "normal",
+      "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。個人情報なし・ログインなし。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-07-30",

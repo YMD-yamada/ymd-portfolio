@@ -82,11 +82,11 @@
         "description": "juken-navi の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。"
       },
       "https://kids-mini-games.vercel.app": {
-        "audience": "kid",
+        "audience": "normal",
         "category": "公開中",
         "visibility": "public",
         "displayName": "ぴょんのあそびじま",
-        "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。ことば図鑑とは別のあそび。"
+        "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。個人情報なし・ログインなし。"
       },
       "https://kotoba-zukan.vercel.app": {
         "audience": "kids",
