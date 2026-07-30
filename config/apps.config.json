@@ -108,6 +108,13 @@
         "visibility": "public",
         "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
         "displayName": "ShortSync Studio"
+      },
+      "https://point-palette-legal.vercel.app/privacy": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "日本向けポイントカード管理（Expo）。法務ページ公開済み。ストア準備中。",
+        "displayName": "ポイントパレット"
       }
     }
   },
@@ -125,6 +132,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "ポイントパレット",
+      "url": "https://point-palette-legal.vercel.app/privacy",
+      "description": "日本向けポイントカード管理（Expo）。法務ページ公開済み。ストア準備中。",
+      "audience": "normal"
+    },
     {
       "name": "ShortSync Studio",
       "url": "https://sns-crosspost.vercel.app",
