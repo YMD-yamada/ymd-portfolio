@@ -92,8 +92,8 @@
         "audience": "kids",
         "category": "公開中",
         "visibility": "public",
-        "description": "子ども向けオリジナルことば図鑑。ひらがな・カタカナ・数字・ABCの読み書き練習や遊びページ付き。",
-        "displayName": "ちいさなことばずかん"
+        "displayName": "ちいさなことばずかん",
+        "description": "タッチでよめる・あそべる子ども向けことば図鑑。もじ練習・クイズ・あそび付き。アカウント不要・オフラインOK。"
       },
       "https://honjo-outing-map.vercel.app": {
         "audience": "normal",
@@ -119,16 +119,16 @@
   },
   "manual": [
     {
-      "name": "本庄おでかけマップ",
-      "url": "https://honjo-outing-map.vercel.app",
-      "description": "本庄市の子育て世帯向け。遊び・食事・イベントを地図から探し、おすすめとルートでマンネリを少し外すWebアプリ。",
-      "audience": "normal"
-    },
-    {
       "name": "ちいさなことばずかん",
       "url": "https://kotoba-zukan.vercel.app",
       "description": "タッチでよめる・あそべる子ども向けことば図鑑。もじ練習・クイズ・あそび付き。アカウント不要・オフラインOK。",
       "audience": "kids"
+    },
+    {
+      "name": "本庄おでかけマップ",
+      "url": "https://honjo-outing-map.vercel.app",
+      "description": "本庄市の子育て世帯向け。遊び・食事・イベントを地図から探し、おすすめとルートでマンネリを少し外すWebアプリ。",
+      "audience": "normal"
     },
     {
       "name": "Daily Lucky",
