@@ -85,8 +85,8 @@
         "audience": "kid",
         "category": "公開中",
         "visibility": "public",
-        "displayName": "みんなのミニゲーム",
-        "description": "未就学〜低学年向けのミニゲーム集。えモードと読み上げで、文字が読めなくても遊べます。神経衰弱・数え・ひらがな・間違い探しなど。"
+        "displayName": "ぴょんのあそびじま",
+        "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。ことば図鑑とは別のあそび。"
       },
       "https://kotoba-zukan.vercel.app": {
         "audience": "kids",
@@ -141,9 +141,9 @@
       "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。"
     },
     {
-      "name": "みんなのミニゲーム",
+      "name": "ぴょんのあそびじま",
       "url": "https://kids-mini-games.vercel.app",
-      "description": "未就学〜低学年向けミニゲーム。えモード・読み上げ付きで、文字が読めなくても遊べます。",
+      "description": "からだとあたまをつかうスキル島。え／ひらがな／全文表示対応。",
       "audience": "kid"
     }
   ],

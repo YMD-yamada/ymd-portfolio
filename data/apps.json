@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-07-30T13:55:02.038Z",
+  "generatedAt": "2026-07-30T14:02:06.928Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -10,7 +10,19 @@
   ],
   "items": [
     {
-      "id": "manual-1785419702038",
+      "id": "manual-0",
+      "name": "ちいさなことばずかん",
+      "url": "https://kotoba-zukan.vercel.app",
+      "audience": "normal",
+      "description": "タッチでよめる・あそべる子ども向けことば図鑑。もじ練習・クイズ・あそび付き。アカウント不要・オフラインOK。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-07-30",
+      "category": "公開中",
+      "visibility": "public"
+    },
+    {
+      "id": "manual-1",
       "name": "本庄おでかけマップ",
       "url": "https://honjo-outing-map.vercel.app",
       "audience": "normal",
@@ -22,11 +34,11 @@
       "visibility": "public"
     },
     {
-      "id": "manual-1785414840036",
-      "name": "ちいさなことばずかん",
-      "url": "https://kotoba-zukan.vercel.app",
-      "audience": "kids",
-      "description": "子ども向けオリジナルことば図鑑。ひらがな・カタカナ・数字・ABCの読み書き練習や遊びページ付き。",
+      "id": "manual-2",
+      "name": "Daily Lucky",
+      "url": "https://daily-lucky.onrender.com/",
+      "audience": "normal",
+      "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-07-30",
@@ -34,38 +46,26 @@
       "visibility": "public"
     },
     {
-      "id": "manual-0",
-      "name": "Daily Lucky",
-      "url": "https://daily-lucky.onrender.com/",
-      "audience": "normal",
-      "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-06-27",
-      "category": "公開中",
-      "visibility": "public"
-    },
-    {
-      "id": "manual-1",
+      "id": "manual-3",
       "name": "気分で旅行先",
       "url": "https://bucolic-biscuit-c637b0.netlify.app/",
       "audience": "normal",
       "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-06-27",
+      "updated": "2026-07-30",
       "category": "公開中",
       "visibility": "public"
     },
     {
-      "id": "manual-2",
-      "name": "みんなのミニゲーム",
+      "id": "manual-4",
+      "name": "ぴょんのあそびじま",
       "url": "https://kids-mini-games.vercel.app",
       "audience": "kid",
-      "description": "未就学〜低学年向けのミニゲーム集。えモードと読み上げで、文字が読めなくても遊べます。神経衰弱・数え・ひらがな・間違い探しなど。",
+      "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。ことば図鑑とは別のあそび。",
       "source": "manual",
       "kind": "site",
-      "updated": "2026-06-27",
+      "updated": "2026-07-30",
       "category": "公開中",
       "visibility": "public"
     },
