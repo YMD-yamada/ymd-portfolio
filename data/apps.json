@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-03T01:12:33.785Z",
+  "generatedAt": "2026-08-03T12:13:36.136Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -9,6 +9,18 @@
     "その他"
   ],
   "items": [
+    {
+      "id": "manual-1785759216136",
+      "name": "Triple Triad",
+      "url": "https://triple-triad-orcin.vercel.app",
+      "audience": "normal",
+      "description": "FF8トリプルトライアド再現（公式110枚データ・Same/Plus対応）",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-08-03",
+      "category": "公開中",
+      "visibility": "public"
+    },
     {
       "id": "manual-1785719553785",
       "name": "黒白侵攻",

@@ -11,6 +11,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://triple-triad-orcin.vercel.app",
       "https://kuroshiro-omega.vercel.app",
       "https://point-palette-legal.vercel.app/privacy",
       "https://sns-crosspost.vercel.app",
@@ -136,6 +137,13 @@
         "visibility": "public",
         "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
         "displayName": "黒白侵攻"
+      },
+      "https://triple-triad-orcin.vercel.app": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "FF8トリプルトライアド再現（公式110枚データ・Same/Plus対応）",
+        "displayName": "Triple Triad"
       }
     }
   },
@@ -153,6 +161,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "Triple Triad",
+      "url": "https://triple-triad-orcin.vercel.app",
+      "description": "FF8トリプルトライアド再現（公式110枚データ・Same/Plus対応）",
+      "audience": "normal"
+    },
     {
       "name": "黒白侵攻",
       "url": "https://kuroshiro-omega.vercel.app",
