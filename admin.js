@@ -1,34 +1,7 @@
-/* global document, window, fetch, btoa, localStorage, crypto */
+/* global document, window, fetch, crypto */
 
 function q(id) {
   return document.getElementById(id);
-}
-
-function datasetPath(name, fallback) {
-  const v = document.body?.dataset?.[name] || "";
-  return (v || fallback).trim();
-}
-
-async function fetchJson(path) {
-  const r = await fetch(`${path}?t=${Date.now()}`, { cache: "no-store" });
-  if (!r.ok) throw new Error(`${path}: ${r.status}`);
-  return r.json();
-}
-
-function ghApi(path, token, init = {}) {
-  return fetch(`https://api.github.com${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "Content-Type": "application/json",
-      ...(init.headers || {}),
-    },
-  });
-}
-
-function utf8ToBase64(str) {
-  return btoa(unescape(encodeURIComponent(str)));
 }
 
 async function sha256Hex(text) {
@@ -51,9 +24,19 @@ function normalizeVisibility(v) {
 
 function normalizeAudience(v) {
   const s = String(v || "").trim().toLowerCase();
-  if (s === "kid" || s === "child") return "kid";
+  if (s === "kid" || s === "child" || s === "kids") return "kid";
   if (s === "adult" || s === "r18") return "adult";
   return "normal";
+}
+
+function normalizeUrlKey(url) {
+  try {
+    const u = new URL(url);
+    const p = u.pathname === "/" || u.pathname === "" ? "" : u.pathname.replace(/\/$/, "");
+    return `${u.origin.toLowerCase()}${p}`.toLowerCase();
+  } catch {
+    return String(url || "").toLowerCase();
+  }
 }
 
 function setStatus(msg, isError) {
@@ -68,25 +51,53 @@ function categoryPool(config) {
   Object.values(config?.overrides?.byUrl || {}).forEach((v) => {
     if (v?.category) set.add(v.category);
   });
-  if (!set.size) {
-    ["公開中", "学習中", "実験中", "その他"].forEach((c) => set.add(c));
-  }
+  if (!set.size) ["公開中", "学習中", "実験中", "その他"].forEach((c) => set.add(c));
   return Array.from(set).filter(Boolean);
+}
+
+function selectedUrlSet(config) {
+  const urls = Array.isArray(config?.selection?.urls) ? config.selection.urls : [];
+  return new Set(urls.map((u) => normalizeUrlKey(u)).filter(Boolean));
+}
+
+function mergeCandidateItems(candidates, apps, config) {
+  const byKey = new Map();
+  const push = (it) => {
+    if (!it?.url) return;
+    const k = normalizeUrlKey(it.url);
+    if (!byKey.has(k)) byKey.set(k, { ...it });
+  };
+  (candidates?.items || []).forEach(push);
+  (apps?.items || []).forEach(push);
+  Object.keys(config?.overrides?.byUrl || {}).forEach((url) => {
+    if (!byKey.has(normalizeUrlKey(url))) {
+      const o = config.overrides.byUrl[url] || {};
+      push({
+        name: o.displayName || url,
+        url,
+        description: o.description || "",
+        category: o.category || "",
+        visibility: o.visibility || "public",
+        audience: o.audience || "normal",
+        source: "override",
+      });
+    }
+  });
+  (config?.manual || []).forEach((m) => push({ ...m, source: m.source || "manual" }));
+  return Array.from(byKey.values());
 }
 
 function renderCategoryManager() {
   const host = q("category-manager");
+  if (!host) return;
   host.innerHTML = "";
-  const list = window.__studioCategories || [];
-  list.forEach((cat, i) => {
+  (window.__studioCategories || []).forEach((cat, i) => {
     const row = document.createElement("div");
     row.className = "cat-row";
     row.dataset.index = String(i);
-
     const name = document.createElement("span");
     name.className = "cat-row__name";
     name.textContent = cat;
-
     const actions = document.createElement("div");
     actions.className = "cat-row__actions";
     actions.innerHTML =
@@ -99,21 +110,27 @@ function renderCategoryManager() {
 }
 
 function categoryOptions(selected) {
-  const cats = window.__studioCategories || [];
-  const opts = cats
+  return (window.__studioCategories || [])
     .map((c) => `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`)
     .join("");
-  return `<select class="entry__cat-select">${opts}</select>`;
 }
 
 function refreshAllCategorySelects() {
-  const rows = Array.from(document.querySelectorAll(".entry"));
-  rows.forEach((row) => {
+  document.querySelectorAll(".entry").forEach((row) => {
     const current = row.querySelector(".entry__cat-select")?.value || "";
     const wrapper = row.querySelector(".entry__cat-wrap");
     if (!wrapper) return;
-    wrapper.innerHTML = categoryOptions(current);
+    wrapper.innerHTML = `<select class="entry__cat-select">${categoryOptions(current)}</select>`;
   });
+}
+
+function updateSelectionCount() {
+  const total = document.querySelectorAll(".entry").length;
+  const n = document.querySelectorAll(".entry__select:checked").length;
+  const el = q("selection-count");
+  if (el) el.textContent = `選択 ${n} / ${total}`;
+  const btn = q("ship");
+  if (btn) btn.disabled = n === 0;
 }
 
 function buildRows(items, config) {
@@ -121,23 +138,45 @@ function buildRows(items, config) {
   host.innerHTML = "";
   host.className = "grid";
   const byUrl = config?.overrides?.byUrl || {};
+  const selected = selectedUrlSet(config);
 
   items.forEach((it) => {
     const row = document.createElement("div");
-    row.className = "entry";
+    row.className = "entry entry--simple";
     row.dataset.url = it.url;
 
-    const info = document.createElement("div");
-    info.className = "entry__info";
-    info.innerHTML = `<strong>${it.name}</strong><div class="entry__url">${it.url}</div>`;
+    const top = document.createElement("div");
+    top.className = "entry__top";
+
+    const pick = document.createElement("label");
+    pick.className = "entry__pick";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.className = "entry__select";
+    cb.checked = selected.has(normalizeUrlKey(it.url));
+    cb.addEventListener("change", updateSelectionCount);
+    const title = document.createElement("strong");
+    title.textContent = byUrl[it.url]?.displayName || it.name || it.url;
+    pick.append(cb, title);
 
     const open = document.createElement("a");
     open.className = "entry__open";
     open.href = it.url;
     open.target = "_blank";
     open.rel = "noopener noreferrer";
-    open.textContent = "新タブで確認";
-    info.appendChild(open);
+    open.textContent = "開く";
+
+    top.append(pick, open);
+
+    const urlLine = document.createElement("div");
+    urlLine.className = "entry__url";
+    urlLine.textContent = it.url;
+
+    const details = document.createElement("details");
+    details.className = "entry__more";
+    const summary = document.createElement("summary");
+    summary.textContent = "表示名・説明・カテゴリなど";
+    details.appendChild(summary);
 
     const nameInput = document.createElement("input");
     nameInput.placeholder = "表示名（空なら自動）";
@@ -146,24 +185,26 @@ function buildRows(items, config) {
 
     const descInput = document.createElement("textarea");
     descInput.className = "entry__desc";
-    descInput.placeholder = "説明（用途・利点。空のときは同期で入った文面）";
+    descInput.placeholder = "説明";
     descInput.rows = 2;
     descInput.value = (byUrl[it.url]?.description || it.description || "").trim();
 
-    const mid = document.createElement("div");
-    mid.className = "entry__mid";
-    mid.append(nameInput, descInput);
-
     const catWrap = document.createElement("div");
     catWrap.className = "entry__cat-wrap";
-    catWrap.innerHTML = categoryOptions(byUrl[it.url]?.category || it.category || "");
+    catWrap.innerHTML = `<select class="entry__cat-select">${categoryOptions(
+      byUrl[it.url]?.category || it.category || ""
+    )}</select>`;
 
     const vis = document.createElement("select");
     vis.className = "entry__vis";
-    ["public", "private", "limited"].forEach((v) => {
+    [
+      ["public", "公開"],
+      ["private", "非公開"],
+      ["limited", "限定公開"],
+    ].forEach(([v, label]) => {
       const o = document.createElement("option");
       o.value = v;
-      o.textContent = v === "public" ? "公開" : v === "private" ? "非公開" : "限定公開";
+      o.textContent = label;
       vis.appendChild(o);
     });
     vis.value = normalizeVisibility(byUrl[it.url]?.visibility || it.visibility || "public");
@@ -171,9 +212,9 @@ function buildRows(items, config) {
     const audience = document.createElement("select");
     audience.className = "entry__aud";
     [
-      ["normal", "表示：通常モードのみ"],
-      ["kid", "表示：子供モードのみ"],
-      ["adult", "表示：大人モードのみ（R18 等）"],
+      ["normal", "通常モード"],
+      ["kid", "子供モード"],
+      ["adult", "大人モード"],
     ].forEach(([v, label]) => {
       const o = document.createElement("option");
       o.value = v;
@@ -190,32 +231,31 @@ function buildRows(items, config) {
     const pw = document.createElement("input");
     pw.className = "entry__pw";
     pw.type = "password";
-    pw.placeholder = "限定公開パスワード（変更時のみ入力）";
+    pw.placeholder = "限定公開パスワード（変更時のみ）";
     pw.dataset.hash = byUrl[it.url]?.accessHash || it.accessHash || "";
-
-    const note = document.createElement("p");
-    note.className = "entry__note";
-    note.textContent = byUrl[it.url]?.note || it.note || "";
-
-    const right = document.createElement("div");
-    right.className = "entry__right";
-    right.append(catWrap, vis, audience, pw, note);
-
+    pw.style.display = vis.value === "limited" ? "block" : "none";
     vis.addEventListener("change", () => {
       pw.style.display = vis.value === "limited" ? "block" : "none";
     });
-    pw.style.display = vis.value === "limited" ? "block" : "none";
 
-    row.append(info, mid, right);
+    const moreBody = document.createElement("div");
+    moreBody.className = "entry__more-body";
+    moreBody.append(nameInput, descInput, catWrap, vis, audience, pw);
+    details.appendChild(moreBody);
+
+    row.append(top, urlLine, details);
     host.appendChild(row);
   });
+  updateSelectionCount();
 }
 
-async function collectOverrides() {
+async function collectOverridesAndSelection() {
   const rows = Array.from(document.querySelectorAll(".entry"));
   const byUrl = {};
+  const urls = [];
   for (const row of rows) {
     const url = row.dataset.url;
+    const selected = row.querySelector(".entry__select")?.checked;
     const displayName = row.querySelector(".entry__name").value.trim();
     const description = row.querySelector(".entry__desc")?.value.trim() || "";
     const category = normalizeCategory(row.querySelector(".entry__cat-select").value);
@@ -224,124 +264,97 @@ async function collectOverrides() {
     const pwInput = row.querySelector(".entry__pw");
     let accessHash = String(pwInput.dataset.hash || "");
     const rawPw = pwInput.value.trim();
-    if (visibility === "limited" && rawPw) {
-      accessHash = await sha256Hex(rawPw);
-    }
+    if (visibility === "limited" && rawPw) accessHash = await sha256Hex(rawPw);
 
-    /** 各行に必ず表示モード（audience）を残す＋並び順に必要なカテゴリ/公開状態を明示保存 */
-    const entry = {
-      audience,
-      category,
-      visibility,
-    };
+    const entry = { audience, category, visibility };
     if (displayName) entry.displayName = displayName;
     if (description) entry.description = description;
     if (visibility === "limited" && accessHash) entry.accessHash = accessHash;
     byUrl[url] = entry;
+    if (selected) urls.push(url);
   }
-  return byUrl;
+  return { byUrl, urls };
 }
 
-async function updateConfigOnGithub(config, token, owner, repo, branch, message) {
-  const path = "config/apps.config.json";
-  const getRes = await ghApi(`/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, token);
-  if (!getRes.ok) throw new Error(`config取得失敗: ${getRes.status}`);
-  const current = await getRes.json();
-  const body = {
-    message,
-    content: utf8ToBase64(`${JSON.stringify(config, null, 2)}\n`),
-    sha: current.sha,
-    branch,
-  };
-  const putRes = await ghApi(`/repos/${owner}/${repo}/contents/${path}`, token, {
-    method: "PUT",
-    body: JSON.stringify(body),
-  });
-  if (!putRes.ok) {
-    const t = await putRes.text();
-    throw new Error(`config保存失敗: ${putRes.status} ${t.slice(0, 240)}`);
-  }
-}
-
-async function triggerDeployWorkflow(token, owner, repo, branch) {
-  const workflow = "deploy-cloudflare-pages.yml";
-  const res = await ghApi(
-    `/repos/${owner}/${repo}/actions/workflows/${workflow}/dispatches`,
-    token,
-    {
-      method: "POST",
-      body: JSON.stringify({ ref: branch }),
-    }
-  );
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`workflow起動失敗: ${res.status} ${t.slice(0, 240)}`);
-  }
+async function composeConfig() {
+  const next = structuredClone(window.__adminData.config || {});
+  next.categoryOrder = [...(window.__studioCategories || [])];
+  next.overrides = next.overrides || {};
+  const collected = await collectOverridesAndSelection();
+  next.overrides.byUrl = collected.byUrl;
+  next.selection = { mode: "allowlist", urls: collected.urls };
+  return next;
 }
 
 function showStudioUI() {
-  ["studio-card", "apps-card", "save-card"].forEach((id) => {
-    q(id).classList.remove("hidden");
-  });
-  q("gate-card").classList.add("hidden");
+  ["apps-card", "studio-card", "save-card"].forEach((id) => q(id)?.classList.remove("hidden"));
+  q("gate-card")?.classList.add("hidden");
 }
 
-function savePreviewLocal(categoryOrder, byUrl) {
-  localStorage.setItem(
-    "portfolio_preview_overrides",
-    JSON.stringify({ categoryOrder, byUrl, updatedAt: Date.now() })
+function applyState(state) {
+  window.__adminData = {
+    site: state.site || {},
+    apps: state.apps || { items: [] },
+    candidates: state.candidates || { items: [] },
+    config: state.config || {},
+  };
+  window.__studioCategories = categoryPool(window.__adminData.config);
+  const items = mergeCandidateItems(
+    window.__adminData.candidates,
+    window.__adminData.apps,
+    window.__adminData.config
   );
+  buildRows(items, window.__adminData.config);
+  renderCategoryManager();
+}
+
+async function api(path, init) {
+  const r = await fetch(path, {
+    cache: "no-store",
+    headers: { "Content-Type": "application/json", ...(init?.headers || {}) },
+    ...init,
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok || data.ok === false) throw new Error(data.error || `${path}: ${r.status}`);
+  return data;
 }
 
 async function boot() {
-  const sitePath = datasetPath("siteConfig", "config/site.json");
-  const appsPath = datasetPath("apps", "data/apps.json");
-  const configPath = datasetPath("appConfig", "config/apps.config.json");
-
-  const [site, apps, config] = await Promise.all([
-    fetchJson(sitePath),
-    fetchJson(appsPath),
-    fetchJson(configPath),
-  ]);
-  window.__adminData = { site, apps, config };
-
-  const owner = site.adminRepoOwner || "YMD-yamada";
-  const repo = site.adminRepoName || "ymd-portfolio";
-  const branch = site.adminRepoBranch || "master";
-  const publishHash = String(site.adminPublishHash || "").trim().toLowerCase();
-
-  window.__studioCategories = categoryPool(config);
-  buildRows(apps.items || [], config);
-  renderCategoryManager();
-  setStatus("読み込み完了");
-
-  q("unlock-admin").addEventListener("click", async () => {
-    const raw = q("admin-pass").value.trim();
-    const expected = String(site.adminAccessHash || "").toLowerCase();
-    if (!expected) {
-      showStudioUI();
-      return setStatus("認証なしモードで編集できます。");
+  const gateStatus = q("gate-status");
+  try {
+    await api("/api/health");
+  } catch {
+    if (gateStatus) {
+      gateStatus.textContent = "Studio が止まっています。エージェントに「studio を開いて」と依頼してください。";
+      gateStatus.style.color = "#ff8d8d";
     }
-    if (!raw) return setStatus("管理パスワードを入力してください", true);
-    const got = await sha256Hex(raw);
-    if (!expected || got !== expected) return setStatus("認証に失敗しました", true);
-    showStudioUI();
-    setStatus("認証しました。編集できます。");
-  });
-
-  if (!String(site.adminAccessHash || "").trim()) {
-    showStudioUI();
-    setStatus("認証なしモードで編集できます。");
+    return;
   }
 
-  q("reload").addEventListener("click", () => {
-    buildRows(window.__adminData.apps.items || [], window.__adminData.config);
-    window.__studioCategories = categoryPool(window.__adminData.config || {});
-    renderCategoryManager();
-    setStatus("一覧を再生成しました");
+  try {
+    applyState(await api("/api/state"));
+    showStudioUI();
+    setStatus("チェックして「本番に反映」を押すだけです。");
+  } catch (e) {
+    if (gateStatus) {
+      gateStatus.textContent = String(e.message || e);
+      gateStatus.style.color = "#ff8d8d";
+    }
+    return;
+  }
+
+  q("refresh-candidates")?.addEventListener("click", async () => {
+    setStatus("候補を更新中…");
+    try {
+      const result = await api("/api/refresh-candidates", { method: "POST", body: "{}" });
+      applyState(await api("/api/state"));
+      setStatus(`候補 ${result.candidates} / 公開 ${result.published}`);
+    } catch (e) {
+      setStatus(String(e.message || e), true);
+    }
   });
 
-  q("add-category").addEventListener("click", () => {
+  q("add-category")?.addEventListener("click", () => {
     const input = q("new-category");
     const value = normalizeCategory(input.value);
     if (!value) return;
@@ -349,12 +362,11 @@ async function boot() {
       window.__studioCategories.push(value);
       renderCategoryManager();
       refreshAllCategorySelects();
-      setStatus(`カテゴリ「${value}」を追加しました`);
     }
     input.value = "";
   });
 
-  q("category-manager").addEventListener("click", (ev) => {
+  q("category-manager")?.addEventListener("click", (ev) => {
     const row = ev.target.closest(".cat-row");
     if (!row) return;
     const idx = Number(row.dataset.index);
@@ -367,55 +379,47 @@ async function boot() {
     } else if (ev.target.classList.contains("cat-del")) {
       if (cats.length <= 1) return setStatus("カテゴリは最低1つ必要です", true);
       cats.splice(idx, 1);
-    } else {
-      return;
-    }
+    } else return;
     renderCategoryManager();
     refreshAllCategorySelects();
   });
 
-  async function composeConfig() {
-    const next = structuredClone(window.__adminData.config || {});
-    next.categoryOrder = [...(window.__studioCategories || [])];
-    next.overrides = next.overrides || {};
-    next.overrides.byUrl = await collectOverrides();
-    return next;
-  }
-
-  q("apply-local").addEventListener("click", async () => {
-    const configNext = await composeConfig();
-    savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
-    setStatus("ローカル反映しました（GitHub未更新）。公開ページを再読み込みして確認できます。");
+  q("select-all")?.addEventListener("click", () => {
+    document.querySelectorAll(".entry__select").forEach((el) => {
+      el.checked = true;
+    });
+    updateSelectionCount();
   });
 
-  async function publishGithub() {
-    const token = q("gh-token").value.trim();
-    if (!token) return setStatus("GitHub公開には Token が必要です", true);
-    if (!publishHash) return setStatus("adminPublishHash が未設定です。site.json を確認してください。", true);
+  q("select-none")?.addEventListener("click", () => {
+    document.querySelectorAll(".entry__select").forEach((el) => {
+      el.checked = false;
+    });
+    updateSelectionCount();
+  });
 
-    const pass = q("publish-pass").value.trim();
-    if (!pass) return setStatus("公開用パスワードを入力してください", true);
-    const got = await sha256Hex(pass);
-    if (got.toLowerCase() !== publishHash) {
-      return setStatus("公開用パスワードが一致しません", true);
-    }
-
-    const message = q("commit-message").value.trim() || "Update app overrides from studio";
-    const configNext = await composeConfig();
-    setStatus("ローカル反映 → GitHub保存 → 再デプロイを実行中…");
+  q("ship")?.addEventListener("click", async () => {
+    const btn = q("ship");
+    if (btn) btn.disabled = true;
+    setStatus("本番に反映中…（保存→一覧生成→push）");
     try {
-      savePreviewLocal(configNext.categoryOrder || [], configNext.overrides.byUrl || {});
-      await updateConfigOnGithub(configNext, token, owner, repo, branch, message);
-      window.__adminData.config = configNext;
-      await triggerDeployWorkflow(token, owner, repo, branch);
-      setStatus("GitHub公開を開始しました。Actions を確認してください。");
+      const config = await composeConfig();
+      if (!config.selection.urls.length) {
+        setStatus("1件以上チェックしてください", true);
+        return;
+      }
+      const res = await api("/api/ship", {
+        method: "POST",
+        body: JSON.stringify({ config }),
+      });
+      window.__adminData.config = config;
+      applyState(await api("/api/state"));
+      setStatus(`反映しました（公開 ${res.published} 件）。本番は数分で更新されます。`);
     } catch (e) {
       setStatus(String(e.message || e), true);
+    } finally {
+      updateSelectionCount();
     }
-  }
-
-  q("publish-github").addEventListener("click", () => {
-    void publishGithub();
   });
 }
 

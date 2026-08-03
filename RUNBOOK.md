@@ -138,16 +138,15 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 2. **別リポジトリ**側では、デプロイ成功後に GitHub API で `repository_dispatch` を送るワークフローを置く（Fine-grained PAT または Classic PAT で、`repo` の対象にこのポートフォリオリポジトリを含める）。  
 3. 具体例は `docs/examples/repository-dispatch-caller.yml` を参照。
 
-### G. 管理ページでカテゴリ／表示名／公開範囲を編集する
+### G. 制作物の選択・公開（いちばん簡単）
 
-1. `config/site.json` の `adminPagePath` を開く（現在は `/admin.html`）。  
-2. `adminAccessHash` を空にしている場合は認証なしで開始、値がある場合は管理パスワード認証（SHA-256照合）。  
-3. カテゴリを作成し、↑↓で表示順を決める。各 URL でカテゴリを選択し、表示名・公開範囲（公開/非公開/限定公開）を設定。限定公開はパスワード入力時に SHA-256 が保存される。  
-4. `ローカル反映` はこのブラウザだけに適用（GitHub未更新）。  
-5. `GitHub公開` は **GitHub Token + 公開用パスワード（`adminPublishHash` と照合）** が必須。成功時に `config/apps.config.json` を保存し、再デプロイを起動。  
-5. 反映は Actions の `Deploy to Cloudflare Pages` 成功後に公開ページで確認。
+1. エージェントに「studio を開いて」と依頼（または `npm run studio`）。ブラウザが自動で開く。  
+2. 載せたいアプリにチェック。  
+3. 下の **本番に反映** を押す（保存 → 一覧生成 → commit/push → デプロイ起動）。  
 
-> 注意: 完全なサーバー側認証ではないため、強固な秘匿が必要なら Cloudflare Access などの上位保護を併用してください。
+表示名やカテゴリを変えたいときだけ、各行の「表示名・説明・カテゴリなど」を開く。
+
+本番の `/admin.html` は案内のみ。Studio 本体はデプロイ成果物から除外されます。
 
 ## 3) 各サービスの発行URL（作成・確認先）
 
@@ -170,6 +169,8 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 - `.env` はローカル専用、リポジトリには含めない
 - API token は Read 権限最小化（特に Cloudflare）
 - 外部リンクは `https` のみ（スクリプト側で URL 正規化）
+- **制作物の編集はローカル Studio のみ**（本番 Admin / ブラウザ GitHub Token は廃止）
+- デプロイ成果物から `admin.js` と Studio サーバを除外
 
 ## 6) デザイン運用方針
 

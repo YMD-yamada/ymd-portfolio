@@ -74,6 +74,12 @@ jobs:
             echo "pages project create exited $CREATED (既に存在する場合はこのまま続行)"
           fi
 
+      - name: Strip local-only studio from deploy artifact
+        run: |
+          cp admin.public-stub.html admin.html
+          rm -f admin.js studio-ymd-gate-73x.html scripts/studio-server.mjs
+          # ローカル Studio 本体は本番に載せない（編集・Token 入力経路を遮断）
+
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

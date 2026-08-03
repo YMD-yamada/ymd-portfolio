@@ -29,6 +29,7 @@ const __dirname = dirname(__filename);
 const ROOT = join(__dirname, "..");
 const CONFIG_PATH = join(ROOT, "config", "apps.config.json");
 const OUT_PATH = join(ROOT, "data", "apps.json");
+const CANDIDATES_PATH = join(ROOT, "data", "candidates.json");
 
 const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 const netlifyToken = process.env.NETLIFY_AUTH_TOKEN;
@@ -128,7 +129,7 @@ function normalizeVisibility(v) {
 
 function normalizeAudience(v) {
   const s = String(v || "").trim().toLowerCase();
-  if (s === "kid" || s === "child") return "kid";
+  if (s === "kid" || s === "child" || s === "kids") return "kid";
   if (s === "adult" || s === "r18") return "adult";
   return "normal";
 }
@@ -189,6 +190,29 @@ function applyItemOverrides(items, config) {
     else next.audience = normalizeAudience(next.audience || "normal");
     return next;
   });
+}
+
+/**
+ * ローカル Studio で選んだ URL だけを本番 apps.json に載せる。
+ * selection.mode === "allowlist" のときのみ適用（未設定時は後方互換で全件）。
+ */
+function applySelectionFilter(items, config) {
+  const sel = config.selection || {};
+  const mode = String(sel.mode || "").trim().toLowerCase();
+  if (mode !== "allowlist") return { items, note: "selection: オフ（全候補を出力）" };
+  const allowed = new Set(
+    (Array.isArray(sel.urls) ? sel.urls : [])
+      .map((u) => normalizeUrlKey(u))
+      .filter(Boolean)
+  );
+  if (!allowed.size) {
+    return { items: [], note: "selection: allowlist 空 → 0 件" };
+  }
+  const filtered = (items || []).filter((it) => allowed.has(normalizeUrlKey(it.url || "")));
+  return {
+    items: filtered,
+    note: `selection: allowlist ${allowed.size} URL → 公開 ${filtered.length} 件`,
+  };
 }
 
 /**
@@ -702,17 +726,36 @@ async function run() {
   const withOverrides = applyItemOverrides(finalList, config);
   const ghMeta =
     sources.length > 0 ? sources.map((s) => `${s.kind}:${s.login}`).join(", ") : "";
-  const out = {
-    displayName: (config.profile && config.profile.displayName) || "ymd",
-    githubUser: ghMeta || ((config.github && config.github.user) || ""),
-    generatedAt: new Date().toISOString(),
-    categoryOrder: Array.isArray(config.categoryOrder) ? config.categoryOrder : [],
+  const generatedAt = new Date().toISOString();
+  const categoryOrder = Array.isArray(config.categoryOrder) ? config.categoryOrder : [];
+  const displayName = (config.profile && config.profile.displayName) || "ymd";
+  const githubUser = ghMeta || ((config.github && config.github.user) || "");
+
+  const candidates = {
+    displayName,
+    githubUser,
+    generatedAt,
+    categoryOrder,
     items: withOverrides,
+  };
+  mkdirSync(dirname(CANDIDATES_PATH), { recursive: true });
+  writeFileSync(CANDIDATES_PATH, JSON.stringify(candidates, null, 2) + "\n", "utf8");
+  log.push(`candidates: ${withOverrides.length} 件 → data/candidates.json`);
+
+  const selected = applySelectionFilter(withOverrides, config);
+  log.push(selected.note);
+
+  const out = {
+    displayName,
+    githubUser,
+    generatedAt,
+    categoryOrder,
+    items: selected.items,
   };
 
   mkdirSync(dirname(OUT_PATH), { recursive: true });
   writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + "\n", "utf8");
-  return { ...out, log };
+  return { ...out, log, candidateCount: withOverrides.length };
 }
 
 run()

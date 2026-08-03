@@ -89,6 +89,16 @@ config.overrides.byUrl[url] = {
   displayName: name,
 };
 
+config.selection = config.selection || { mode: "allowlist", urls: [] };
+config.selection.mode = "allowlist";
+config.selection.urls = Array.isArray(config.selection.urls) ? config.selection.urls : [];
+const alreadySelected = config.selection.urls.some(
+  (u) => normalizeUrlKey(u || "") === key,
+);
+if (!alreadySelected && visibility !== "private") {
+  config.selection.urls.unshift(url);
+}
+
 appsData.items = Array.isArray(appsData.items) ? appsData.items : [];
 const alreadyItem = appsData.items.some(
   (it) => it && normalizeUrlKey(it.url || "") === key,

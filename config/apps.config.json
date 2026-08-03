@@ -8,6 +8,20 @@
     "学習",
     "その他"
   ],
+  "selection": {
+    "mode": "allowlist",
+    "urls": [
+      "https://kuroshiro-omega.vercel.app",
+      "https://point-palette-legal.vercel.app/privacy",
+      "https://sns-crosspost.vercel.app",
+      "https://kotoba-zukan.vercel.app",
+      "https://honjo-outing-map.vercel.app",
+      "https://daily-lucky.onrender.com/",
+      "https://bucolic-biscuit-c637b0.netlify.app/",
+      "https://kids-mini-games.vercel.app",
+      "https://fanza-nine.vercel.app"
+    ]
+  },
   "overrides": {
     "defaultCategoryBySource": {
       "manual": "公開中",
@@ -115,6 +129,13 @@
         "visibility": "public",
         "description": "日本向けポイントカード管理（Expo）。法務ページ公開済み。ストア準備中。",
         "displayName": "ポイントパレット"
+      },
+      "https://kuroshiro-omega.vercel.app": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
+        "displayName": "黒白侵攻"
       }
     }
   },
@@ -132,6 +153,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "黒白侵攻",
+      "url": "https://kuroshiro-omega.vercel.app",
+      "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
+      "audience": "normal"
+    },
     {
       "name": "ポイントパレット",
       "url": "https://point-palette-legal.vercel.app/privacy",

@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-03T01:12:33.785Z",
+  "generatedAt": "2026-07-31T10:51:35.902Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -9,18 +9,6 @@
     "その他"
   ],
   "items": [
-    {
-      "id": "manual-1785719553785",
-      "name": "黒白侵攻",
-      "url": "https://kuroshiro-omega.vercel.app",
-      "audience": "normal",
-      "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-03",
-      "category": "公開中",
-      "visibility": "public"
-    },
     {
       "id": "manual-0",
       "name": "ポイントパレット",

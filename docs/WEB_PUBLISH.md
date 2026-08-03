@@ -11,9 +11,12 @@
 
 ## 自動掲載の仕組み
 
-1. **CI（日次 + push）**: `scripts/sync-apps.mjs` が GitHub / Vercel / Netlify / Render / Cloudflare の公開 URL を `data/apps.json` に取り込み → Pages デプロイ。
-2. **エージェント即時登録**: `node scripts/publish-app-listing.mjs --name "..." --url "https://..."`  
-   → register → commit → push → Deploy workflow。
+1. **CI（日次 + push）**: `scripts/sync-apps.mjs` が候補を集め、`selection.urls`（allowlist）に載っているものだけ `data/apps.json` へ → Pages デプロイ。
+2. **ローカル Studio**: `npm run studio` → チェック →「本番に反映」（1ボタンで push まで）。
+3. **エージェント即時登録**: `node scripts/publish-app-listing.mjs --name "..." --url "https://..."`  
+   → register（allowlist 追加）→ commit → push → Deploy workflow。
+
+本番の `/admin.html` は編集不可の案内のみ。GitHub Token をブラウザに入れる経路はない。
 
 ## Web アプリ公開時にエージェントがやること
 

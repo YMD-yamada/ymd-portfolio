@@ -7,71 +7,49 @@
     <meta name="robots" content="noindex,nofollow" />
     <link rel="stylesheet" href="admin.css" />
   </head>
-  <body data-site-config="config/site.json" data-app-config="config/apps.config.json" data-apps="data/apps.json">
-    <main class="admin">
+  <body>
+    <main class="admin admin--simple">
       <header class="admin__head">
-        <a href="index.html" class="admin__back">← 公開ページに戻る</a>
-        <h1>Portfolio Studio</h1>
-        <p>表示名・説明・カテゴリ・公開範囲・表示モード（子供/通常/大人のどのプロフィールに出すか）を管理します。公開ページ側のトグルと同じルールです。</p>
+        <a href="index.html" class="admin__back">プレビュー</a>
+        <h1>公開するアプリを選ぶ</h1>
+        <p>チェックしたものを、下のボタン1つで本番に反映します。</p>
       </header>
 
-      <section class="card gate" id="gate-card">
-        <h2>管理者認証</h2>
-        <p class="muted">管理パスワードを入力してください。</p>
-        <div class="row">
-          <input id="admin-pass" type="password" placeholder="管理パスワード" />
-          <button id="unlock-admin" class="primary" type="button">認証して編集開始</button>
-        </div>
-      </section>
-
-      <section class="card hidden" id="studio-card">
-        <div class="row row--between">
-          <h2>カテゴリ管理</h2>
-          <button id="reload" type="button">再読み込み</button>
-        </div>
-        <div class="row">
-          <input id="new-category" type="text" placeholder="新しいカテゴリ名（例: 公開中）" />
-          <button id="add-category" type="button">カテゴリ作成</button>
-        </div>
-        <p class="muted">↑↓で表示順を変更できます。ここで作ったカテゴリは各アプリで選択可能です。</p>
-        <div id="category-manager"></div>
+      <section class="card" id="gate-card">
+        <h2>起動中…</h2>
+        <p class="muted">`npm run studio` でこの画面を開いてください。</p>
+        <p id="gate-status" class="status" role="status"></p>
       </section>
 
       <section class="card hidden" id="apps-card">
-        <h2>制作物一覧</h2>
-        <p class="muted">各項目の「表示モード」は単一選択です。<strong>子供モード</strong>には子供のみ、<strong>通常</strong>には通常のみ、と厳密に振り分けられます（重複して複数モードには出ません）。R18 は必ず「大人モードのみ」を選び、名前・説明から R18 と判断できる語が残っている場合でも<strong>公開ページの通常モードでは表示されません</strong>。限定公開は閲覧パスワード（SHA-256）を設定します。</p>
+        <div class="row row--between">
+          <h2>候補</h2>
+          <div class="row">
+            <button id="select-all" type="button">全部</button>
+            <button id="select-none" type="button">なし</button>
+            <button id="refresh-candidates" type="button">更新</button>
+          </div>
+        </div>
         <div id="editor"></div>
       </section>
 
-      <section class="card hidden" id="save-card">
-        <label class="field">
-          <span>ローカル反映</span>
-          <p class="muted">このブラウザ内だけに即時反映します（GitHubは更新しません）。</p>
-          <button id="apply-local" type="button">ローカル反映</button>
-        </label>
-        <hr />
-        <label class="field">
-          <span>GitHub公開（保存＋再デプロイ）</span>
-          <p class="muted">公開時のみ、GitHub Token と公開用パスワードが必要です。</p>
-        </label>
-        <label class="field">
-          <span>GitHub Token（repo contents write）</span>
-          <input id="gh-token" type="password" autocomplete="off" placeholder="ghp_..." />
-        </label>
-        <label class="field">
-          <span>公開用パスワード</span>
-          <input id="publish-pass" type="password" autocomplete="off" placeholder="公開ボタン実行時に必須" />
-        </label>
-        <label class="field">
-          <span>コミットメッセージ</span>
-          <input id="commit-message" type="text" value="Update app visibility/category/display from studio" />
-        </label>
-        <div class="row">
-          <button id="publish-github" class="primary" type="button">GitHub公開</button>
+      <details class="card hidden" id="studio-card">
+        <summary>カテゴリの並び（任意）</summary>
+        <div class="row" style="margin-top:0.8rem">
+          <input id="new-category" type="text" placeholder="新しいカテゴリ名" />
+          <button id="add-category" type="button">追加</button>
         </div>
-        <p id="status" class="status" role="status"></p>
-      </section>
+        <div id="category-manager"></div>
+      </details>
     </main>
+
+    <div class="dock hidden" id="save-card">
+      <div class="dock__left">
+        <strong id="selection-count">選択 0</strong>
+        <span id="status" class="status" role="status"></span>
+      </div>
+      <button id="ship" class="primary dock__btn" type="button">本番に反映</button>
+    </div>
 
     <script src="admin.js" defer></script>
   </body>
