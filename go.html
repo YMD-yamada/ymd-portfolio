@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="今日のTodo" />
+  <title>今日のTodo（出先）</title>
+  <style>
+    :root {
+      --bg: #0f1412;
+      --card: #1a221f;
+      --ink: #eef5f1;
+      --muted: #9eb0a8;
+      --accent: #5fd4a4;
+      --line: #2b3832;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(165deg, #15201b, var(--bg) 50%);
+      color: var(--ink);
+      line-height: 1.55;
+      padding: 1rem 1rem 7rem;
+      -webkit-text-size-adjust: 100%;
+    }
+    .top {
+      position: sticky; top: 0; z-index: 5;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(8px);
+      padding: 0.6rem 0 0.75rem;
+      margin: -0.25rem 0 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .top h1 { margin: 0; font-size: 1.15rem; }
+    .top p { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.82rem; }
+    .actions { display: grid; gap: 0.55rem; margin-top: 0.7rem; }
+    button, .btn {
+      appearance: none; border: 0; border-radius: 12px;
+      padding: 0.85rem 1rem; font: inherit; font-weight: 700;
+      text-align: center; text-decoration: none; display: block;
+    }
+    .primary { background: #1f5a44; color: #fff; }
+    .secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    main { max-width: 42rem; margin: 0 auto; }
+    h1 { font-size: 1.35rem; }
+    h2 { font-size: 1.12rem; margin-top: 1.4rem; border-left: 3px solid var(--accent); padding-left: 0.55rem; }
+    h3 { font-size: 1rem; color: var(--accent); }
+    p, li { font-size: 0.95rem; }
+    .step { margin: 0.35rem 0; }
+    code { font-size: 0.86em; color: var(--accent); }
+    pre.copybox {
+      background: #121916; border: 1px solid var(--line); border-radius: 12px;
+      padding: 0.75rem; overflow: auto; white-space: pre-wrap; word-break: break-word;
+      font-size: 0.84rem;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin: 0.6rem 0 1rem; }
+    th, td { border: 1px solid var(--line); padding: 0.45rem 0.5rem; vertical-align: top; }
+    th { background: #15201b; text-align: left; }
+    a { color: var(--accent); }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 1.2rem 0; }
+    .dock {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+      background: color-mix(in srgb, #0f1412 90%, #1f5a44);
+      border-top: 1px solid var(--line);
+      display: grid; gap: 0.45rem;
+    }
+    .toast {
+      position: fixed; left: 50%; bottom: 5.5rem; transform: translateX(-50%);
+      background: #1f5a44; color: #fff; padding: 0.45rem 0.8rem; border-radius: 999px;
+      font-size: 0.85rem; opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .toast.show { opacity: 1; }
+    .meta { color: var(--muted); font-size: 0.75rem; margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top">
+      <h1>今日のTodo（出先）</h1>
+      <p>NAS不要 · このページをホーム画面に追加</p>
+      <div class="actions">
+        <button type="button" class="primary" id="copy-prompt">帰宅後用の指示文をコピー</button>
+        <a class="btn secondary" href="https://sns-crosspost.vercel.app" target="_blank" rel="noopener">ShortSync を開く</a>
+      </div>
+    </div>
+    <article id="board">
+<p>﻿# スマホ用 · Cursor作業共有ボード</p>
+<p>更新: 2026-08-04 07:00 +09:00  </p>
+<p>場所（スマホで探す名前）: Synology Drive 直下 <strong>Todo（今日やること）</strong> → <code>スマホ入口.md</code>（同じ内容の正本は <code>33_Tasks/00_MOBILE.md</code>）</p>
+<p>使い方: 出先では <strong>このファイルだけ</strong> 見る。帰宅後は Cursor に「<code>00_MOBILE</code> の次を実行」と投げる。</p>
+<hr />
+<h2>いま最優先（出先でできること）</h2>
+<h3>A. 人間だけ（スマホで完結）</h3>
+<table><thead><tr>
+<th>#</th>
+<th>やること</th>
+<th>具体フロー</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td><strong>ShortSync 接続</strong></td>
+<td>ブラウザで <a href="https://sns-crosspost.vercel.app" target="_blank" rel="noopener">https://sns-crosspost.vercel.app</a> → パスキー登録 → <code>/dashboard/connections</code> で各SNS OAuth。一度だけ。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>ローンチ文を用意／下書き確認</strong></td>
+<td>Drive 内 <code>33_Tasks/publish-drafts/sns-crosspost.md</code> を開く → 文言OKならメモ。<strong>ライブ投稿は帰宅後 or 明示タイミングで</strong>（エージェントは投稿しない）。</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>ことばずかん再告知文</strong></td>
+<td><code>publish-drafts/kotoba-zukan.md</code> を読む。ポストは人間ボタンのみ。</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>ポイントパレット次手の確認</strong></td>
+<td><code>point-palette</code> の次は <strong>Supabase 2手順</strong>（PCブラウザ推奨）。出先では手順書だけ読む: Projects の <code>docs/FINISH_SUPABASE.md</code>（帰宅後実行）。</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>人間確認キュー（触らない／OK文言だけ）</strong></td>
+<td>Purge / MobileBackup unsync / Photos再インデックス / PROPOSE_DELETE は <strong>「OK」とチャットで明示するまで実行禁止</strong>。出先で決めたらメモ欄に書く。</td>
+</tr>
+</tbody></table>
+<h3>B. 帰宅後すぐ Cursor に投げる一文（コピペ用）</h3>
+<pre class="copybox"><code>
+00_MOBILE と 20260804_セッション統合Todo を読んで、収益レーン P0 からエージェント作業を順に進めて。人間必須以外は勝手にやって、完了したら 00_MOBILE と 00_TODAY を更新して。
+
+</code></pre>
+<hr />
+<h2>セッション横断 · やるべき Todo（フロー付き）</h2>
+<h3>1) 収益レーン #1 ShortSync（最優先）</h3>
+<p><strong>状態</strong>: 本番 <a href="https://sns-crosspost.vercel.app" target="_blank" rel="noopener">https://sns-crosspost.vercel.app</a> 公開済。パスキー＋SNS接続が人間待ち。</p>
+<p><strong>フロー</strong></p>
+<p class="step">1. [人間] パスキー登録＋SNS接続（上表A-1）</p>
+<p class="step">2. [エージェント] <code>MONETIZATION.md</code> スタブ／Stripe flag OFF のまま無料→有料 UI stub／デモキャプション1本</p>
+<p class="step">3. [人間確認] Stripe 価格・キー投入・Enforce ON は明示OKのときだけ</p>
+<p class="step">4. [人間] <code>publish-drafts/sns-crosspost.md</code> をポスト</p>
+<p class="step">5. [エージェント] personal-site / ymd-portfolio 掲載確認（既登録なら skip）</p>
+<p><strong>Repo</strong>: <code>C:\Users\cz7\Projects\sns-crosspost</code></p>
+<h3>2) 収益レーン #2 ことばずかん</h3>
+<p><strong>フロー</strong></p>
+<p class="step">1. [エージェント] Affiliate/Tips スタブ維持・publish-drafts 最新化</p>
+<p class="step">2. [人間] 再告知ポスト（文面は publish-drafts）</p>
+<p class="step">3. アソシエイトタグ有効化は人間が <code>.env</code> 投入後</p>
+<p><strong>Repo</strong>: <code>C:\Users\cz7\Projects\kotoba-zukan</code>  </p>
+<p><strong>URL</strong>: <a href="https://kotoba-zukan.vercel.app" target="_blank" rel="noopener">https://kotoba-zukan.vercel.app</a></p>
+<h3>3) 収益レーン #3 ポイントパレット</h3>
+<p><strong>フロー</strong></p>
+<p class="step">1. [人間] <code>docs/FINISH_SUPABASE.md</code> の2手順（PC）</p>
+<p class="step">2. [エージェント] IAP スタブ・法務URL確認・portfolio 掲載確認</p>
+<p class="step">3. Supabase 後 → EAS → ストア準備（人間: eas login）</p>
+<p><strong>Repo</strong>: <code>C:\Users\cz7\Projects\point-palette</code></p>
+<h3>4) ymd-portfolio（ローカル選択公開）</h3>
+<p><strong>状態</strong>: Studio 簡易化済み（チェック→「本番に反映」）。selection allowlist。本番 Admin 編集廃止。</p>
+<p><strong>フロー（PC）</strong></p>
+<p class="step">1. Cursor: <code>npm run studio</code>（ブラウザ自動）</p>
+<p class="step">2. 載せたいアプリにチェック</p>
+<p class="step">3. <strong>本番に反映</strong>（保存→sync→push→Deploy）</p>
+<p class="step">4. 確認: <a href="https://ymd-portfolio-site.pages.dev/" target="_blank" rel="noopener">https://ymd-portfolio-site.pages.dev/</a></p>
+<p><strong>出先</strong>: 追加したいアプリ名・URLを下のメモに書いておく → 帰宅後エージェントが register/publish。</p>
+<p><strong>Repo</strong>: <code>C:\Users\cz7\Projects\ymd-portfolio</code></p>
+<h3>5) 掲載・公開パイプライン（エージェント）</h3>
+<p>新規完成アプリは自動で:</p>
+<p class="step">1. personal-site <code>publish-app-listing</code>（ストア法務が要る場合）</p>
+<p class="step">2. ymd-portfolio <code>publish-app-listing</code> or Studio で選択</p>
+<p class="step">3. <code>33_Tasks/publish-drafts/&lt;app&gt;.md</code> 更新</p>
+<p class="step">4. 人間は文面ポストのみ</p>
+<h3>6) Ops 待ち（後回し可・明示OK必須）</h3>
+<table><thead><tr>
+<th>項目</th>
+<th>タグ</th>
+<th>次の一言</th>
+</tr></thead><tbody>
+<tr>
+<td>Purge 検疫</td>
+<td>[人間確認]</td>
+<td>「Purge してよい」</td>
+</tr>
+<tr>
+<td>MobileBackup unsync</td>
+<td>[人間確認]</td>
+<td>「unsync OK」</td>
+</tr>
+<tr>
+<td>Photos 再インデックス</td>
+<td>[人間確認]</td>
+<td>DSMで実行（手順 PHOTO_REINDEX）</td>
+</tr>
+<tr>
+<td>NAS 有線</td>
+<td>[人間]</td>
+<td>USB GbE 接続（帰宅後）</td>
+</tr>
+<tr>
+<td>フォルダ PROPOSE_DELETE</td>
+<td>[人間確認]</td>
+<td>ORGANIZE_REFACTOR の削除案を見てOK</td>
+</tr>
+</tbody></table>
+<h3>7) その他アプリ（P3・収益#1が回ってから）</h3>
+<p>kids-mini-games / daily-lucky / ai-companion-chat / cursor-usage-monitor / honjo-outing-map / agent-platform / Igo-vs-Shogi / Triple Triad など  </p>
+<p>→ 詳細は <code>00_TODAY.md</code> のアプリ別 Next。出先では触らない。</p>
+<hr />
+<h2>出先メモ欄（スマホで追記OK）</h2>
+<ul>
+<li>追加したい portfolio 掲載:</li>
+<li>ShortSync 接続できた？:</li>
+<li>ポストした文面:</li>
+<li>帰宅後エージェントへの追加指示:</li>
+</ul>
+<hr />
+<h2>ファイル地図（スマホ）</h2>
+<table><thead><tr>
+<th>見たいもの</th>
+<th>Drive で開く場所</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>入口（いちばん上）</strong></td>
+<td><strong><code>Todo（今日やること）/スマホ入口.md</code></strong></td>
+</tr>
+<tr>
+<td>今日の全体</td>
+<td><code>Todo（今日やること）/今日のTodo.md</code></td>
+</tr>
+<tr>
+<td>はじめに</td>
+<td><code>Todo（今日やること）/はじめに.md</code></td>
+</tr>
+<tr>
+<td>SNS下書き</td>
+<td><code>30_Work（仕事）/33_Tasks（タスク）/publish-drafts/</code></td>
+</tr>
+<tr>
+<td>詳細・待ち</td>
+<td>同 <code>33_Tasks</code> の <code>10_Active</code> / <code>20_Waiting</code></td>
+</tr>
+</tbody></table>
+<p>Hub ミラー（Cloud用）: <code>Projects/work-ops-hub/tasks/</code>（同じ内容を同期）</p>
+    </article>
+    <p class="meta">generated 2026-08-07T14:59:06.171Z · source 00_MOBILE.md · noindex</p>
+  </main>
+  <div class="dock">
+    <button type="button" class="primary" id="copy-prompt-dock">指示文をコピー（Cursor用）</button>
+  </div>
+  <div class="toast" id="toast">コピーしました</div>
+  <script>
+    const PROMPT = "00_MOBILE と 20260804_セッション統合Todo を読んで、収益レーン P0 からエージェント作業を順に進めて。人間必須以外は勝手にやって、完了したら 00_MOBILE と 00_TODAY を更新して。";
+    async function copyPrompt() {
+      try {
+        await navigator.clipboard.writeText(PROMPT || "");
+        const t = document.getElementById("toast");
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 1400);
+      } catch (e) {
+        alert(PROMPT || "コピー失敗");
+      }
+    }
+    document.getElementById("copy-prompt").onclick = copyPrompt;
+    document.getElementById("copy-prompt-dock").onclick = copyPrompt;
+  </script>
+</body>
+</html>
