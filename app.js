@@ -153,6 +153,7 @@ function applyPreviewOverrides(list) {
     if (rule.note) next.note = rule.note;
     if (rule.description) next.description = rule.description;
     if (rule.audience) next.audience = rule.audience;
+    if (rule.icon) next.icon = rule.icon;
     return next;
   });
 }
@@ -291,12 +292,25 @@ function createCard(item, index) {
   article.className = "app-card";
   if (vis === "limited") article.classList.add("app-card--limited");
 
-  const n = String(index + 1).padStart(2, "0");
-  const num = document.createElement("div");
-  num.className = "app-card__icon";
-  num.setAttribute("aria-hidden", "true");
-  num.textContent = n;
-  article.appendChild(num);
+  const iconWrap = document.createElement("div");
+  iconWrap.className = "app-card__icon";
+  iconWrap.setAttribute("aria-hidden", "true");
+  const iconSrc = String(item.icon || "").trim();
+  if (iconSrc) {
+    const img = document.createElement("img");
+    img.className = "app-card__icon-img";
+    img.src = iconSrc;
+    img.alt = "";
+    img.width = 48;
+    img.height = 48;
+    img.loading = "lazy";
+    img.decoding = "async";
+    iconWrap.appendChild(img);
+  } else {
+    iconWrap.classList.add("app-card__icon--fallback");
+    iconWrap.textContent = String(item.name || "?").slice(0, 1);
+  }
+  article.appendChild(iconWrap);
 
   const h3 = document.createElement("h3");
   h3.className = "app-card__name";

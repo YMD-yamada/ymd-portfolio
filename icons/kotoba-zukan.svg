@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-hidden="true">
+  <rect width="64" height="64" rx="14" fill="#c45c4a"/>
+  <path d="M12 18h18c4 0 6 2 6 6v26H18c-3 0-6-2-6-6V18z" fill="#f7f1e4"/>
+     <path d="M52 18H34c-4 0-6 2-6 6v26h18c3 0 6-2 6-6V18z" fill="#efe6d2"/>
+     <path d="M32 20v28" stroke="#1f5c4a" stroke-width="1.8"/>
+     <text x="20" y="40" font-size="14" font-family="Georgia, serif" fill="#1f5c4a">あ</text>
+     <text x="36" y="40" font-size="14" font-family="Georgia, serif" fill="#1f5c4a">ん</text>
+</svg>

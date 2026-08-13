@@ -165,6 +165,7 @@ function normalizeByUrlMap(map) {
               url: String(rule.storeHub.url || "").trim(),
             }
           : null,
+      icon: typeof rule.icon === "string" ? rule.icon.trim() : "",
     };
   }
   return out;
@@ -203,6 +204,7 @@ function applyItemOverrides(items, config) {
         url: rule.storeHub.url,
       };
     }
+    if (rule.icon) next.icon = rule.icon;
     return next;
   });
 }

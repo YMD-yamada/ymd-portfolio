@@ -8,6 +8,11 @@
 
 本庄おでかけ / 会社紹介 / おかえり連絡 / juken-navi → `persona-hp-platform`（次セッション）
 
+## UI (2026-08-13)
+
+- カードは番号ではなく `/icons/*.svg` のイメージアイコン
+- 分類: 生活・ツール / 子ども向け / ゲーム / 仕事 / ひと息 / 成人向け
+
 ## 本番
 
 https://ymd-portfolio-site.pages.dev/  

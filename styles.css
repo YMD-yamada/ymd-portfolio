@@ -523,12 +523,30 @@ body[data-audience-theme="adult"] {
 }
 
 .app-card__icon {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  margin-bottom: 0.75rem;
-  font-variant-numeric: tabular-nums;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.85rem;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(20, 24, 22, 0.12);
+}
+
+.app-card__icon-img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+}
+
+.app-card__icon--fallback {
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f4f7f4;
+  background: var(--accent);
+  letter-spacing: 0;
 }
 
 .app-card__name {
@@ -642,8 +660,15 @@ body[data-audience-theme="adult"] {
 }
 
 .app-card--limited .app-card__icon {
-  font-size: 0.68rem;
+  width: 36px;
+  height: 36px;
   margin-bottom: 0.45rem;
+  border-radius: 9px;
+}
+
+.app-card--limited .app-card__icon-img {
+  width: 36px;
+  height: 36px;
 }
 
 .app-card--limited .app-card__name {
@@ -695,7 +720,7 @@ body[data-audience-theme="adult"] {
 
 .apps-layout--list .app-card {
   display: grid;
-  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
   column-gap: 0.85rem;
   row-gap: 0.25rem;
   align-items: start;

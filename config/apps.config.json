@@ -3,10 +3,12 @@
     "displayName": "ymd"
   },
   "categoryOrder": [
-    "公開中",
-    "実験中",
-    "学習",
-    "その他"
+    "生活・ツール",
+    "子ども向け",
+    "ゲーム",
+    "仕事",
+    "ひと息",
+    "成人向け"
   ],
   "selection": {
     "mode": "allowlist",
@@ -25,30 +27,33 @@
   },
   "overrides": {
     "defaultCategoryBySource": {
-      "manual": "公開中",
-      "github": "実験中",
-      "netlify": "公開中",
-      "vercel": "公開中",
-      "render": "公開中",
-      "cloudflare": "公開中"
+      "manual": "ひと息",
+      "github": "ゲーム",
+      "netlify": "ひと息",
+      "vercel": "ひと息",
+      "render": "ひと息",
+      "cloudflare": "ひと息"
     },
     "byUrl": {
       "https://daily-lucky.onrender.com/": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "ひと息",
         "visibility": "public",
+        "icon": "./icons/daily-lucky.svg",
         "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。"
       },
       "https://bucolic-biscuit-c637b0.netlify.app/": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "ひと息",
         "visibility": "public",
+        "icon": "./icons/travel-mood.svg",
         "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。"
       },
       "https://fanza-nine.vercel.app": {
         "audience": "adult",
-        "category": "公開中",
+        "category": "成人向け",
         "visibility": "public",
+        "icon": "./icons/fanza.svg",
         "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。"
       },
       "https://triptune12345.netlify.app": {
@@ -97,16 +102,18 @@
       },
       "https://kids-mini-games.vercel.app": {
         "audience": "kid",
-        "category": "公開中",
+        "category": "子ども向け",
         "visibility": "public",
         "displayName": "ぴょんのあそびじま",
+        "icon": "./icons/pyon.svg",
         "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。個人情報なし・ログインなし。"
       },
       "https://kotoba-zukan.vercel.app": {
         "audience": "kid",
-        "category": "公開中",
+        "category": "子ども向け",
         "visibility": "public",
         "displayName": "ちいさなことばずかん",
+        "icon": "./icons/kotoba-zukan.svg",
         "description": "タッチでよめる・あそべる子ども向けことば図鑑。もじ練習・クイズ・あそび付き。アカウント不要・オフラインOK。"
       },
       "https://honjo-outing-map.vercel.app": {
@@ -118,31 +125,35 @@
       },
       "https://sns-crosspost.vercel.app": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "仕事",
         "visibility": "public",
         "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
-        "displayName": "ShortSync Studio"
+        "displayName": "ShortSync Studio",
+        "icon": "./icons/shortsync.svg"
       },
       "https://kuroshiro-omega.vercel.app": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "ゲーム",
         "visibility": "public",
         "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
-        "displayName": "黒白侵攻"
+        "displayName": "黒白侵攻",
+        "icon": "./icons/kuroshiro.svg"
       },
       "https://triple-triad-orcin.vercel.app": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "ゲーム",
         "visibility": "public",
         "description": "FF8トリプルトライアド再現（公式110枚データ・Same/Plus対応）",
-        "displayName": "Triple Triad"
+        "displayName": "Triple Triad",
+        "icon": "./icons/triple-triad.svg"
       },
       "https://github.com/YMD-yamada/windows-screentime/releases/latest": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "生活・ツール",
         "visibility": "public",
         "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
         "displayName": "Timeboard",
+        "icon": "./icons/timeboard.svg",
         "storeHub": {
           "slug": "timeboard",
           "label": "Microsoft Store 申請",
@@ -158,10 +169,11 @@
       },
       "https://point-palette-legal.vercel.app/demo": {
         "audience": "normal",
-        "category": "公開中",
+        "category": "生活・ツール",
         "visibility": "public",
         "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
         "displayName": "ポイントパレット",
+        "icon": "./icons/point-palette.svg",
         "storeHub": {
           "slug": "point-palette",
           "label": "App Store / Google Play 申請",

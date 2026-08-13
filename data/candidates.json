@@ -1,12 +1,14 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-13T06:20:16.127Z",
+  "generatedAt": "2026-08-13T06:40:56.165Z",
   "categoryOrder": [
-    "公開中",
-    "実験中",
-    "学習",
-    "その他"
+    "生活・ツール",
+    "子ども向け",
+    "ゲーム",
+    "仕事",
+    "ひと息",
+    "成人向け"
   ],
   "items": [
     {
@@ -18,13 +20,14 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
+      "category": "生活・ツール",
       "visibility": "public",
       "storeHub": {
         "slug": "point-palette",
         "label": "App Store / Google Play 申請",
         "url": "https://personal-site-taupe-gamma.vercel.app/apps/point-palette/"
-      }
+      },
+      "icon": "./icons/point-palette.svg"
     },
     {
       "id": "manual-1",
@@ -35,13 +38,14 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
+      "category": "生活・ツール",
       "visibility": "public",
       "storeHub": {
         "slug": "timeboard",
         "label": "Microsoft Store 申請",
         "url": "https://personal-site-taupe-gamma.vercel.app/apps/timeboard/"
-      }
+      },
+      "icon": "./icons/timeboard.svg"
     },
     {
       "id": "manual-2",
@@ -52,8 +56,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "ゲーム",
+      "visibility": "public",
+      "icon": "./icons/triple-triad.svg"
     },
     {
       "id": "manual-3",
@@ -64,8 +69,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "ゲーム",
+      "visibility": "public",
+      "icon": "./icons/kuroshiro.svg"
     },
     {
       "id": "manual-4",
@@ -76,8 +82,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "仕事",
+      "visibility": "public",
+      "icon": "./icons/shortsync.svg"
     },
     {
       "id": "manual-5",
@@ -88,8 +95,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "子ども向け",
+      "visibility": "public",
+      "icon": "./icons/kotoba-zukan.svg"
     },
     {
       "id": "manual-6",
@@ -100,8 +108,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "ひと息",
+      "visibility": "public",
+      "icon": "./icons/daily-lucky.svg"
     },
     {
       "id": "manual-7",
@@ -112,8 +121,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "ひと息",
+      "visibility": "public",
+      "icon": "./icons/travel-mood.svg"
     },
     {
       "id": "manual-8",
@@ -124,8 +134,9 @@
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
+      "category": "子ども向け",
+      "visibility": "public",
+      "icon": "./icons/pyon.svg"
     },
     {
       "id": "github-1203886726",
@@ -135,9 +146,10 @@
       "source": "github",
       "kind": "site",
       "updated": "2026-08-07T15:13:14Z",
-      "category": "公開中",
+      "category": "成人向け",
       "visibility": "public",
-      "audience": "adult"
+      "audience": "adult",
+      "icon": "./icons/fanza.svg"
     }
   ]
 }
