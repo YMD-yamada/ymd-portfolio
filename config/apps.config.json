@@ -11,6 +11,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
       "https://kuroshiro-omega.vercel.app",
       "https://point-palette-legal.vercel.app/privacy",
@@ -144,6 +145,13 @@
         "visibility": "public",
         "description": "FF8トリプルトライアド再現（公式110枚データ・Same/Plus対応）",
         "displayName": "Triple Triad"
+      },
+      "https://github.com/YMD-yamada/windows-screentime/releases/latest": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
+        "displayName": "Timeboard"
       }
     }
   },
@@ -161,6 +169,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "Timeboard",
+      "url": "https://github.com/YMD-yamada/windows-screentime/releases/latest",
+      "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
+      "audience": "normal"
+    },
     {
       "name": "Triple Triad",
       "url": "https://triple-triad-orcin.vercel.app",

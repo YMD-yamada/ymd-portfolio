@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-03T12:13:36.136Z",
+  "generatedAt": "2026-08-13T05:37:20.719Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -9,6 +9,18 @@
     "その他"
   ],
   "items": [
+    {
+      "id": "manual-1786599440719",
+      "name": "Timeboard",
+      "url": "https://github.com/YMD-yamada/windows-screentime/releases/latest",
+      "audience": "normal",
+      "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-08-13",
+      "category": "公開中",
+      "visibility": "public"
+    },
     {
       "id": "manual-1785759216136",
       "name": "Triple Triad",
