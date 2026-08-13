@@ -2,18 +2,13 @@
 
 ## 目的
 
-公開HP / 申請不要の Web 制作物ポートフォリオ。SNS で紹介するときの正本。
-ストア法務ハブ（personal-site）とは別。ストア申請アプリはカードから法務へリンクして呼応。
+公開HP。SNS入口。**個人情報・生活圏アプリは載せない。**
 
-## 自動化
+## 公開禁止（個人用へ）
 
-- CI: push / 日次 `sync-apps` → Cloudflare Pages
-- エージェント: `scripts/publish-app-listing.mjs`（Web） / personal-site `--store`（申請アプリ）
-- 公開リスト: `config/apps.config.json` の `selection.urls` のみが `data/apps.json` に載る
-- OG: `/og.png`（SNSカード）
+本庄おでかけ / 会社紹介 / おかえり連絡 / juken-navi → `persona-hp-platform`（次セッション）
 
 ## 本番
 
-https://ymd-portfolio-site.pages.dev/
-
+https://ymd-portfolio-site.pages.dev/  
 ストア法務: https://personal-site-taupe-gamma.vercel.app/

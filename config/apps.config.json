@@ -12,13 +12,11 @@
     "mode": "allowlist",
     "urls": [
       "https://point-palette-legal.vercel.app/demo",
-      "https://line-notification-home.ymd-hude.workers.dev/share",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
       "https://kuroshiro-omega.vercel.app",
       "https://sns-crosspost.vercel.app",
       "https://kotoba-zukan.vercel.app",
-      "https://honjo-outing-map.vercel.app",
       "https://daily-lucky.onrender.com/",
       "https://bucolic-biscuit-c637b0.netlify.app/",
       "https://kids-mini-games.vercel.app",
@@ -62,10 +60,9 @@
       "https://neon-biscuit-9a2f37.netlify.app": {
         "audience": "normal",
         "category": "その他",
-        "visibility": "limited",
+        "visibility": "private",
         "displayName": "会社紹介",
-        "description": "neon-biscuit-9a2f37 のホスティング上の試作サイト。環境依存が気になるときほど、このURLだけで状態を確認しやすいです。細部のアニメーションやレスポンスも実ページでチェックしてください。",
-        "accessHash": "3d60e62df5be3db92d430e0a7dcfc0160a2cdb18ac2d6a5f829e9d243d6d939c"
+        "description": "個人・会社紹介。公開HPには載せない。"
       },
       "https://fanza-sample-swipe-bjxf0beqb-ymdhude-4490s-projects.vercel.app": {
         "audience": "adult",
@@ -95,8 +92,8 @@
       "https://juken-navi.onrender.com": {
         "audience": "normal",
         "category": "実験中",
-        "visibility": "public",
-        "description": "juken-navi の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。"
+        "visibility": "private",
+        "description": "個人利用の受験ナビ。公開HPには載せない。"
       },
       "https://kids-mini-games.vercel.app": {
         "audience": "kid",
@@ -115,8 +112,8 @@
       "https://honjo-outing-map.vercel.app": {
         "audience": "normal",
         "category": "公開中",
-        "visibility": "public",
-        "description": "本庄市の子育て世帯向け。遊び・食事・イベントを地図から探し、おすすめとルートでマンネリを少し外すWebアプリ。",
+        "visibility": "private",
+        "description": "本庄市の個人・家族向けおでかけマップ。公開HPには載せない。",
         "displayName": "本庄おでかけマップ"
       },
       "https://sns-crosspost.vercel.app": {
@@ -155,8 +152,8 @@
       "https://line-notification-home.ymd-hude.workers.dev/share": {
         "audience": "normal",
         "category": "公開中",
-        "visibility": "public",
-        "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
+        "visibility": "private",
+        "description": "家族の帰宅・夕飯連絡。公開HPには載せない。",
         "displayName": "おかえり連絡"
       },
       "https://point-palette-legal.vercel.app/demo": {
@@ -178,12 +175,20 @@
       "ymd-portfolio-site.pages.dev",
       "personal-site-taupe-gamma.vercel.app",
       "ymdhude-4490s-projects.vercel.app",
-      "point-palette-legal"
+      "point-palette-legal",
+      "honjo-outing-map",
+      "line-notification-home",
+      "neon-biscuit-9a2f37",
+      "juken-navi"
     ],
     "nameSubstrings": [
       "personal-site",
       "ymd-portfolio",
-      "point-palette-legal"
+      "point-palette-legal",
+      "honjo",
+      "おかえり",
+      "会社紹介",
+      "juken-navi"
     ]
   },
   "manual": [
@@ -191,12 +196,6 @@
       "name": "ポイントパレット",
       "url": "https://point-palette-legal.vercel.app/demo",
       "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
-      "audience": "normal"
-    },
-    {
-      "name": "おかえり連絡",
-      "url": "https://line-notification-home.ymd-hude.workers.dev/share",
-      "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
       "audience": "normal"
     },
     {
@@ -228,12 +227,6 @@
       "url": "https://kotoba-zukan.vercel.app",
       "description": "タッチでよめる・あそべる子ども向けことば図鑑。もじ練習・クイズ・あそび付き。アカウント不要・オフラインOK。",
       "audience": "kids"
-    },
-    {
-      "name": "本庄おでかけマップ",
-      "url": "https://honjo-outing-map.vercel.app",
-      "description": "本庄市の子育て世帯向け。遊び・食事・イベントを地図から探し、おすすめとルートでマンネリを少し外すWebアプリ。",
-      "audience": "normal"
     },
     {
       "name": "Daily Lucky",
@@ -271,7 +264,9 @@
     "excludeNames": [
       "personal-site",
       "ymd-portfolio",
-      "point-palette-legal"
+      "point-palette-legal",
+      "honjo-outing-map",
+      "juken-navi"
     ],
     "excludeNameSubstrings": []
   },

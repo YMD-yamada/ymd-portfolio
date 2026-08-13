@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-13T06:09:58.610Z",
+  "generatedAt": "2026-08-13T06:20:16.127Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -28,18 +28,6 @@
     },
     {
       "id": "manual-1",
-      "name": "おかえり連絡",
-      "url": "https://line-notification-home.ymd-hude.workers.dev/share",
-      "audience": "normal",
-      "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
-    },
-    {
-      "id": "manual-2",
       "name": "Timeboard",
       "url": "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "audience": "normal",
@@ -56,7 +44,7 @@
       }
     },
     {
-      "id": "manual-3",
+      "id": "manual-2",
       "name": "Triple Triad",
       "url": "https://triple-triad-orcin.vercel.app",
       "audience": "normal",
@@ -68,7 +56,7 @@
       "visibility": "public"
     },
     {
-      "id": "manual-4",
+      "id": "manual-3",
       "name": "黒白侵攻",
       "url": "https://kuroshiro-omega.vercel.app",
       "audience": "normal",
@@ -80,7 +68,7 @@
       "visibility": "public"
     },
     {
-      "id": "manual-5",
+      "id": "manual-4",
       "name": "ShortSync Studio",
       "url": "https://sns-crosspost.vercel.app",
       "audience": "normal",
@@ -92,7 +80,7 @@
       "visibility": "public"
     },
     {
-      "id": "manual-6",
+      "id": "manual-5",
       "name": "ちいさなことばずかん",
       "url": "https://kotoba-zukan.vercel.app",
       "audience": "kid",
@@ -104,19 +92,7 @@
       "visibility": "public"
     },
     {
-      "id": "manual-7",
-      "name": "本庄おでかけマップ",
-      "url": "https://honjo-outing-map.vercel.app",
-      "audience": "normal",
-      "description": "本庄市の子育て世帯向け。遊び・食事・イベントを地図から探し、おすすめとルートでマンネリを少し外すWebアプリ。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "公開中",
-      "visibility": "public"
-    },
-    {
-      "id": "manual-8",
+      "id": "manual-6",
       "name": "Daily Lucky",
       "url": "https://daily-lucky.onrender.com/",
       "audience": "normal",
@@ -128,7 +104,7 @@
       "visibility": "public"
     },
     {
-      "id": "manual-9",
+      "id": "manual-7",
       "name": "気分で旅行先",
       "url": "https://bucolic-biscuit-c637b0.netlify.app/",
       "audience": "normal",
@@ -140,7 +116,7 @@
       "visibility": "public"
     },
     {
-      "id": "manual-10",
+      "id": "manual-8",
       "name": "ぴょんのあそびじま",
       "url": "https://kids-mini-games.vercel.app",
       "audience": "kid",
