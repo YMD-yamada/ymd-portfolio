@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-13T05:37:20.719Z",
+  "generatedAt": "2026-08-13T05:50:08.735Z",
   "categoryOrder": [
     "公開中",
     "実験中",
@@ -9,6 +9,18 @@
     "その他"
   ],
   "items": [
+    {
+      "id": "manual-1786600208735",
+      "name": "おかえり連絡",
+      "url": "https://line-notification-home.ymd-hude.workers.dev/share",
+      "audience": "normal",
+      "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-08-13",
+      "category": "公開中",
+      "visibility": "public"
+    },
     {
       "id": "manual-1786599440719",
       "name": "Timeboard",

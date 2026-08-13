@@ -11,6 +11,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://line-notification-home.ymd-hude.workers.dev/share",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
       "https://kuroshiro-omega.vercel.app",
@@ -152,6 +153,13 @@
         "visibility": "public",
         "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
         "displayName": "Timeboard"
+      },
+      "https://line-notification-home.ymd-hude.workers.dev/share": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
+        "displayName": "おかえり連絡"
       }
     }
   },
@@ -169,6 +177,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "おかえり連絡",
+      "url": "https://line-notification-home.ymd-hude.workers.dev/share",
+      "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
+      "audience": "normal"
+    },
     {
       "name": "Timeboard",
       "url": "https://github.com/YMD-yamada/windows-screentime/releases/latest",
