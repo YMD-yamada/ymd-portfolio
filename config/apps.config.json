@@ -11,6 +11,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://point-palette-legal.vercel.app/demo",
       "https://line-notification-home.ymd-hude.workers.dev/share",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
@@ -160,6 +161,13 @@
         "visibility": "public",
         "description": "家族への帰宅・夕飯連絡をボタンで。お試しあり。各自の公式LINEで動かす（作者OA非共有）。",
         "displayName": "おかえり連絡"
+      },
+      "https://point-palette-legal.vercel.app/demo": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
+        "displayName": "ポイントパレット"
       }
     }
   },
@@ -177,6 +185,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "ポイントパレット",
+      "url": "https://point-palette-legal.vercel.app/demo",
+      "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
+      "audience": "normal"
+    },
     {
       "name": "おかえり連絡",
       "url": "https://line-notification-home.ymd-hude.workers.dev/share",
