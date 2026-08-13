@@ -100,7 +100,7 @@ function applyBranding(d) {
   if (d.displayName) {
     setTextContent(document.getElementById("brand"), d.displayName);
     setTextContent(document.getElementById("footer-name"), d.displayName);
-    document.title = `${d.displayName} — Portfolio`;
+    document.title = `${d.displayName} — 公開HP / Portfolio`;
   }
   const dm = document.querySelector('meta[name="description"]');
   if (dm && !keepMeta) {
@@ -209,8 +209,8 @@ function isVisibleForMode(item, mode) {
   const tier = itemAudienceTier(item);
   if (mode === "adult") return tier === "adult";
   if (mode === "kid") return tier === "kid";
-  // normal: adult フラグ済みだけでなくテキスト上も R18 っぽいものは決して出さない
-  return tier === "normal" && !looksLikeRestrictedAdultContent(item);
+  // normal: 一般 + 子ども向け。成人向けは出さない（SNS・人向けHPの既定）
+  return tier !== "adult" && !looksLikeRestrictedAdultContent(item);
 }
 
 function applyAudienceMode(mode, opts = {}) {
@@ -315,6 +315,19 @@ function createCard(item, index) {
     article.appendChild(badge);
   }
 
+  const hub = item.storeHub;
+  if (hub && hub.url) {
+    const store = document.createElement("p");
+    store.className = "app-card__store";
+    const storeLink = document.createElement("a");
+    storeLink.href = hub.url;
+    storeLink.target = "_blank";
+    storeLink.rel = "noopener noreferrer";
+    storeLink.textContent = hub.label || "ストア申請・法務";
+    store.appendChild(storeLink);
+    article.appendChild(store);
+  }
+
   const p = document.createElement("p");
   p.className = "app-card__desc";
   p.textContent = item.description || "";
@@ -387,7 +400,7 @@ function emptyState(repoUrl, profileUrl, mode) {
       "このモードでは「大人用」にだけ指定されている制作物を表示しています。いま、その対象となる入口はありません。";
   } else if (mode === "normal") {
     main =
-      "このモードでは「通常用」にだけ指定されている制作物を表示しています。いま、その対象となる入口はありません。";
+      "このモードでは一般向けと子ども向けの制作物を表示しています。いま、その対象となる入口はありません。";
   } else {
     main =
       "ストア公開済みのアプリはまだなく、ここに載せるリンクもこれから増やしていきます。リポジトリや試作の置き場は ";
@@ -563,10 +576,28 @@ async function boot() {
   }
 }
 
+function wireShareControls() {
+  const btn = document.getElementById("copy-hp-url");
+  const status = document.getElementById("copy-hp-status");
+  if (!btn || btn.dataset.wired === "1") return;
+  btn.dataset.wired = "1";
+  const url = "https://ymd-portfolio-site.pages.dev/";
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      if (status) status.textContent = "コピーしました: " + url;
+    } catch {
+      if (status) status.textContent = url;
+    }
+  });
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
+    wireShareControls();
     void boot();
   });
 } else {
+  wireShareControls();
   void boot();
 }

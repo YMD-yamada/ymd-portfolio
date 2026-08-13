@@ -157,6 +157,14 @@ function normalizeByUrlMap(map) {
         typeof rule.audience === "string" && String(rule.audience).trim() !== ""
           ? normalizeAudience(rule.audience)
           : "",
+      storeHub:
+        rule.storeHub && typeof rule.storeHub === "object"
+          ? {
+              slug: String(rule.storeHub.slug || "").trim(),
+              label: String(rule.storeHub.label || "ストア申請").trim(),
+              url: String(rule.storeHub.url || "").trim(),
+            }
+          : null,
     };
   }
   return out;
@@ -188,6 +196,13 @@ function applyItemOverrides(items, config) {
     if (rule.description) next.description = rule.description;
     if (rule.audience) next.audience = normalizeAudience(rule.audience);
     else next.audience = normalizeAudience(next.audience || "normal");
+    if (rule.storeHub && rule.storeHub.url) {
+      next.storeHub = {
+        slug: rule.storeHub.slug || "",
+        label: rule.storeHub.label || "ストア申請",
+        url: rule.storeHub.url,
+      };
+    }
     return next;
   });
 }

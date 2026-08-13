@@ -1,7 +1,7 @@
 {
   "canonicalUrl": "https://ymd-portfolio-site.pages.dev/",
-  "metaDescription": "ymd のポートフォリオ。学びと実験の記録。Web 公開アプリはプライバシーポリシーに従って掲載します。ご連絡はメールから。",
-  "ogImage": "",
+  "metaDescription": "ymd の公開HP。Web制作物の入口。ストア申請用法務は別サイト。SNSで紹介するときの正本はここ。",
+  "ogImage": "https://ymd-portfolio-site.pages.dev/og.png",
   "githubRepoUrl": "https://github.com/YMD-yamada/ymd-portfolio",
   "githubProfileUrl": "https://github.com/ymd",
   "adminPagePath": "admin.html",

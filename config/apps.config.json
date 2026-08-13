@@ -16,7 +16,6 @@
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
       "https://kuroshiro-omega.vercel.app",
-      "https://point-palette-legal.vercel.app/privacy",
       "https://sns-crosspost.vercel.app",
       "https://kotoba-zukan.vercel.app",
       "https://honjo-outing-map.vercel.app",
@@ -100,14 +99,14 @@
         "description": "juken-navi の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。"
       },
       "https://kids-mini-games.vercel.app": {
-        "audience": "normal",
+        "audience": "kid",
         "category": "公開中",
         "visibility": "public",
         "displayName": "ぴょんのあそびじま",
         "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。個人情報なし・ログインなし。"
       },
       "https://kotoba-zukan.vercel.app": {
-        "audience": "kids",
+        "audience": "kid",
         "category": "公開中",
         "visibility": "public",
         "displayName": "ちいさなことばずかん",
@@ -126,13 +125,6 @@
         "visibility": "public",
         "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
         "displayName": "ShortSync Studio"
-      },
-      "https://point-palette-legal.vercel.app/privacy": {
-        "audience": "normal",
-        "category": "公開中",
-        "visibility": "public",
-        "description": "日本向けポイントカード管理（Expo）。法務ページ公開済み。ストア準備中。",
-        "displayName": "ポイントパレット"
       },
       "https://kuroshiro-omega.vercel.app": {
         "audience": "normal",
@@ -153,7 +145,12 @@
         "category": "公開中",
         "visibility": "public",
         "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
-        "displayName": "Timeboard"
+        "displayName": "Timeboard",
+        "storeHub": {
+          "slug": "timeboard",
+          "label": "Microsoft Store 申請",
+          "url": "https://personal-site-taupe-gamma.vercel.app/apps/timeboard/"
+        }
       },
       "https://line-notification-home.ymd-hude.workers.dev/share": {
         "audience": "normal",
@@ -167,7 +164,12 @@
         "category": "公開中",
         "visibility": "public",
         "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
-        "displayName": "ポイントパレット"
+        "displayName": "ポイントパレット",
+        "storeHub": {
+          "slug": "point-palette",
+          "label": "App Store / Google Play 申請",
+          "url": "https://personal-site-taupe-gamma.vercel.app/apps/point-palette/"
+        }
       }
     }
   },
@@ -213,12 +215,6 @@
       "name": "黒白侵攻",
       "url": "https://kuroshiro-omega.vercel.app",
       "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
-      "audience": "normal"
-    },
-    {
-      "name": "ポイントパレット",
-      "url": "https://point-palette-legal.vercel.app/privacy",
-      "description": "日本向けポイントカード管理（Expo）。法務ページ公開済み。ストア準備中。",
       "audience": "normal"
     },
     {
