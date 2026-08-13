@@ -151,7 +151,7 @@
         "audience": "normal",
         "category": "生活・ツール",
         "visibility": "public",
-        "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
+        "description": "PC で何に時間を使ったかを見て、使っていないアプリを外す。データはこの PC だけ。Apple Screen Time とは無関係。",
         "displayName": "Timeboard",
         "icon": "./icons/timeboard.svg",
         "storeHub": {
@@ -213,7 +213,7 @@
     {
       "name": "Timeboard",
       "url": "https://github.com/YMD-yamada/windows-screentime/releases/latest",
-      "description": "Windows のアプリ使用時間を端末内だけで記録。未使用アプリの削除検討を助けるデジタルウェルビーイング。Apple Screen Time とは無関係。",
+      "description": "PC で何に時間を使ったかを見て、使っていないアプリを外す。データはこの PC だけ。Apple Screen Time とは無関係。",
       "audience": "normal"
     },
     {
