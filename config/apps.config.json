@@ -14,7 +14,7 @@
     "mode": "allowlist",
     "urls": [
       "https://github.com/YMD-yamada/cursor-usage-monitor",
-      "https://point-palette-legal.vercel.app/demo",
+      "https://point-palette-web.vercel.app",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
       "https://kuroshiro-omega.vercel.app",
@@ -168,7 +168,7 @@
         "description": "家族の帰宅・夕飯連絡。公開HPには載せない。",
         "displayName": "おかえり連絡"
       },
-      "https://point-palette-legal.vercel.app/demo": {
+      "https://point-palette-web.vercel.app": {
         "audience": "normal",
         "category": "生活・ツール",
         "visibility": "public",
@@ -226,7 +226,7 @@
     },
     {
       "name": "ポイントパレット",
-      "url": "https://point-palette-legal.vercel.app/demo",
+      "url": "https://point-palette-web.vercel.app",
       "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
       "audience": "normal"
     },

@@ -32,7 +32,7 @@
     {
       "id": "manual-0",
       "name": "ポイントパレット",
-      "url": "https://point-palette-legal.vercel.app/demo",
+      "url": "https://point-palette-web.vercel.app",
       "audience": "normal",
       "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
       "source": "manual",
