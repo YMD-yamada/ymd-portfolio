@@ -14,7 +14,7 @@
     {
       "id": "manual-1786674485729",
       "name": "Usageboard",
-      "url": "https://github.com/YMD-yamada/cursor-usage-monitor",
+      "url": "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
       "audience": "normal",
       "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
       "source": "manual",

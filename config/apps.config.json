@@ -13,7 +13,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
-      "https://github.com/YMD-yamada/cursor-usage-monitor",
+      "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
       "https://point-palette-web.vercel.app",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
@@ -181,7 +181,7 @@
           "url": "https://personal-site-taupe-gamma.vercel.app/apps/point-palette/"
         }
       },
-      "https://github.com/YMD-yamada/cursor-usage-monitor": {
+      "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest": {
         "audience": "normal",
         "category": "仕事",
         "visibility": "public",
@@ -220,7 +220,7 @@
   "manual": [
     {
       "name": "Usageboard",
-      "url": "https://github.com/YMD-yamada/cursor-usage-monitor",
+      "url": "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
       "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
       "audience": "normal"
     },
