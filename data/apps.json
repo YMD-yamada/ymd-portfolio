@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-14T02:28:05.729Z",
+  "generatedAt": "2026-08-14T02:38:44.534Z",
   "categoryOrder": [
     "生活・ツール",
     "子ども向け",
@@ -13,16 +13,21 @@
   "items": [
     {
       "id": "manual-1786674485729",
-      "name": "Cursor Usage Monitor",
+      "name": "Usageboard",
       "url": "https://github.com/YMD-yamada/cursor-usage-monitor",
       "audience": "normal",
-      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。課金の説明と公式ダッシュボードへの導線。データはこの PC だけ。",
+      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-14",
       "category": "仕事",
       "visibility": "public",
-      "icon": "./icons/cursor-usage-monitor.svg"
+      "icon": "./icons/cursor-usage-monitor.svg",
+      "storeHub": {
+        "slug": "usageboard",
+        "label": "Microsoft Store 申請",
+        "url": "https://personal-site-taupe-gamma.vercel.app/apps/usageboard/"
+      }
     },
     {
       "id": "manual-0",

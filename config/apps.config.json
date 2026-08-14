@@ -185,9 +185,14 @@
         "audience": "normal",
         "category": "仕事",
         "visibility": "public",
-        "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。課金の説明と公式ダッシュボードへの導線。データはこの PC だけ。",
-        "displayName": "Cursor Usage Monitor",
-        "icon": "./icons/cursor-usage-monitor.svg"
+        "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
+        "displayName": "Usageboard",
+        "icon": "./icons/cursor-usage-monitor.svg",
+        "storeHub": {
+          "slug": "usageboard",
+          "label": "Microsoft Store 申請",
+          "url": "https://personal-site-taupe-gamma.vercel.app/apps/usageboard/"
+        }
       }
     }
   },
@@ -214,9 +219,9 @@
   },
   "manual": [
     {
-      "name": "Cursor Usage Monitor",
+      "name": "Usageboard",
       "url": "https://github.com/YMD-yamada/cursor-usage-monitor",
-      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。課金の説明と公式ダッシュボードへの導線。データはこの PC だけ。",
+      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
       "audience": "normal"
     },
     {
