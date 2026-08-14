@@ -23,4 +23,9 @@ https://ymd-portfolio-site.pages.dev/legal/privacy （terms / support も同様�
 
 ## Deploy (2026-08-14)
 
-GitHub Actions `Deploy to Cloudflare Pages` は `CLOUDFLARE_API_TOKEN` が Authentication error [code: 10000] で失敗中（2026-08-13 から継続）。本番 `data/apps.json` は 2026-07-31 のまま。Cursor Usage Monitor は master に登録済み。トークン再発行後に workflow 再実行で HP に出る。
+GitHub Actions `Deploy to Cloudflare Pages` は `CLOUDFLARE_API_TOKEN` が Authentication error [code: 10000] で失敗中（2026-08-13 から継続）。本番 `data/apps.json` は 2026-07-31 のまま。Cursor Usage Monitor / グンギは master に登録済み。トークン再発行後に workflow 再実行で HP に出る。
+
+## 2026-08-14 夜（ローカル）
+
+- グンギを掲載: https://gungi-iota.vercel.app （ゲーム／非公式）
+- wrangler 未ログイン。CLOUDFLARE_API_TOKEN は GitHub secret のみ（期限切れ）。ローカルからは Pages デプロイ不可。

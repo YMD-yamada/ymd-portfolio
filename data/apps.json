@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-14T02:38:44.534Z",
+  "generatedAt": "2026-08-14T09:04:00.781Z",
   "categoryOrder": [
     "生活・ツール",
     "子ども向け",
@@ -11,6 +11,19 @@
     "成人向け"
   ],
   "items": [
+    {
+      "id": "manual-1786698240781",
+      "name": "グンギ",
+      "url": "https://gungi-iota.vercel.app",
+      "audience": "normal",
+      "description": "グンギ（軍議）の非公式ファン再構成。ブラウザでローカル2人・対CPU・オンライン。原作とは無関係です。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-08-14",
+      "category": "ゲーム",
+      "visibility": "public",
+      "icon": "./icons/gungi.svg"
+    },
     {
       "id": "manual-1786674485729",
       "name": "Usageboard",

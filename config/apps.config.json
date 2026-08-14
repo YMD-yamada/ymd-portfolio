@@ -13,6 +13,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://gungi-iota.vercel.app",
       "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
       "https://point-palette-web.vercel.app",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
@@ -193,6 +194,14 @@
           "label": "Microsoft Store 申請",
           "url": "https://personal-site-taupe-gamma.vercel.app/apps/usageboard/"
         }
+      },
+      "https://gungi-iota.vercel.app": {
+        "audience": "normal",
+        "category": "ゲーム",
+        "visibility": "public",
+        "description": "グンギ（軍議）の非公式ファン再構成。ブラウザでローカル2人・対CPU・オンライン。原作とは無関係です。",
+        "displayName": "グンギ",
+        "icon": "./icons/gungi.svg"
       }
     }
   },
@@ -218,6 +227,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "グンギ",
+      "url": "https://gungi-iota.vercel.app",
+      "description": "グンギ（軍議）の非公式ファン再構成。ブラウザでローカル2人・対CPU・オンライン。原作とは無関係です。",
+      "audience": "normal"
+    },
     {
       "name": "Usageboard",
       "url": "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
