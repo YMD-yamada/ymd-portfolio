@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-13T06:40:56.165Z",
+  "generatedAt": "2026-08-14T02:28:05.729Z",
   "categoryOrder": [
     "生活・ツール",
     "子ども向け",
@@ -11,6 +11,19 @@
     "成人向け"
   ],
   "items": [
+    {
+      "id": "manual-1786674485729",
+      "name": "Cursor Usage Monitor",
+      "url": "https://github.com/YMD-yamada/cursor-usage-monitor",
+      "audience": "normal",
+      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。課金の説明と公式ダッシュボードへの導線。データはこの PC だけ。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-08-14",
+      "category": "仕事",
+      "visibility": "public",
+      "icon": "./icons/cursor-usage-monitor.svg"
+    },
     {
       "id": "manual-0",
       "name": "ポイントパレット",

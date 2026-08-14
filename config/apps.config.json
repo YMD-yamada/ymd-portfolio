@@ -13,6 +13,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://github.com/YMD-yamada/cursor-usage-monitor",
       "https://point-palette-legal.vercel.app/demo",
       "https://github.com/YMD-yamada/windows-screentime/releases/latest",
       "https://triple-triad-orcin.vercel.app",
@@ -179,6 +180,14 @@
           "label": "App Store / Google Play 申請",
           "url": "https://personal-site-taupe-gamma.vercel.app/apps/point-palette/"
         }
+      },
+      "https://github.com/YMD-yamada/cursor-usage-monitor": {
+        "audience": "normal",
+        "category": "仕事",
+        "visibility": "public",
+        "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。課金の説明と公式ダッシュボードへの導線。データはこの PC だけ。",
+        "displayName": "Cursor Usage Monitor",
+        "icon": "./icons/cursor-usage-monitor.svg"
       }
     }
   },
@@ -204,6 +213,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "Cursor Usage Monitor",
+      "url": "https://github.com/YMD-yamada/cursor-usage-monitor",
+      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。課金の説明と公式ダッシュボードへの導線。データはこの PC だけ。",
+      "audience": "normal"
+    },
     {
       "name": "ポイントパレット",
       "url": "https://point-palette-legal.vercel.app/demo",
