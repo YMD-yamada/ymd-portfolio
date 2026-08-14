@@ -71,6 +71,6 @@ if (!skipPush) {
 
 console.log("Done. Portfolio listing published by agent.");
 console.log("Legal (embed in each Web app footer):");
-console.log("  https://ymd-portfolio-site.pages.dev/legal/privacy.html");
-console.log("  https://ymd-portfolio-site.pages.dev/legal/terms.html");
-console.log("  https://ymd-portfolio-site.pages.dev/legal/support.html");
+console.log("  https://ymd-portfolio-site.pages.dev/legal/privacy");
+console.log("  https://ymd-portfolio-site.pages.dev/legal/terms");
+console.log("  https://ymd-portfolio-site.pages.dev/legal/support");
