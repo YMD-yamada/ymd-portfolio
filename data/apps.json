@@ -26,10 +26,10 @@
     },
     {
       "id": "manual-1786674485729",
-      "name": "Usageboard",
+      "name": "Usageboard for Cursor",
       "url": "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
       "audience": "normal",
-      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
+      "description": "Cursor ユーザー専用。自分の Usage 2プールを常駐表示。非公式。買い切り予定。紹介アフィリエイトなし。",
       "source": "manual",
       "kind": "site",
       "updated": "2026-08-14",

@@ -186,8 +186,8 @@
         "audience": "normal",
         "category": "仕事",
         "visibility": "public",
-        "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
-        "displayName": "Usageboard",
+        "description": "Cursor ユーザー専用。自分の Usage 2プールを常駐表示。非公式。買い切り予定。紹介アフィリエイトなし。",
+        "displayName": "Usageboard for Cursor",
         "icon": "./icons/cursor-usage-monitor.svg",
         "storeHub": {
           "slug": "usageboard",
@@ -234,9 +234,9 @@
       "audience": "normal"
     },
     {
-      "name": "Usageboard",
+      "name": "Usageboard for Cursor",
       "url": "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
-      "description": "Cursor の Usage（Cursor Models / Other Models）を常駐ウィジェットで可視化。非公式。データはこの PC だけ。",
+      "description": "Cursor ユーザー専用。自分の Usage 2プールを常駐表示。非公式。買い切り予定。紹介アフィリエイトなし。",
       "audience": "normal"
     },
     {
