@@ -13,6 +13,7 @@
   "selection": {
     "mode": "allowlist",
     "urls": [
+      "https://watt-watch-alpha.vercel.app/",
       "https://gungi-iota.vercel.app",
       "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
       "https://point-palette-web.vercel.app",
@@ -202,6 +203,13 @@
         "description": "グンギ（軍議）の非公式ファン再構成。ブラウザでローカル2人・対CPU・オンライン。原作とは無関係です。",
         "displayName": "グンギ",
         "icon": "./icons/gungi.svg"
+      },
+      "https://watt-watch-alpha.vercel.app/": {
+        "audience": "normal",
+        "category": "公開中",
+        "visibility": "public",
+        "description": "ノートPCの充電ワットをブラウザだけで測る。PCをサーバーにしない。",
+        "displayName": "watt-watch"
       }
     }
   },
@@ -227,6 +235,12 @@
     ]
   },
   "manual": [
+    {
+      "name": "watt-watch",
+      "url": "https://watt-watch-alpha.vercel.app/",
+      "description": "ノートPCの充電ワットをブラウザだけで測る。PCをサーバーにしない。",
+      "audience": "normal"
+    },
     {
       "name": "グンギ",
       "url": "https://gungi-iota.vercel.app",

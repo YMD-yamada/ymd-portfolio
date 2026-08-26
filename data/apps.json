@@ -1,7 +1,7 @@
 {
   "displayName": "ymd",
   "githubUser": "user:YMD-yamada, user:ymd",
-  "generatedAt": "2026-08-14T09:04:00.781Z",
+  "generatedAt": "2026-08-26T14:30:29.265Z",
   "categoryOrder": [
     "生活・ツール",
     "子ども向け",
@@ -11,6 +11,18 @@
     "成人向け"
   ],
   "items": [
+    {
+      "id": "manual-1787754629265",
+      "name": "watt-watch",
+      "url": "https://watt-watch-alpha.vercel.app/",
+      "audience": "normal",
+      "description": "ノートPCの充電ワットをブラウザだけで測る。PCをサーバーにしない。",
+      "source": "manual",
+      "kind": "site",
+      "updated": "2026-08-26",
+      "category": "公開中",
+      "visibility": "public"
+    },
     {
       "id": "manual-1786698240781",
       "name": "グンギ",
