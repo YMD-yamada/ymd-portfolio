@@ -7,7 +7,7 @@
 
 - **本番（Cloudflare Pages）**: https://ymd-portfolio-site.pages.dev/
 - GitHub リポジトリ（ソース管理のみ）: https://github.com/YMD-yamada/ymd-portfolio
-- 旧 GitHub Pages（無効化推奨）: https://ymd-yamada.github.io/ymd-portfolio/
+- 旧 GitHub Pages: **2026-08-27 に無効化済み**（テスト時の名残。公開先は汎用ホスティングのみに統一）
 - Actions: https://github.com/YMD-yamada/ymd-portfolio/actions
 - Secrets 設定: https://github.com/YMD-yamada/ymd-portfolio/settings/secrets/actions
 - Pages 設定: https://github.com/YMD-yamada/ymd-portfolio/settings/pages
@@ -178,27 +178,14 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 - 追加したい世界観（例: レトロ感を強める、DIY感を上げる）をテキストで指示
 - A/B パターン比較も Cursor で実施可能
 
-## 7) 独自ドメインで「GitHub 丸出し」を避ける（推奨）
+## 7) 独自ドメインを載せる
 
-訪問者向け URL を `github.io` 以外にしたい場合の王道は次のどちらかです。
-
-### A. GitHub Pages のまま、独自ドメインだけ載せる
+公開先は **汎用ホスティング（Cloudflare Pages）のみ**。GitHub Pages は使わない方針で、2026-08-27 に無効化済み。GitHub はソース管理専用。
 
 1. ドメインを取得（例: Cloudflare Registrar）
-2. DNS で `CNAME` を作成
-   - 名前: `www`（または `@ を ALIAS/ANAME 対応 DNS の場合`）
-   - 値: `ymd-yamada.github.io`
-3. GitHub リポジトリの Pages 設定で Custom domain を入力し、HTTPS を有効化
-   - https://github.com/YMD-yamada/ymd-portfolio/settings/pages
-4. リポジトリ直下に `CNAME` ファイルを追加（GitHub が案内するホスト名）
-5. `config/site.json` / `index.html` / `sitemap.xml` / `robots.txt` の URL を新ドメインへ更新
-
-### B. Cloudflare Pages をフロントに置く（CDN・ルールが欲しい場合）
-
-1. Cloudflare Pages に同じ静的サイトを接続（Git 連携）
-2. Custom domain を Cloudflare 側で設定
-3. GitHub Pages は停止するか、301 リダイレクト方針を決める
-4. `config/site.json` などの URL を新ドメインへ更新
+2. Cloudflare Pages のプロジェクト `ymd-portfolio-site` に Custom domain を設定
+3. `config/site.json` / `index.html` / `sitemap.xml` / `robots.txt` の URL を新ドメインへ更新
+4. 旧 `pages.dev` からのリダイレクト方針を決める
 
 ## 8) 公開面の品質（プロ向けの最低ライン）
 

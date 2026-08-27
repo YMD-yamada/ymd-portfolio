@@ -36,13 +36,24 @@ https://ymd-portfolio-site.pages.dev/legal/privacy （terms / support も同様�
 
 `admin.js` / `studio-ymd-gate-73x.html` / `scripts/studio-server.mjs` はキャッシュ回避付きで叩くと全て 404 フォールバックを返す。キャッシュ無しの素の GET だと `admin.js` が 200 に見えるが、これは `s-maxage=604800` の CDN ヒット（失敗期間中の探索でエッジに乗った旧デプロイの残骸）。7 日で消える。
 
-### GitHub Pages が二重に生きている（未処理）
+### GitHub Pages は廃止 (2026-08-27)
 
-RUNBOOK 手順 9「GitHub Pages を無効化」は未実施で、https://ymd-yamada.github.io/ymd-portfolio/ が master をそのまま配信中。
+方針: **公開先は汎用ホスティングのみ。GitHub はソース管理専用。** GitHub Pages は昔のテストの名残なので使わない（オペレータ指示）。
 
-- Cloudflare が止まっていた間はこちらだけが最新データを配信していた（結果的に救いになった）。
-- ただし github.io は master 生配信なので、Cloudflare 側で剥がしている `admin.js` / studio gate / `studio-server.mjs` が 200 で出る。調査済み: `admin.js` はローカル Studio の `/api/health` を叩くだけで、リポジトリに秘密のコミットも無い（トークン形式の文字列を全走査して 0 件）。実害は低い。
-- **判断待ち**: Cloudflare が復旧したので Source=None にして URL を一本化できる。消す操作なので明示許可が必要。canonical を変えるわけではないので SEO 上はむしろ望ましい。
+配信中だった 6 リポジトリを無効化し、全て 404 を確認:
+
+| リポ | 代替の本番 |
+|---|---|
+| ymd-portfolio | Cloudflare Pages（canonical） |
+| Igo-vs-Shogi | https://kuroshiro-omega.vercel.app （黒白侵攻） |
+| kids-mini-games | https://kids-mini-games.vercel.app |
+| triptune | https://bucolic-biscuit-c637b0.netlify.app （気分で旅行先。title/h1 とも TripTune で同一と確認） |
+| basketball-scoreboard | なし（2026-04 の試作） |
+| TechMatch | なし（2025-04 の試作） |
+
+- github.io は master 生配信だったため、Cloudflare 側で剥がしている `admin.js` / studio gate / `studio-server.mjs` が 200 で出ていた。これも同時に解消。
+- 無効化は Pages 設定の解除だけで、コンテンツは git に残っている。再開したければ API 一発で戻せる。
+- `Professor`（群馬大学 吉原利忠教授の研究紹介ページ）だけは第三者向けの実ページで代替ホストが無いため保留中。判断待ち。
 
 ## 2026-08-14 夜（ローカル）
 
