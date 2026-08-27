@@ -40,7 +40,7 @@ https://ymd-portfolio-site.pages.dev/legal/privacy （terms / support も同様�
 
 方針: **公開先は汎用ホスティングのみ。GitHub はソース管理専用。** GitHub Pages は昔のテストの名残なので使わない（オペレータ指示）。
 
-配信中だった 6 リポジトリを無効化し、全て 404 を確認:
+配信中だった 7 リポジトリを無効化。**全 31 リポジトリで Pages 無効を確認済み**（全て 404）。
 
 | リポ | 代替の本番 |
 |---|---|
@@ -50,10 +50,11 @@ https://ymd-portfolio-site.pages.dev/legal/privacy （terms / support も同様�
 | triptune | https://bucolic-biscuit-c637b0.netlify.app （気分で旅行先。title/h1 とも TripTune で同一と確認） |
 | basketball-scoreboard | なし（2026-04 の試作） |
 | TechMatch | なし（2025-04 の試作） |
+| Professor | なし（吉原利忠教授の研究紹介ページ。不要と判断されたため停止） |
 
 - github.io は master 生配信だったため、Cloudflare 側で剥がしている `admin.js` / studio gate / `studio-server.mjs` が 200 で出ていた。これも同時に解消。
-- 無効化は Pages 設定の解除だけで、コンテンツは git に残っている。再開したければ API 一発で戻せる。
-- `Professor`（群馬大学 吉原利忠教授の研究紹介ページ）だけは第三者向けの実ページで代替ホストが無いため保留中。判断待ち。
+- 無効化は Pages 設定の解除だけで、コンテンツは git に残っている。復活が必要なら `gh api -X POST repos/YMD-yamada/<repo>/pages` で戻せる。
+- ルール `~/.cursor/rules/app-dev-standards.mdc` に「GitHub Pages では公開しない。GitHub はソース管理専用」を明記済み。RUNBOOK の独自ドメイン手順も Cloudflare Pages 前提に書き換えた。
 
 ## 2026-08-14 夜（ローカル）
 
