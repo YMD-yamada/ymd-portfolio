@@ -26,8 +26,9 @@ https://ymd-portfolio-site.pages.dev/legal/privacy （terms / support も同様�
 `Deploy to Cloudflare Pages` は `CLOUDFLARE_API_TOKEN` の Authentication error [code: 10000] で失敗継続。**最後に成功したのは 2026-07-31**（直近 200 runs のうち以降は全部 failure）。canonical の `ymd-portfolio-site.pages.dev/data/apps.json` は `generatedAt: 2026-07-31` のまま。
 
 - ローカルに Cloudflare 認証情報は無い（`wrangler login` 未実施、`.wrangler/config` なし、Projects 配下に実値の入った `.env` なし）。**トークン再発行は Cloudflare ダッシュボードへの本人ログインが必要**で、エージェントからは実行不可。
-- workflow に `Verify Cloudflare credentials` プリフライトを追加。`user/tokens/verify` と `accounts/*/pages/projects` を先に叩き、「トークンが無効/期限切れ」と「トークンは有効だが Pages 権限が無い」を切り分けてから落ちる。ビルド前に数秒で判定するので、失敗時の CI 時間も短くなる。
-- 復旧手順は RUNBOOK.md「A. Cloudflare Pages」。要点は `Account → Cloudflare Pages → Edit` を必ず入れること（Workers テンプレだけだとこの 10000 になる）。
+- workflow に `Verify Cloudflare credentials` プリフライトを追加。`user/tokens/verify` と `accounts/*/pages/projects` を先に叩き、「トークンが無効/期限切れ」と「トークンは有効だが Pages 権限が無い」を切り分けてから落ちる。失敗が 36s → 9s に短縮。
+- **原因確定 (run 33046967522)**: `{"success":false,"errors":[{"code":1000,"message":"Invalid API Token"}]}`。権限スコープの問題ではなく**トークン自体が失効**。既存トークンに権限を足しても直らないので、新規発行が唯一の道。
+- 復旧手順は RUNBOOK.md「A. Cloudflare Pages」＋リポ直下の `次にやること.txt`（未コミット・ローカルのみ）。新トークンには `Account → Cloudflare Pages → Edit` を必ず入れる（Workers テンプレだけだと今度は 10000 になる）。
 
 ### GitHub Pages が生きている（2026-08-27 発見）
 
