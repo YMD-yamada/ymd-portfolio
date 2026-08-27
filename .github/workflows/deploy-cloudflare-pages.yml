@@ -31,6 +31,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 権限不足のトークンだと wrangler が「Authentication error [code: 10000]」しか返さず、
+      # 期限切れ・スコープ違い・アカウント違いを区別できない。先に切り分けて RUNBOOK へ誘導する。
+      - name: Verify Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          fail() {
+            echo "::error::$1 権限チェックリストは RUNBOOK.md の「A. Cloudflare Pages」を参照。"
+            exit 1
+          }
+
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            fail "CLOUDFLARE_API_TOKEN が未設定です。Environment secrets ではなく Repository secrets に置いてください。"
+          fi
+          if [ -z "${CLOUDFLARE_ACCOUNT_ID}" ]; then
+            fail "CLOUDFLARE_ACCOUNT_ID が未設定です。"
+          fi
+
+          verify=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}")
+          if ! echo "$verify" | grep -q '"success":true'; then
+            echo "$verify"
+            fail "トークン自体が無効か期限切れです。新しいカスタムトークンを作り直してください。"
+          fi
+          echo "token: active"
+
+          pages=$(curl -sS -o /dev/null -w '%{http_code}' \
+            -X GET "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}")
+          if [ "$pages" != "200" ]; then
+            fail "トークンは有効ですが、このアカウントの Pages を読めません (HTTP ${pages})。Account → Cloudflare Pages → Edit を付与し、Account Resources に対象アカウントを含めてください。"
+          fi
+          echo "pages access: ok"
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
