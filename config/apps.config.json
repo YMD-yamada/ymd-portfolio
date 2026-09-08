@@ -187,7 +187,7 @@
         "audience": "normal",
         "category": "仕事",
         "visibility": "public",
-        "description": "Cursor ユーザー専用の非公式ウィジェット。1画面で Usage 2プールとリセット期限を常駐表示。買い切り。紹介アフィリエイトなし。",
+        "description": "Cursor ユーザー専用の非公式ウィジェット。1画面で Usage 2プールとリセット期限を常駐表示。ウィンドウは四辺からサイズ変更可。買い切り。紹介アフィリエイトなし。",
         "displayName": "Usageboard for Cursor",
         "icon": "./icons/cursor-usage-monitor.svg",
         "storeHub": {
