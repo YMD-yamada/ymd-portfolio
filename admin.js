@@ -1,15 +1,7 @@
-/* global document, window, fetch, crypto */
+/* global document, window, fetch */
 
 function q(id) {
   return document.getElementById(id);
-}
-
-async function sha256Hex(text) {
-  const enc = new TextEncoder().encode(String(text || ""));
-  const digest = await crypto.subtle.digest("SHA-256", enc);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
 }
 
 function normalizeCategory(v) {
@@ -200,7 +192,7 @@ function buildRows(items, config) {
     [
       ["public", "公開"],
       ["private", "非公開"],
-      ["limited", "限定公開"],
+      ["limited", "限定公開（一覧に出さない）"],
     ].forEach(([v, label]) => {
       const o = document.createElement("option");
       o.value = v;
@@ -228,19 +220,9 @@ function buildRows(items, config) {
         : null;
     audience.value = normalizeAudience(fromOverrideAudience ?? it.audience ?? "normal");
 
-    const pw = document.createElement("input");
-    pw.className = "entry__pw";
-    pw.type = "password";
-    pw.placeholder = "限定公開パスワード（変更時のみ）";
-    pw.dataset.hash = byUrl[it.url]?.accessHash || it.accessHash || "";
-    pw.style.display = vis.value === "limited" ? "block" : "none";
-    vis.addEventListener("change", () => {
-      pw.style.display = vis.value === "limited" ? "block" : "none";
-    });
-
     const moreBody = document.createElement("div");
     moreBody.className = "entry__more-body";
-    moreBody.append(nameInput, descInput, catWrap, vis, audience, pw);
+    moreBody.append(nameInput, descInput, catWrap, vis, audience);
     details.appendChild(moreBody);
 
     row.append(top, urlLine, details);
@@ -261,15 +243,10 @@ async function collectOverridesAndSelection() {
     const category = normalizeCategory(row.querySelector(".entry__cat-select").value);
     const visibility = normalizeVisibility(row.querySelector(".entry__vis").value);
     const audience = normalizeAudience(row.querySelector(".entry__aud").value);
-    const pwInput = row.querySelector(".entry__pw");
-    let accessHash = String(pwInput.dataset.hash || "");
-    const rawPw = pwInput.value.trim();
-    if (visibility === "limited" && rawPw) accessHash = await sha256Hex(rawPw);
 
     const entry = { audience, category, visibility };
     if (displayName) entry.displayName = displayName;
     if (description) entry.description = description;
-    if (visibility === "limited" && accessHash) entry.accessHash = accessHash;
     byUrl[url] = entry;
     if (selected) urls.push(url);
   }

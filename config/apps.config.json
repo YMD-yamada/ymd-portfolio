@@ -94,8 +94,7 @@
         "audience": "adult",
         "category": "実験中",
         "visibility": "limited",
-        "description": "station-match-safe の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。",
-        "accessHash": "8aa1e00f5cfe0e1026b00ad68252dc4c3f718e19c9d3faa70111e69d416f7560"
+        "description": "station-match-safe の常時稼働デプロイ。ビルド済みの状態をURLから直接たどれるので、デモや共有に向けた入口として使いやすいです。"
       },
       "https://juken-navi.onrender.com": {
         "audience": "normal",

@@ -150,7 +150,6 @@ function normalizeByUrlMap(map) {
         typeof rule.visibility === "string" && String(rule.visibility).trim() !== ""
           ? normalizeVisibility(rule.visibility)
           : "",
-      accessHash: (rule.accessHash || "").trim(),
       note: (rule.note || "").trim(),
       description: typeof rule.description === "string" ? rule.description.trim() : "",
       audience:
@@ -190,9 +189,6 @@ function applyItemOverrides(items, config) {
     next.visibility = normalizeVisibility(
       (rule.visibility && String(rule.visibility).trim()) || it.visibility || "public"
     );
-    if (next.visibility === "limited" && rule.accessHash) {
-      next.accessHash = rule.accessHash;
-    }
     if (rule.note) next.note = rule.note;
     if (rule.description) next.description = rule.description;
     if (rule.audience) next.audience = normalizeAudience(rule.audience);

@@ -118,14 +118,6 @@ function escapeHtml(s) {
     .replace(/>/g, "&gt;");
 }
 
-async function sha256Hex(text) {
-  const enc = new TextEncoder().encode(String(text || ""));
-  const digest = await crypto.subtle.digest("SHA-256", enc);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
 function getPreviewOverrideMap() {
   try {
     const raw = localStorage.getItem("portfolio_preview_overrides");
@@ -149,31 +141,12 @@ function applyPreviewOverrides(list) {
     if (rule.displayName) next.name = rule.displayName;
     if (rule.category) next.category = rule.category;
     if (rule.visibility) next.visibility = rule.visibility;
-    if (rule.accessHash) next.accessHash = rule.accessHash;
     if (rule.note) next.note = rule.note;
     if (rule.description) next.description = rule.description;
     if (rule.audience) next.audience = rule.audience;
     if (rule.icon) next.icon = rule.icon;
     return next;
   });
-}
-
-async function ensureLimitedAccess(item) {
-  const key = `portfolio_limited_ok:${item.url}`;
-  try {
-    if (sessionStorage.getItem(key) === "1") return true;
-  } catch {}
-  const entered = window.prompt("この制作物は限定公開です。閲覧パスワードを入力してください。", "");
-  if (!entered) return false;
-  const got = await sha256Hex(entered.trim());
-  if (got !== String(item.accessHash || "").trim().toLowerCase()) {
-    window.alert("パスワードが正しくありません。");
-    return false;
-  }
-  try {
-    sessionStorage.setItem(key, "1");
-  } catch {}
-  return true;
 }
 
 const APPS_LAYOUT_KEY = "portfolio_apps_layout";
@@ -356,15 +329,7 @@ function createCard(item, index) {
   sp.className = "app-card__arrow";
   sp.setAttribute("aria-hidden", "true");
   sp.textContent = "↗";
-  a.append(vis === "limited" ? "開く（限定）" : "開く", " ", sp);
-  if (vis === "limited") {
-    a.addEventListener("click", async (ev) => {
-      ev.preventDefault();
-      const ok = await ensureLimitedAccess(item);
-      if (!ok) return;
-      window.open(item.url, "_blank", "noopener,noreferrer");
-    });
-  }
+  a.append("開く", " ", sp);
   if (item.kind === "repo") {
     a.setAttribute(
       "title",
@@ -505,7 +470,8 @@ function render(apps) {
   const list = applyPreviewOverrides(d.items || []);
   const site = window.__SITE__ || {};
   const mode = getSavedAudienceMode();
-  const publiclyListed = list.filter((it) => String(it.visibility || "public") !== "private");
+  // 限定公開・非公開は一覧に出さない（静的サイトのパスワードは見せかけなので使わない）
+  const publiclyListed = list.filter((it) => String(it.visibility || "public") === "public");
   const visible = publiclyListed.filter((it) => isVisibleForMode(it, mode));
 
   const toolbar = document.getElementById("apps-toolbar");
