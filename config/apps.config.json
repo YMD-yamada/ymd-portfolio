@@ -118,13 +118,6 @@
         "icon": "./icons/kotoba-zukan.svg",
         "description": "タッチでよめる・あそべる子ども向けことば図鑑。もじ練習・クイズ・あそび付き。アカウント不要・オフラインOK。"
       },
-      "https://honjo-outing-map.vercel.app": {
-        "audience": "normal",
-        "category": "公開中",
-        "visibility": "private",
-        "description": "本庄市の個人・家族向けおでかけマップ。公開HPには載せない。",
-        "displayName": "本庄おでかけマップ"
-      },
       "https://sns-crosspost.vercel.app": {
         "audience": "normal",
         "category": "仕事",
