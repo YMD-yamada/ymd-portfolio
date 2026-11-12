@@ -1,0 +1,21 @@
+{
+  "_説明": "ホームページに載せるのは minRank 以上のアプリだけ。ランクは ymd が自分用アプリ管理ページで付け、Claude がここへ写す。未評価は載せない。",
+  "minRank": "A",
+  "rankOrder": ["S", "A", "B", "C"],
+  "updatedAt": "2026-11-12",
+  "ranks": {
+    "https://kotoba-zukan.vercel.app": { "rank": "A", "by": "claude", "note": "いちばん完成度が高い" },
+    "https://point-palette-web.vercel.app": { "rank": "A", "by": "claude", "note": "規約ページあり。要ymd確認" },
+    "https://kids-mini-games.vercel.app": { "rank": "A", "by": "claude", "note": "10/27 手直し済み。要ymd確認" },
+    "https://watt-watch-alpha.vercel.app": { "rank": "A", "by": "claude", "note": "PC専用と明記して掲載" },
+    "https://kuroshiro-omega.vercel.app": { "rank": "B", "by": "claude", "note": "スマホで操作ボタンが盤にかぶる" },
+    "https://daily-lucky.onrender.com": { "rank": "B", "by": "claude", "note": "最初の表示が遅い（無料サーバー）" },
+    "https://bucolic-biscuit-c637b0.netlify.app": { "rank": "B", "by": "claude", "note": "表示確認ができていない・検索に載せない設定" },
+    "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest": { "rank": "B", "by": "claude", "note": "Windows用。ストア審査待ち" },
+    "https://github.com/YMD-yamada/windows-screentime/releases/latest": { "rank": "B", "by": "claude", "note": "Windows用。仕上げ未確認" },
+    "https://sns-crosspost.vercel.app": { "rank": "C", "by": "claude", "note": "まだ投稿できない自分用ツール" },
+    "https://gungi-iota.vercel.app": { "rank": "C", "by": "claude", "note": "非公式ファン作品（権利面で発信しない）" },
+    "https://triple-triad-orcin.vercel.app": { "rank": "C", "by": "claude", "note": "非公式ファン作品（権利面で発信しない）" },
+    "https://fanza-nine.vercel.app": { "rank": "C", "by": "claude", "note": "成人向け・自分用" }
+  }
+}

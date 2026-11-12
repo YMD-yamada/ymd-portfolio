@@ -192,3 +192,9 @@ GitHub Actions のログに `Authentication error [code: 10000]` と出る場合
 - 訪問者向け文言は `index.html`、運用用の詳細は `<details>` と `RUNBOOK.md` に分離済み
 - `robots.txt` / `sitemap.xml` / `favicon.svg` / OGP を用意
 - 連絡先メールは `config/site.json` の `contactEmail` で差し替え可能
+
+## 品質ゲート（2026-11-12）
+
+- ホームページに載るのは `config/quality.json` で **minRank（既定 A）以上** のアプリだけ。ランクが無い（未評価）アプリは載らない。
+- ランクは ymd が自分用アプリ管理ページ（claude.ai の非公開ページ）で付け、Claude が `config/quality.json` に写して PR にする。
+- `npm run build`（sync-apps）の最後で自動的に絞り込まれる。ネット無しで今の `data/apps.json` を絞り直すときは `node scripts/quality-gate.mjs`。

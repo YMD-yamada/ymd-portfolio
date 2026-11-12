@@ -21,38 +21,8 @@
       "kind": "site",
       "updated": "2026-08-26",
       "category": "公開中",
-      "visibility": "public"
-    },
-    {
-      "id": "manual-1786698240781",
-      "name": "グンギ",
-      "url": "https://gungi-iota.vercel.app",
-      "audience": "normal",
-      "description": "グンギ（軍議）の非公式ファン再構成。ブラウザでローカル2人・対CPU・オンライン。原作とは無関係です。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-14",
-      "category": "ゲーム",
       "visibility": "public",
-      "icon": "./icons/gungi.svg"
-    },
-    {
-      "id": "manual-1786674485729",
-      "name": "Usageboard for Cursor",
-      "url": "https://github.com/YMD-yamada/cursor-usage-monitor/releases/latest",
-      "audience": "normal",
-      "description": "Cursor ユーザー専用の非公式ウィジェット。1画面で Usage 2プールとリセット期限を常駐表示。ウィンドウは四辺からサイズ変更可。買い切り。紹介アフィリエイトなし。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-09-08",
-      "category": "仕事",
-      "visibility": "public",
-      "icon": "./icons/cursor-usage-monitor.svg",
-      "storeHub": {
-        "slug": "usageboard",
-        "label": "Microsoft Store 申請",
-        "url": "https://personal-site-taupe-gamma.vercel.app/apps/usageboard/"
-      }
+      "rank": "A"
     },
     {
       "id": "manual-0",
@@ -70,64 +40,8 @@
         "label": "App Store / Google Play 申請",
         "url": "https://personal-site-taupe-gamma.vercel.app/apps/point-palette/"
       },
-      "icon": "./icons/point-palette.svg"
-    },
-    {
-      "id": "manual-1",
-      "name": "Timeboard",
-      "url": "https://github.com/YMD-yamada/windows-screentime/releases/latest",
-      "audience": "normal",
-      "description": "PC で何に時間を使ったかを見て、使っていないアプリを外す。データはこの PC だけ。Apple Screen Time とは無関係。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "生活・ツール",
-      "visibility": "public",
-      "storeHub": {
-        "slug": "timeboard",
-        "label": "Microsoft Store 申請",
-        "url": "https://personal-site-taupe-gamma.vercel.app/apps/timeboard/"
-      },
-      "icon": "./icons/timeboard.svg"
-    },
-    {
-      "id": "manual-2",
-      "name": "Triple Triad",
-      "url": "https://triple-triad-orcin.vercel.app",
-      "audience": "normal",
-      "description": "FF8トリプルトライアド再現（公式110枚データ・Same/Plus対応）",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "ゲーム",
-      "visibility": "public",
-      "icon": "./icons/triple-triad.svg"
-    },
-    {
-      "id": "manual-3",
-      "name": "黒白侵攻",
-      "url": "https://kuroshiro-omega.vercel.app",
-      "audience": "normal",
-      "description": "囲碁と将棋の非対称対戦（黒白侵攻 / Kuroshiro）。手渡し・CPU・オンライン対応。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "ゲーム",
-      "visibility": "public",
-      "icon": "./icons/kuroshiro.svg"
-    },
-    {
-      "id": "manual-4",
-      "name": "ShortSync Studio",
-      "url": "https://sns-crosspost.vercel.app",
-      "audience": "normal",
-      "description": "マーケター向けマルチSNSクロスポスト。パスキー認証。キャンペーン下書き〜実行。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "仕事",
-      "visibility": "public",
-      "icon": "./icons/shortsync.svg"
+      "icon": "./icons/point-palette.svg",
+      "rank": "A"
     },
     {
       "id": "manual-5",
@@ -140,33 +54,8 @@
       "updated": "2026-08-13",
       "category": "子ども向け",
       "visibility": "public",
-      "icon": "./icons/kotoba-zukan.svg"
-    },
-    {
-      "id": "manual-6",
-      "name": "Daily Lucky",
-      "url": "https://daily-lucky.onrender.com/",
-      "audience": "normal",
-      "description": "今日の運試しから、その場で関連のお楽しみまでつながるひとつの小さな体験です。環境準備なくサッと回せますし、結果を眺めながら次のひとことを探すのにも向いています。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "ひと息",
-      "visibility": "public",
-      "icon": "./icons/daily-lucky.svg"
-    },
-    {
-      "id": "manual-7",
-      "name": "気分で旅行先",
-      "url": "https://bucolic-biscuit-c637b0.netlify.app/",
-      "audience": "normal",
-      "description": "「結局どこへ行けば気分が晴れる？」をひとつのボタンで候補へ変える、旅行のアイスブレイク。細かい日程より先に行きたい方向だけ決めたいとき向け。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "ひと息",
-      "visibility": "public",
-      "icon": "./icons/travel-mood.svg"
+      "icon": "./icons/kotoba-zukan.svg",
+      "rank": "A"
     },
     {
       "id": "manual-8",
@@ -179,20 +68,8 @@
       "updated": "2026-08-13",
       "category": "子ども向け",
       "visibility": "public",
-      "icon": "./icons/pyon.svg"
-    },
-    {
-      "id": "github-1203886726",
-      "name": "Fanza",
-      "url": "https://fanza-nine.vercel.app",
-      "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。",
-      "source": "github",
-      "kind": "site",
-      "updated": "2026-08-07T15:13:14Z",
-      "category": "成人向け",
-      "visibility": "public",
-      "audience": "adult",
-      "icon": "./icons/fanza.svg"
+      "icon": "./icons/pyon.svg",
+      "rank": "A"
     }
   ]
 }

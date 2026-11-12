@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { applyQualityGate, loadQualityConfig } from "./quality-gate.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -757,13 +758,15 @@ async function run() {
 
   const selected = applySelectionFilter(withOverrides, config);
   log.push(selected.note);
+  const gated = applyQualityGate(selected.items, loadQualityConfig());
+  log.push(gated.note);
 
   const out = {
     displayName,
     githubUser,
     generatedAt,
     categoryOrder,
-    items: selected.items,
+    items: gated.items,
   };
 
   mkdirSync(dirname(OUT_PATH), { recursive: true });
