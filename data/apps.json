@@ -12,38 +12,6 @@
   ],
   "items": [
     {
-      "id": "manual-1787754629265",
-      "name": "watt-watch",
-      "url": "https://watt-watch-alpha.vercel.app/",
-      "audience": "normal",
-      "description": "ノートPCの充電ワットをブラウザだけで測る。PCをサーバーにしない。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-26",
-      "category": "公開中",
-      "visibility": "public",
-      "rank": "A"
-    },
-    {
-      "id": "manual-0",
-      "name": "ポイントパレット",
-      "url": "https://point-palette-web.vercel.app",
-      "audience": "normal",
-      "description": "日本のポイントカード／バーコードをひとつにまとめる家族共有アプリ。オフライン提示・日本語UI。広告なし。",
-      "source": "manual",
-      "kind": "site",
-      "updated": "2026-08-13",
-      "category": "生活・ツール",
-      "visibility": "public",
-      "storeHub": {
-        "slug": "point-palette",
-        "label": "App Store / Google Play 申請",
-        "url": "https://personal-site-taupe-gamma.vercel.app/apps/point-palette/"
-      },
-      "icon": "./icons/point-palette.svg",
-      "rank": "A"
-    },
-    {
       "id": "manual-5",
       "name": "ちいさなことばずかん",
       "url": "https://kotoba-zukan.vercel.app",
@@ -58,17 +26,17 @@
       "rank": "A"
     },
     {
-      "id": "manual-8",
-      "name": "ぴょんのあそびじま",
-      "url": "https://kids-mini-games.vercel.app",
-      "audience": "kid",
-      "description": "からだとあたまをつかうスキル島マップ。反応・きおく・かず・いろかたち・おと。個人情報なし・ログインなし。",
-      "source": "manual",
+      "id": "github-1203886726",
+      "name": "Fanza",
+      "url": "https://fanza-nine.vercel.app",
+      "description": "成人向け题材の試作UI。作品カタログのめくり心地や操作感を、落ち着いた画面で検証するプロトタイプです。",
+      "source": "github",
       "kind": "site",
-      "updated": "2026-08-13",
-      "category": "子ども向け",
+      "updated": "2026-08-07T15:13:14Z",
+      "category": "成人向け",
       "visibility": "public",
-      "icon": "./icons/pyon.svg",
+      "audience": "adult",
+      "icon": "./icons/fanza.svg",
       "rank": "A"
     }
   ]
