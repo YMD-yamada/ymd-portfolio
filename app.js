@@ -97,11 +97,7 @@ function applyBranding(d) {
   const site = window.__SITE__ || {};
   const keepMeta = !!(site.metaDescription && String(site.metaDescription).trim());
 
-  if (d.displayName) {
-    setTextContent(document.getElementById("brand"), d.displayName);
-    setTextContent(document.getElementById("footer-name"), d.displayName);
-    document.title = `${d.displayName} — 公開HP / Portfolio`;
-  }
+  // 表示名・タイトルは index.html に固定（ブランド「ymd dev」）。apps.json の displayName で上書きしない。
   const dm = document.querySelector('meta[name="description"]');
   if (dm && !keepMeta) {
     dm.setAttribute(
@@ -174,7 +170,8 @@ function looksLikeRestrictedAdultContent(it) {
 function getSavedAudienceMode() {
   try {
     const v = localStorage.getItem(AUDIENCE_MODE_KEY);
-    if (v === "kid" || v === "normal" || v === "adult") return v;
+    // 公開HPは子育て家族向けに統一（2026-11-26）。「大人用」表示は出さない。
+    if (v === "kid" || v === "normal") return v;
   } catch {}
   return "normal";
 }
@@ -475,7 +472,8 @@ function render(apps) {
   const visible = publiclyListed.filter((it) => isVisibleForMode(it, mode));
 
   const toolbar = document.getElementById("apps-toolbar");
-  if (toolbar) toolbar.hidden = !publiclyListed.length;
+  // 表示切替は掲載数が少ないうちは出さない（2026-11-26）
+  if (toolbar) toolbar.hidden = true;
 
   if (!visible.length) {
     host.appendChild(emptyState(site.githubRepoUrl, site.githubProfileUrl, mode));

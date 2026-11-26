@@ -1,16 +1,18 @@
 {
   "canonicalUrl": "https://ymd-portfolio-site.pages.dev/",
-  "metaDescription": "ymd の公開HP。Web制作物の入口。ストア申請用法務は別サイト。SNSで紹介するときの正本はここ。",
+  "metaDescription": "子育て中の個人開発者 ymd dev が、AIと一緒に作る小さなアプリ。無料・登録なしで、子どもにも安心して渡せるものだけを載せています。",
   "ogImage": "https://ymd-portfolio-site.pages.dev/og.png",
   "githubRepoUrl": "https://github.com/YMD-yamada/ymd-portfolio",
-  "githubProfileUrl": "https://github.com/ymd",
+  "githubProfileUrl": "",
   "adminPagePath": "admin.html",
-  "contactEmail": "ymd.hude@gmail.com",
+  "contactEmail": "",
   "contactMailSubject": "[ymd Portfolio 問い合わせ]",
   "contactMailBodyFooter": "\n\n---\n（以下にご記入ください）\n\nお名前（任意）：\n\n\nご用件：\n\n\n",
   "legalPrivacyUrl": "https://ymd-portfolio-site.pages.dev/legal/privacy.html",
   "legalTermsUrl": "https://ymd-portfolio-site.pages.dev/legal/terms.html",
   "legalSupportUrl": "https://ymd-portfolio-site.pages.dev/legal/support.html",
   "storeLegalHubUrl": "https://personal-site-taupe-gamma.vercel.app/",
-  "legalEmbedSnippetUrl": "https://ymd-portfolio-site.pages.dev/legal/embed-snippet.html"
+  "legalEmbedSnippetUrl": "https://ymd-portfolio-site.pages.dev/legal/embed-snippet.html",
+  "xUrl": "https://x.com/ymddev_jp",
+  "supportUrl": "https://ko-fi.com/ymdapps"
 }
