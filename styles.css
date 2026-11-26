@@ -7,9 +7,9 @@
   --paper: #f6f7f5;
   --paper-deep: #e7ebe8;
   --surface: #ffffff;
-  --accent: #1f5c4a;
+  --accent: #26355e;
   --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
-  --accent-hover: #154236;
+  --accent-hover: #1a2546;
   --line: rgba(20, 24, 22, 0.12);
   --header-bg: color-mix(in srgb, #fbfcfb 86%, transparent);
   --footer-bg: color-mix(in srgb, #fbfcfb 92%, transparent);
@@ -1071,4 +1071,49 @@ a.sites-card:focus-visible {
   .hero {
     padding-top: 3rem;
   }
+}
+
+/* ---- 2026-11-26 利用者向けに作り直し: 3つの約束・ボタン型カード ---- */
+.promise-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.promise-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow);
+}
+.promise-card__num {
+  margin: 0 0 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+}
+.promise-card__title {
+  margin: 0 0 8px;
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+.promise-card__body {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+.connect-card--button {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
